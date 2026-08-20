@@ -107,6 +107,7 @@ export default function CoverflowCarousel({ items, height = "h-[50vh] md:h-[60vh
               }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               onClick={() => !isCenter && setCurrentIndex(index)}
+              style={{ willChange: "transform, opacity" }}
             >
               {!isCenter && (
                 <div className="absolute inset-0 bg-black/40 z-10 transition-colors hover:bg-black/20" />
@@ -120,6 +121,7 @@ export default function CoverflowCarousel({ items, height = "h-[50vh] md:h-[60vh
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 640px) 280px, (max-width: 1024px) 350px, 450px"
+                    loading={isCenter ? "eager" : "lazy"}
                   />
                   {/* Gradient overlay and text */}
                   <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">

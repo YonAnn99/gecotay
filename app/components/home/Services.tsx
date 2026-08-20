@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 const services = [
@@ -27,7 +28,7 @@ const services = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    title: "Instllación y montaje",
+    title: "Instalación y montaje",
     description: "Equipo técnico especializado para entrega, montaje y puesta en marcha en tu ubicación.",
   },
   {
@@ -63,31 +64,48 @@ export default function Services() {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Nuestros <span className="text-primary">servicios</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Acompañamos todo el ciclo de vida de tu proyecto: desde el concepto hasta el mantenimiento.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <article
+            <motion.article
               key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
               className="group p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-xl transition-all duration-300"
+              whileHover={{ y: -4, boxShadow: "0 20px 40px -10px rgba(0,0,0,0.1)" }}
             >
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                 {service.icon}
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">{service.title}</h3>
               <p className="text-gray-600 leading-relaxed">{service.description}</p>
-            </article>
+            </motion.article>
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <motion.div
+          className="text-center mt-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+        >
           <Link
             href="/servicios"
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"
@@ -97,10 +115,8 @@ export default function Services() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
-
-// Need Link import

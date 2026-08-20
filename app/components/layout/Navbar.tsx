@@ -28,11 +28,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const headerBase = "fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-7xl px-4 sm:px-6 lg:px-8";
+  const islandBase = "mx-auto mt-4 rounded-2xl transition-all duration-300 ease-out";
+  const initialStyle = "bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/5 ring-1 ring-inset ring-white/10";
+  const scrolledStyle = "bg-white/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-inset ring-primary/10";
+
   if (!mounted) {
     return (
       <MobileMenuProvider>
-        <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto mt-4 rounded-2xl bg-white/80 backdrop-blur-md border border-white/20 shadow-xl shadow-black/5 ring-1 ring-inset ring-white/10 transition-all duration-300">
+        <header className={headerBase}>
+          <div className={`${islandBase} ${initialStyle}`}>
             <div className="flex items-center justify-between h-16 px-4 sm:px-6">
               <NavLinks items={leftItems} />
               <NavBrand />
@@ -48,14 +53,8 @@ export default function Navbar() {
 
   return (
     <MobileMenuProvider>
-      <header className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div
-          className={`mx-auto mt-4 rounded-2xl transition-all duration-300 ease-out ${
-            scrolled
-              ? "bg-white/95 backdrop-blur-md border border-gray-200/50 shadow-xl shadow-black/10 ring-1 ring-inset ring-gray-200/50"
-              : "bg-white/80 backdrop-blur-md border border-white/20 shadow-xl shadow-black/5 ring-1 ring-inset ring-white/10"
-          }`}
-        >
+      <header className={headerBase}>
+        <div className={`${islandBase} ${scrolled ? scrolledStyle : initialStyle}`}>
           <div className="flex items-center justify-between h-16 px-4 sm:px-6">
             <NavLinks items={leftItems} />
             <NavBrand />

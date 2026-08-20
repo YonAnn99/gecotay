@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 const footerLinks = {
@@ -40,9 +41,15 @@ export default function Footer() {
 
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <motion.div
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
-          <div className="col-span-2 lg:col-span-1">
+          <motion.div className="col-span-2 lg:col-span-1" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
             <Link href="/" className="flex items-center gap-2 mb-4" aria-label="GECOTAY - Inicio">
               <img src="/images/logo/logo-horizontal-white.webp" alt="" width="140" height="40" className="h-10 w-auto" />
             </Link>
@@ -63,62 +70,31 @@ export default function Footer() {
                 </a>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <nav>
-            <h4 className="font-semibold text-white mb-4">Empresa</h4>
-            <ul className="space-y-2">
-              {footerLinks.empresa.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-primary transition-colors duration-200">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav>
-            <h4 className="font-semibold text-white mb-4">Productos</h4>
-            <ul className="space-y-2">
-              {footerLinks.productos.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-primary transition-colors duration-200">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav>
-            <h4 className="font-semibold text-white mb-4">Servicios</h4>
-            <ul className="space-y-2">
-              {footerLinks.servicios.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-primary transition-colors duration-200">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <nav>
-            <h4 className="font-semibold text-white mb-4">Contacto</h4>
-            <ul className="space-y-2">
-              {footerLinks.contacto.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-primary transition-colors duration-200">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {Object.entries(footerLinks).map(([key, links]) => (
+            <motion.nav key={key} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.15 }}>
+              <h4 className="font-semibold text-white mb-4">{key.charAt(0).toUpperCase() + key.slice(1)}</h4>
+<ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm hover:text-primary transition-colors duration-200">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </motion.nav>
+          ))}
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <motion.div
+          className="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
           <p className="text-sm text-gray-500">
             © {currentYear} GECOTAY. Todos los derechos reservados.
           </p>
@@ -129,8 +105,8 @@ export default function Footer() {
             <span aria-hidden="true">·</span>
             <Link href="/politica-cookies" className="hover:text-primary transition-colors">Cookies</Link>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </footer>
   );
 }
