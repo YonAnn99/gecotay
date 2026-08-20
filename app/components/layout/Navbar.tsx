@@ -28,7 +28,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const headerBase = "fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-7xl px-4 sm:px-6 lg:px-8";
+  const headerBase = "fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-3xl px-4 sm:px-6 lg:px-8";
   const islandBase = "mx-auto mt-4 rounded-2xl transition-all duration-300 ease-out";
   const initialStyle = "bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/5 ring-1 ring-inset ring-white/10";
   const scrolledStyle = "bg-white/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-inset ring-primary/10";
