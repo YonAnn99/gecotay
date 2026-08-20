@@ -13,7 +13,7 @@ const leftItems = [
 ];
 
 const rightItems = [
-  { href: "/acabados-y-tapices", label: "Acabados y tapices" },
+  { href: "/acabados-tapices", label: "Acabados y tapices" },
   { href: "/contacto", label: "Contacto" },
 ];
 

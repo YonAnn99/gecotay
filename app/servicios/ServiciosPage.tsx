@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import EarlyCTA from "../components/ui/EarlyCTA";
+import FAQSection from "../components/ui/FAQSection";
 
 const servicesDetail = [
   {
@@ -65,6 +68,20 @@ const servicesDetail = [
   },
 ];
 
+const takeaways = [
+  { label: "Servicios integrales", value: "6" },
+  { label: "Años de experiencia", value: "50+" },
+  { label: "Proyectos al año", value: "200+" },
+  { label: "Cobertura", value: "Península + islas" },
+];
+
+const faqs = [
+  { q: "¿Cuánto tarda un proyecto llave en mano?", a: "Entre 8 y 16 semanas según alcance." },
+  { q: "¿Ofrecen mantenimiento preventivo?", a: "Sí, contratos anuales con SLA 48 h." },
+  { q: "¿Certifican ergonomía?", a: "Todos nuestros asientos cumplen UNE‑EN 1335." },
+  { q: "¿Trabajan fuera de España?", a: "Exportamos a 12 países y gestionamos logística internacional." },
+];
+
 export default function ServiciosPage() {
   return (
     <>
@@ -78,6 +95,11 @@ export default function ServiciosPage() {
           </p>
         </div>
       </section>
+
+      <KeyTakeaways items={takeaways} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <EarlyCTA label="Solicitar llamada de asesoría" href="/cotizar" variant="primary" />
+      </div>
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -151,6 +173,8 @@ export default function ServiciosPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre servicios" />
 
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
         <div className="max-w-7xl mx-auto text-center">

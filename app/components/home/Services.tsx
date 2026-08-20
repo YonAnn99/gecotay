@@ -71,9 +71,9 @@ export default function Services() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Nuestros <span className="text-primary">servicios</span>
-          </h2>
+          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Acompañamos todo el ciclo de vida de tu proyecto: desde el concepto hasta el mantenimiento.
           </p>

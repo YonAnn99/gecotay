@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import EarlyCTA from "../components/ui/EarlyCTA";
+import FAQSection from "../components/ui/FAQSection";
 
 const categories = [
   {
@@ -72,6 +75,20 @@ const featuredProducts = [
   },
 ];
 
+const takeaways = [
+  { label: "Referencias en stock", value: "200+" },
+  { label: "Categorías", value: "5" },
+  { label: "Entrega península", value: "48 h" },
+  { label: "Garantía", value: "5 años" },
+];
+
+const faqs = [
+  { q: "¿Puedo pedir muestras de acabados?", a: "Sí, enviamos hasta 5 muestras gratuitas a tu dirección." },
+  { q: "¿Cuál es el tiempo de fabricación?", a: "Entre 4 y 8 semanas según complejidad y acabado." },
+  { q: "¿Ofrecen instalación?", a: "Contamos con equipo propio de montaje en toda la península." },
+  { q: "¿Hay descuentos por volumen?", a: "A partir de 20 unidades aplicamos precios especiales." },
+];
+
 export default function ProductosPage() {
   return (
     <>
@@ -85,6 +102,11 @@ export default function ProductosPage() {
           </p>
         </div>
       </section>
+
+      <KeyTakeaways items={takeaways} />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <EarlyCTA label="Solicitar catálogo completo" href="/cotizar" variant="primary" />
+      </div>
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -165,6 +187,8 @@ export default function ProductosPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre productos" />
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
