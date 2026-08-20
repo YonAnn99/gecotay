@@ -30,6 +30,7 @@ export default function FAQSection({ items, title = "Preguntas frecuentes" }: FA
   return (
     <section className="py-20 bg-gray-50/30" aria-labelledby="faq-heading">
       <Script
+        id="faq-schema"
         type="application/ld+json"
         strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}

@@ -19,11 +19,10 @@ const rightItems = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -32,24 +31,6 @@ export default function Navbar() {
   const islandBase = "mx-auto mt-4 rounded-2xl transition-all duration-300 ease-out";
   const initialStyle = "bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl shadow-black/5 ring-1 ring-inset ring-white/10";
   const scrolledStyle = "bg-white/95 backdrop-blur-xl border border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-inset ring-primary/10";
-
-  if (!mounted) {
-    return (
-      <MobileMenuProvider>
-        <header className={headerBase}>
-          <div className={`${islandBase} ${initialStyle}`}>
-            <div className="flex items-center justify-between h-16 px-4 sm:px-6">
-              <NavLinks items={leftItems} />
-              <NavBrand />
-              <NavLinks items={rightItems} />
-              <MobileMenuButton />
-            </div>
-            <MobileDrawer />
-          </div>
-        </header>
-      </MobileMenuProvider>
-    );
-  }
 
   return (
     <MobileMenuProvider>

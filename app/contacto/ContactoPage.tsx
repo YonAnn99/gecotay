@@ -5,6 +5,7 @@ import Link from "next/link";
 import KeyTakeaways from "../components/ui/KeyTakeaways";
 import EarlyCTA from "../components/ui/EarlyCTA";
 import FAQSection from "../components/ui/FAQSection";
+import { EMPRESA, CONTACTO, REDES, POLITICAS } from "../data/empresa";
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -15,42 +16,70 @@ export default function ContactoPage() {
     asunto: "",
     mensaje: "",
   });
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "success">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const buildMensaje = () =>
+    [
+      `Hola Grupo Ecotay, soy ${formData.nombre}.`,
+      formData.empresa ? `Empresa: ${formData.empresa}.` : "",
+      formData.email ? `Email: ${formData.email}.` : "",
+      formData.telefono ? `Teléfono: ${formData.telefono}.` : "",
+      formData.asunto ? `Asunto: ${formData.asunto}.` : "",
+      `Mensaje: ${formData.mensaje}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("submitting");
-    await new Promise((r) => setTimeout(r, 1000));
+    const mensaje = buildMensaje();
+    window.open(
+      `https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(mensaje)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
     setStatus("success");
-    setFormData({ nombre: "", email: "", telefono: "", empresa: "", asunto: "", mensaje: "" });
   };
 
-  const contacts = [
-    { label: "Oficina central", value: "C/ Industria 42, 46980 Paterna (Valencia)", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 2 16.09 5.014 17.657 6.657a8 8 0 11-11.314 11.314z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> },
-    { label: "Teléfono", value: "+34 96 123 45 67", href: "tel:+34961234567", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> },
-    { label: "Email comercial", value: "comercial@gecotay.com", href: "mailto:comercial@gecotay.com", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> },
-    { label: "Soporte técnico", value: "soporte@gecotay.com", href: "mailto:soporte@gecotay.com", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg> },
-  ];
+  const mailtoLink = `mailto:${CONTACTO.correos.ventas}?subject=${encodeURIComponent(
+    `[Web] ${formData.asunto || "Contacto"} - ${formData.nombre}`
+  )}&body=${encodeURIComponent(buildMensaje())}`;
 
-  const delegations = [
-    { city: "Valencia (Central)", address: "C/ Industria 42, 46980 Paterna", phone: "+34 96 123 45 67", email: "valencia@gecotay.com" },
-    { city: "Madrid", address: "Av. de Europa 12, 28108 Alcobendas", phone: "+34 91 234 56 78", email: "madrid@gecotay.com" },
-    { city: "Barcelona", address: "C/ Roc Boronat 80, 08005 Barcelona", phone: "+34 93 345 67 89", email: "barcelona@gecotay.com" },
-    { city: "Bilbao", address: "P. Tecnológico Zamudio, 48170 Zamudio", phone: "+34 94 456 78 90", email: "bilbao@gecotay.com" },
+  const contacts = [
+    {
+      label: "Ventas",
+      value: CONTACTO.telefono1,
+      href: `tel:+52${CONTACTO.telefono1.replace(/\s/g, "")}`,
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> },
+    {
+      label: "WhatsApp",
+      value: CONTACTO.whatsapp,
+      href: `https://wa.me/${CONTACTO.whatsappIntl}`,
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg> },
+    {
+      label: "Email comercial",
+      value: CONTACTO.correos.ventas,
+      href: `mailto:${CONTACTO.correos.ventas}`,
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> },
+    {
+      label: "Quejas y sugerencias",
+      value: CONTACTO.correos.quejas,
+      href: `mailto:${CONTACTO.correos.quejas}`,
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg> },
   ];
 
   const takeaways = [
-    { label: "Canales de contacto", value: "4" },
-    { label: "Delegaciones", value: "4" },
-    { label: "Tiempo de respuesta", value: "< 24 h" },
-    { label: "Cobertura", value: "Península + islas" },
+    { label: "Líneas telefónicas", value: "3" },
+    { label: "WhatsApp directo", value: "24/7" },
+    { label: "Cobertura", value: "CDMX y área metropolitana" },
+    { label: "Envíos", value: "2–15 días hábiles" },
   ];
 
   const faqs = [
-    { q: "¿Cuánto tardáis en responder?", a: "Respondemos en menos de 24 h laborables." },
-    { q: "¿Puedo pedir presupuesto por teléfono?", a: "Sí, llámanos al +34 96 123 45 67 o solicita llamada en /cotizar." },
-    { q: "¿Tenéis delegación en mi ciudad?", a: "Contamos con delegaciones en Valencia, Madrid, Barcelona y Bilbao." },
-    { q: "¿Atendéis soporte técnico por email?", a: "Sí, escribenos a soporte@gecotay.com y te responderemos en horario laboral." },
+    { q: "¿Cuánto tardan en responder?", a: "Respondemos en menos de 24 h laborables por los canales de ventas (teléfono, WhatsApp o correo)." },
+    { q: "¿Cómo puedo solicitar una cotización?", a: "Puedes escribirnos por WhatsApp al 55 4152 2017, enviar un correo a ventas@gecotay.com o usar el formulario de /cotizar." },
+    { q: "¿Hacen entregas fuera de CDMX?", a: "Sí. Los envíos tardan de 2 a 15 días hábiles dependiendo del producto y stock; los precios incluyen flete solo dentro de la CDMX y área metropolitana." },
+    { q: "¿Dónde están ubicados?", a: "En Cda. de San Luis Potosí Mz. 2 Lt. 2, Col. Ejidos de Tulpetlac, Ecatepec de Morelos, Estado de México, C.P. 55114." },
   ];
 
   return (
@@ -61,7 +90,7 @@ export default function ContactoPage() {
             <span className="text-primary">Contacto</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Estamos para ayudarte. Rellena el formulario o usa cualquiera de nuestros canales directos.
+            {EMPRESA.nombre} — {EMPRESA.lema}
           </p>
         </div>
       </section>
@@ -70,12 +99,12 @@ export default function ContactoPage() {
         <div className="max-w-7xl mx-auto">
           <KeyTakeaways items={takeaways} />
           <div className="mt-8 text-center">
-            <EarlyCTA label="Solicitar llamada" href="/cotizar" variant="primary" />
+            <EarlyCTA label="Solicitar presupuesto" href="/cotizar" variant="primary" />
           </div>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
-              <p className="text-sm text-gray-600">Catálogo completo</p>
+              <p className="text-sm text-gray-600">20 líneas de mobiliario</p>
             </Link>
             <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
@@ -83,11 +112,11 @@ export default function ContactoPage() {
             </Link>
             <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
-              <p className="text-sm text-gray-600">Materiales certificados</p>
+              <p className="text-sm text-gray-600">Materiales a tu elección</p>
             </Link>
             <Link href="/nosotros" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Nosotros</h3>
-              <p className="text-sm text-gray-600">50 años de experiencia</p>
+              <p className="text-sm text-gray-600">Quiénes somos</p>
             </Link>
           </div>
         </div>
@@ -100,7 +129,12 @@ export default function ContactoPage() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Envíanos un mensaje</h2>
               {status === "success" && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
-                  ¡Gracias! Tu mensaje se ha enviado correctamente. Te responderemos en menos de 24h laborables.
+                  ¡Gracias! Se abrió WhatsApp con tu mensaje. Si no se abrió, también puedes
+                  escribirnos por{" "}
+                  <a href={mailtoLink} className="underline font-medium">
+                    correo electrónico
+                  </a>{" "}
+                  a {CONTACTO.correos.ventas}.
                 </div>
               )}
               <form onSubmit={handleSubmit} className="space-y-5" noValidate>
@@ -139,7 +173,7 @@ export default function ContactoPage() {
                       value={formData.telefono}
                       onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                      placeholder="+34 6XX XX XX XX"
+                      placeholder="55 XXXX XXXX"
                     />
                   </div>
                   <div>
@@ -164,12 +198,11 @@ export default function ContactoPage() {
                     className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                   >
                     <option value="">Selecciona un tema</option>
-                    <option value="presupuesto">Solicitud de presupuesto</option>
-                    <option value="proyecto">Consulta sobre proyecto</option>
-                    <option value="tecnico">Soporte técnico / post-venta</option>
-                    <option value="distribuidor">Ser distribuidor</option>
-                    <option value="prensa">Prensa / comunicación</option>
-                    <option value="otro">Otro</option>
+                    <option value="Solicitud de presupuesto">Solicitud de presupuesto</option>
+                    <option value="Consulta sobre producto">Consulta sobre producto</option>
+                    <option value="Servicio post-venta">Servicio post-venta</option>
+                    <option value="Garantía">Garantía</option>
+                    <option value="Otro">Otro</option>
                   </select>
                 </div>
                 <div>
@@ -184,13 +217,20 @@ export default function ContactoPage() {
                     placeholder="Cuéntanos en qué podemos ayudarte..."
                   />
                 </div>
-                <button
-                  type="submit"
-                  disabled={status === "submitting"}
-                  className="w-full sm:w-auto px-8 py-4 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {status === "submitting" ? "Enviando..." : "Enviar mensaje"}
-                </button>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto px-8 py-4 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors"
+                  >
+                    Enviar por WhatsApp
+                  </button>
+                  <a
+                    href={mailtoLink}
+                    className="w-full sm:w-auto px-8 py-4 font-semibold text-primary bg-primary/10 hover:bg-primary/20 rounded-xl transition-colors text-center"
+                  >
+                    Enviar por correo
+                  </a>
+                </div>
               </form>
             </div>
 
@@ -202,6 +242,8 @@ export default function ContactoPage() {
                     <a
                       key={i}
                       href={c.href || "#"}
+                      target={c.href?.startsWith("http") ? "_blank" : undefined}
+                      rel="noopener noreferrer"
                       className="flex items-start gap-3 text-gray-700 hover:text-primary transition-colors group"
                     >
                       <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors">{c.icon}</div>
@@ -215,11 +257,27 @@ export default function ContactoPage() {
               </div>
 
               <div className="p-6 bg-primary text-white rounded-2xl">
-                <h3 className="font-semibold mb-2">Horario comercial</h3>
-                <p className="opacity-90 text-sm mb-4">Lunes a jueves: 8:00–18:00<br />Viernes: 8:00–15:00</p>
-                <a href="/cotizar" className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
-                  Solicitar llamada
+                <h3 className="font-semibold mb-2">Dirección</h3>
+                <p className="opacity-90 text-sm mb-4">{CONTACTO.direccionCompleta}</p>
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${CONTACTO.geo.lat},${CONTACTO.geo.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+                >
+                  Cómo llegar
                 </a>
+              </div>
+
+              <div className="p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Redes sociales</h3>
+                <div className="space-y-2">
+                  {Object.values(REDES).map((r, i) => (
+                    <a key={i} href={r.url} target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                      {r.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -228,14 +286,43 @@ export default function ContactoPage() {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Nuestras delegaciones</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Ubicación</h2>
+          <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+            <iframe
+              title="Ubicación de Grupo Ecotay"
+              src={`https://www.google.com/maps?q=${CONTACTO.geo.lat},${CONTACTO.geo.lng}&z=16&output=embed`}
+              className="w-full h-[420px]"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </section>
+
+      <section id="politicas" className="py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-2 text-center">Políticas de venta</h2>
+          <p className="text-gray-600 text-center mb-10 max-w-2xl mx-auto">
+            {EMPRESA.nombre} pone a su disposición las siguientes políticas para que nuestros clientes estén mejor informados.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {delegations.map((d, i) => (
-              <div key={i} className="p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-xl transition-all duration-300">
-                <h3 className="font-semibold text-gray-900 mb-2">{d.city}</h3>
-                <p className="text-sm text-gray-600 mb-2">{d.address}</p>
-                <a href={`tel:${d.phone.replace(/\s/g, '')}`} className="text-sm text-primary hover:underline block mb-1">{d.phone}</a>
-                <a href={`mailto:${d.email}`} className="text-sm text-primary hover:underline">{d.email}</a>
+            {[
+              { titulo: "Ventas", items: POLITICAS.ventas },
+              { titulo: "Precios", items: POLITICAS.precios },
+              { titulo: "Envíos", items: POLITICAS.envios },
+              { titulo: "Garantías", items: POLITICAS.garantias },
+            ].map((bloque) => (
+              <div key={bloque.titulo} className="p-6 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 transition-all duration-300">
+                <h3 className="font-semibold text-gray-900 mb-3">{bloque.titulo}</h3>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  {bloque.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
@@ -246,10 +333,17 @@ export default function ContactoPage() {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">¿Prefieres que te llamemos?</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">Déjanos tu número y te contactamos en horario comercial.</p>
-          <a href="/cotizar" className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200">
-            Llamadme gratis
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">¿Prefieres que te contactemos?</h2>
+          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+            Déjanos tu número por WhatsApp o correo y un ejecutivo de ventas te atenderá para tu cotización.
+          </p>
+          <a
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, me gustaría recibir atención de ventas.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"
+          >
+            Escríbenos por WhatsApp
           </a>
         </div>
       </section>

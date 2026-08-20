@@ -7,7 +7,9 @@ const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/productos", label: "Productos" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/acabados-y-tapices", label: "Acabados y tapices" },
+  { href: "/nosotros", label: "Nosotros" },
+  { href: "/acabados-tapices", label: "Acabados y tapices" },
+  { href: "/cotizar", label: "Cotizar" },
   { href: "/contacto", label: "Contacto" },
 ];
 

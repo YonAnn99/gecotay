@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./components/layout/Navbar";
+import Footer from "./components/layout/Footer";
 import Script from "next/script";
+import { EMPRESA, CONTACTO } from "./data/empresa";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,8 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GECOTAY - Soluciones en Muebles y Equipamiento",
-  description: "Fabricantes de mobiliario de oficina, contract y equipamiento integral. Calidad, diseño y funcionalidad.",
+  title: "Grupo Ecotay | Fabricación y venta de mobiliario de oficina",
+  description:
+    "Grupo Ecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -36,44 +39,52 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#166534",
+  themeColor: "#AAC637",
 };
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  name: "GECOTAY",
+  "@type": "Organization",
+  name: "Grupo Ecotay S.A.S. de C.V.",
+  legalName: "GRUPO ECOTAY S.A.S. de C.V.",
+  slogan: "Su espacio en nuestras manos...",
+  url: EMPRESA.url,
+  logo: "/images/logo/logo-horizontal-color.webp",
   image: "/images/logo/logo-horizontal-color.webp",
-  url: "https://gecotay.com",
-  telephone: "+34 96 123 45 67",
+  taxID: EMPRESA.rfc,
+  telephone: "+525550270661",
+  email: CONTACTO.correos.ventas,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "C/ Industria 42",
-    addressLocality: "Paterna",
-    addressRegion: "Valencia",
-    postalCode: "46980",
-    addressCountry: "ES",
+    streetAddress: "Cda. de San Luis Potosí Mz. 2 Lt. 2, Col. Ejidos de Tulpetlac",
+    addressLocality: "Ecatepec de Morelos",
+    addressRegion: "Estado de México",
+    postalCode: CONTACTO.cp,
+    addressCountry: "MX",
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 39.505,
-    longitude: -0.433,
+    latitude: CONTACTO.geo.lat,
+    longitude: CONTACTO.geo.lng,
   },
-  openingHoursSpecification: [
+  areaServed: ["México", "Ciudad de México", "Área metropolitana"],
+  priceRange: "$$",
+  contactPoint: [
     {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
-      opens: "08:00",
-      closes: "18:00",
+      "@type": "ContactPoint",
+      telephone: "+525550270661",
+      contactType: "ventas",
+      areaServed: "MX",
+      availableLanguage: "Spanish",
     },
     {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Friday",
-      opens: "08:00",
-      closes: "15:00",
+      "@type": "ContactPoint",
+      telephone: "+525541522017",
+      contactType: "whatsapp",
+      areaServed: "MX",
+      availableLanguage: "Spanish",
     },
   ],
-  priceRange: "€€",
 };
 
 export default function RootLayout({ children }: React.PropsWithChildren) {
@@ -81,6 +92,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <head>
         <Script
+          id="schema-org"
           type="application/ld+json"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
@@ -89,6 +101,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
       <body className="min-h-full flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

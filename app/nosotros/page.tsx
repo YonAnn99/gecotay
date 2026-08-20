@@ -2,19 +2,20 @@ import { Metadata } from "next";
 import NosotrosPage from "./NosotrosPage";
 
 export const metadata: Metadata = {
-  title: "Nosotros – 50 años de experiencia | GECOTAY",
-  description: "Conoce la historia, valores y certificaciones de GECOTAY, fabricantes de mobiliario de oficina y contract desde 1974.",
+  title: "Nosotros | Grupo Ecotay",
+  description:
+    "Conoce a Grupo Ecotay S.A.S. de C.V.: quiénes somos, nuestra misión, visión y valores. Fabricación de mobiliario en Ecatepec, Estado de México.",
   openGraph: {
-    title: "Nosotros – 50 años de experiencia | GECOTAY",
-    description: "Historia, hitos, valores y certificaciones de GECOTAY.",
+    title: "Nosotros | Grupo Ecotay",
+    description: "Misión, visión y valores de Grupo Ecotay S.A.S. de C.V.",
     type: "website",
-    locale: "es_ES",
-    siteName: "GECOTAY",
+    locale: "es_MX",
+    siteName: "Grupo Ecotay",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nosotros – 50 años de experiencia | GECOTAY",
-    description: "Historia, hitos, valores y certificaciones de GECOTAY.",
+    title: "Nosotros | Grupo Ecotay",
+    description: "Misión, visión y valores de Grupo Ecotay.",
   },
   robots: { index: true, follow: true },
 };

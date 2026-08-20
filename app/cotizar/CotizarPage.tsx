@@ -5,6 +5,7 @@ import Link from "next/link";
 import KeyTakeaways from "../components/ui/KeyTakeaways";
 import EarlyCTA from "../components/ui/EarlyCTA";
 import FAQSection from "../components/ui/FAQSection";
+import { CONTACTO } from "../data/empresa";
 
 const steps = [
   { id: 1, title: "Datos", desc: "Tu información" },
@@ -15,16 +16,17 @@ const steps = [
 
 const projectTypes = [
   { value: "oficinas", label: "Oficinas / Puestos de trabajo", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg> },
-  { value: "contract", label: "Contract / Hoteles / Restaurantes", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg> },
-  { value: "colectividades", label: "Colectividades / Educación / Sanidad", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg> },
-  { value: "direccion", label: "Dirección / Despachos ejecutivos", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg> },
+  { value: "juntas", label: "Salas de juntas / Dirección", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg> },
+  { value: "recepcion", label: "Recepciones / Zonas de espera", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg> },
+  { value: "silleria", label: "Sillería / Accesorios", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg> },
+  { value: "hogar", label: "Hogar (muebles a medida)", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg> },
   { value: "acabados", label: "Solo acabados / tapices / materiales", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a5 5 0 0110 0h2a3 3 0 013 3v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a3 3 0 013-3h2z"/></svg> },
 ];
 
 const timelines = [
-  { value: "urgente", label: "Urgente (< 4 semanas)" },
-  { value: "normal", label: "Estándar (4-8 semanas)" },
-  { value: "planificado", label: "Planificado (2-3 meses)" },
+  { value: "urgente", label: "Urgente (< 2 semanas)" },
+  { value: "normal", label: "Estándar (2-6 semanas)" },
+  { value: "planificado", label: "Planificado (1-3 meses)" },
   { value: "fase", label: "Por fases / largo plazo" },
 ];
 
@@ -51,22 +53,62 @@ export default function CotizarPage() {
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  const handleChange = (field: string, value: any) => {
+  const handleChange = (field: string, value: string | string[] | FileList | null) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("submitting");
-    await new Promise((r) => setTimeout(r, 1500));
+    const proyecto = projectTypes.find((p) => p.value === formData.tipoProyecto)?.label || "No especificado";
+    const plazo = timelines.find((t) => t.value === formData.plazo)?.label || "No especificado";
+    const mensaje = [
+      "Hola Grupo Ecotay, quiero solicitar un presupuesto:",
+      `Nombre: ${formData.nombre}`,
+      `Email: ${formData.email}`,
+      formData.telefono ? `Teléfono: ${formData.telefono}` : "",
+      formData.empresa ? `Empresa: ${formData.empresa}` : "",
+      formData.cargo ? `Cargo: ${formData.cargo}` : "",
+      `Proyecto: ${proyecto}`,
+      `Descripción: ${formData.descripcion}`,
+      formData.ubicacion ? `Ubicación: ${formData.ubicacion}` : "",
+      formData.superficie ? `Superficie: ${formData.superficie} m²` : "",
+      `Plazo: ${plazo}`,
+      formData.presupuesto ? `Presupuesto: ${formData.presupuesto}` : "",
+      formData.servicios.length ? `Servicios: ${formData.servicios.join(", ")}` : "",
+      formData.observaciones ? `Observaciones: ${formData.observaciones}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+    window.open(
+      `https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(mensaje)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
     setStatus("success");
-    setFormData({
-      nombre: "", email: "", telefono: "", empresa: "", cargo: "",
-      tipoProyecto: "", descripcion: "", ubicacion: "", superficie: "", plazo: "",
-      presupuesto: "", servicios: [], archivos: null, observaciones: "",
-    });
-    setStep(1);
   };
+
+  const mailtoLink = `mailto:${CONTACTO.correos.ventas}?subject=${encodeURIComponent(
+    `[Web] Solicitud de presupuesto - ${formData.nombre}`
+  )}&body=${encodeURIComponent(
+    [
+      "Solicitud de presupuesto",
+      `Nombre: ${formData.nombre}`,
+      `Email: ${formData.email}`,
+      `Teléfono: ${formData.telefono}`,
+      formData.empresa ? `Empresa: ${formData.empresa}` : "",
+      formData.cargo ? `Cargo: ${formData.cargo}` : "",
+      `Proyecto: ${projectTypes.find((p) => p.value === formData.tipoProyecto)?.label || "No especificado"}`,
+      `Descripción: ${formData.descripcion}`,
+      `Ubicación: ${formData.ubicacion}`,
+      `Superficie: ${formData.superficie} m²`,
+      `Plazo: ${timelines.find((t) => t.value === formData.plazo)?.label || "No especificado"}`,
+      `Presupuesto: ${formData.presupuesto}`,
+      `Servicios: ${formData.servicios.join(", ")}`,
+      formData.observaciones ? `Observaciones: ${formData.observaciones}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n")
+  )}`;
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 4));
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
@@ -87,7 +129,7 @@ export default function CotizarPage() {
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-1">Teléfono *</label>
-          <input type="tel" id="telefono" required value={formData.telefono} onChange={(e) => handleChange("telefono", e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="+34 6XX XX XX XX" />
+          <input type="tel" id="telefono" required value={formData.telefono} onChange={(e) => handleChange("telefono", e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="+52 55 XXXX XXXX" />
         </div>
         <div>
           <label htmlFor="empresa" className="block text-sm font-medium text-gray-700 mb-1">Empresa / Organización</label>
@@ -150,17 +192,17 @@ export default function CotizarPage() {
         <label className="block text-sm font-medium text-gray-700 mb-1">Presupuesto orientativo</label>
         <select value={formData.presupuesto} onChange={(e) => handleChange("presupuesto", e.target.value)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent">
           <option value="">No definido / Consultar</option>
-          <option value="<50k">&lt; 50.000 €</option>
-          <option value="50-100k">50.000 – 100.000 €</option>
-          <option value="100-250k">100.000 – 250.000 €</option>
-          <option value="250-500k">250.000 – 500.000 €</option>
-          <option value=">500k">&gt; 500.000 €</option>
+          <option value="<50k">&lt; 50.000 MXN</option>
+          <option value="50-100k">50.000 – 100.000 MXN</option>
+          <option value="100-250k">100.000 – 250.000 MXN</option>
+          <option value="250-500k">250.000 – 500.000 MXN</option>
+          <option value=">500k">&gt; 500.000 MXN</option>
         </select>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Servicios que necesitas</label>
         <div className="grid sm:grid-cols-2 gap-3">
-          {[["Diseño y space planning", "diseno"], ["Fabricación a medida", "fabricacion"], ["Instalación y montaje", "instalacion"], ["Gestión de proyecto llave en mano", "llave"], ["Certificación ergonomía / LEED / WELL", "cert"], ["Mantenimiento post-venta", "manten"]].map(([label, val]) => (
+          {[["Atención personalizada", "atencion"], ["Planeación de espacios", "planeacion"], ["Entrega e instalación", "instalacion"], ["Mantenimiento", "mantenimiento"], ["Carpintería / Ebanistería", "carpinteria"], ["Tapicería", "tapiceria"]].map(([label, val]) => (
             <label key={val} className="flex items-center gap-3 p-3 border border-gray-200 rounded-xl hover:border-primary/50 cursor-pointer">
               <input type="checkbox" value={val} checked={formData.servicios.includes(val)} onChange={(e) => handleChange("servicios", e.target.checked ? [...formData.servicios, val] : formData.servicios.filter((v) => v !== val))} className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary" />
               <span className="text-sm text-gray-700">{label}</span>
@@ -170,8 +212,8 @@ export default function CotizarPage() {
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Planos, renders o referencias (opcional)</label>
-        <input type="file" id="archivos" multiple accept=".pdf,.dwg,.jpg,.png,.skp,.rvt" onChange={(e) => handleChange("archivos", e.target.files)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
-        <p className="text-xs text-gray-500 mt-1">Máx. 10 archivos, 20 MB cada uno. PDF, DWG, JPG, PNG, SKP, RVT.</p>
+        <input type="file" id="archivos" multiple accept=".pdf,.dwg,.jpg,.png" onChange={(e) => handleChange("archivos", e.target.files)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
+        <p className="text-xs text-gray-500 mt-1">Máx. 10 archivos, 20 MB cada uno. PDF, DWG, JPG, PNG.</p>
       </div>
       <div>
         <label htmlFor="observaciones" className="block text-sm font-medium text-gray-700 mb-1">Observaciones adicionales</label>
@@ -194,11 +236,12 @@ export default function CotizarPage() {
       </div>
       <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary">
         <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        Al enviar, aceptas nuestra <a href="/politica-privacidad" className="underline hover:text-primary-dark">Política de Privacidad</a>. Trataremos tus datos para responder a tu solicitud de presupuesto.
+        Al enviar, aceptas nuestro <a href="/aviso-privacidad" className="underline hover:text-primary-dark">Aviso de privacidad</a>. Trataremos tus datos para responder a tu solicitud de presupuesto.
       </div>
       {status === "success" && (
         <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
-          ✅ ¡Solicitud enviada! Nuestro equipo técnico la revisará y te contactará en menos de 24h laborables para concretar detalles.
+          ¡Gracias! Se abrió WhatsApp con tu solicitud. Si no se abrió, también puedes enviarla por{" "}
+          <a href={mailtoLink} className="underline font-medium">correo electrónico</a> a {CONTACTO.correos.ventas}.
         </div>
       )}
     </div>
@@ -275,12 +318,20 @@ export default function CotizarPage() {
                   </button>
                 )}
                 {step === 4 && (
-                  <button type="submit" disabled={status === "submitting"} className="px-8 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors disabled:opacity-50">
-                    {status === "submitting" ? "Enviando..." : "Enviar solicitud"}
+                  <button type="submit" className="px-8 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors">
+                    Enviar por WhatsApp
                   </button>
                 )}
               </div>
             </div>
+            {step === 4 && (
+              <a
+                href={mailtoLink}
+                className="mt-4 block text-center text-sm font-medium text-primary hover:underline"
+              >
+                O enviar la solicitud por correo electrónico
+              </a>
+            )}
           </form>
         </div>
       </section>
@@ -292,12 +343,12 @@ export default function CotizarPage() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">¿Qué incluye tu presupuesto?</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              "Planos de distribución y renders 3D",
+              "Planos de distribución y renders",
               "Memoria de calidades y acabados",
               "Desglose por partidas y concepto",
-              "Planning de ejecución estimado",
+              "Planning de entrega estimado",
               "Condiciones de pago y garantías",
-              "Opcionales: certificación, BIM, LEED",
+              "Opcionales: instalación y mantenimiento",
             ].map((item, i) => (
               <div key={i} className="p-6 bg-white rounded-2xl border border-gray-100 flex items-start gap-3">
                 <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary">

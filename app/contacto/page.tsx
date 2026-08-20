@@ -2,19 +2,20 @@ import { Metadata } from "next";
 import ContactoPage from "./ContactoPage";
 
 export const metadata: Metadata = {
-  title: "Contacto – GECOTAY",
-  description: "Ponte en contacto con GECOTAY: formulario, teléfono, email y delegaciones. Respuesta en menos de 24 h laborables.",
+  title: "Contacto | Grupo Ecotay",
+  description:
+    "Contacta a Grupo Ecotay en Ecatepec, Estado de México. Teléfonos 55 5027 0661, 55 1562 0103 y 55 7676 5844. WhatsApp 55 4152 2017. ventas@gecotay.com",
   openGraph: {
-    title: "Contacto – GECOTAY",
-    description: "Formulario, teléfono, email y delegaciones de GECOTAY.",
+    title: "Contacto | Grupo Ecotay",
+    description: "Canales directos de contacto de Grupo Ecotay: teléfono, WhatsApp, correo y ubicación.",
     type: "website",
-    locale: "es_ES",
-    siteName: "GECOTAY",
+    locale: "es_MX",
+    siteName: "Grupo Ecotay",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contacto – GECOTAY",
-    description: "Formulario, teléfono, email y delegaciones de GECOTAY.",
+    title: "Contacto | Grupo Ecotay",
+    description: "Teléfono, WhatsApp y correo de Grupo Ecotay.",
   },
   robots: { index: true, follow: true },
 };

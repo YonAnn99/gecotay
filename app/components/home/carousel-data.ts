@@ -74,10 +74,10 @@ export const carouselItems: CarouselItem[] = [
     href: "/productos/workspace",
   },
   {
-    id: "sala-juntas",
-    title: "Sala de Juntas",
+    id: "salas-juntas",
+    title: "Salas de Juntas",
     image: "/images/carousel/carousel-13-sala-juntas.webp",
-    href: "/productos/sala-juntas",
+    href: "/productos/salas-juntas",
   },
   {
     id: "recepciones",
