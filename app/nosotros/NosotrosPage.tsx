@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import EarlyCTA from "../components/ui/EarlyCTA";
+import FAQSection from "../components/ui/FAQSection";
 
 const milestones = [
   { year: "1974", title: "Fundación", desc: "Taller de carpintería familiar en Valencia" },
@@ -27,6 +30,20 @@ const certifications = [
   { name: "FSC® C123456", desc: "Madera responsable", logo: "FSC" },
   { name: "PEFC", desc: "Cadena custodia", logo: "PEFC" },
   { name: "Sello PYME Innovadora", desc: "Ministerio Ciencia", logo: "INN" },
+];
+
+const takeaways = [
+  { label: "Años de experiencia", value: "50+" },
+  { label: "Proyectos entregados", value: "2.000+" },
+  { label: "Certificaciones", value: "6" },
+  { label: "Países exportación", value: "12" },
+];
+
+const faqs = [
+  { q: "¿Desde cuándo opera GECOTAY?", a: "Fundada en 1974, contamos con más de 50 años de experiencia." },
+  { q: "¿Qué certificaciones tienen?", a: "ISO 9001, ISO 14001, UNE‑EN 1335, FSC, PEFC y sello PYME Innovadora." },
+  { q: "¿Realizan proyectos fuera de España?", a: "Sí, exportamos a 12 países y gestionamos logística internacional." },
+  { q: "¿Ofrecen formación o prácticas?", a: "Colaboramos con universidades y centros de formación; consulta en /trabaja-con-nosotros." },
 ];
 
 export default function NosotrosPage() {
@@ -61,6 +78,33 @@ export default function NosotrosPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-primary/5">
+        <div className="max-w-7xl mx-auto">
+          <KeyTakeaways items={takeaways} />
+          <div className="mt-8 text-center">
+            <EarlyCTA label="Hablar con un experto" href="/cotizar" variant="primary" />
+          </div>
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
+              <p className="text-sm text-gray-600">Catálogo completo</p>
+            </Link>
+            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
+              <p className="text-sm text-gray-600">Soluciones integrales</p>
+            </Link>
+            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
+              <p className="text-sm text-gray-600">Materiales certificados</p>
+            </Link>
+            <Link href="/contacto" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Contacto</h3>
+              <p className="text-sm text-gray-600">Estamos para ayudarte</p>
+            </Link>
           </div>
         </div>
       </section>
@@ -126,6 +170,8 @@ export default function NosotrosPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre GECOTAY" />
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto text-center">

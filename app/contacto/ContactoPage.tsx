@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import EarlyCTA from "../components/ui/EarlyCTA";
+import FAQSection from "../components/ui/FAQSection";
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -35,6 +39,20 @@ export default function ContactoPage() {
     { city: "Bilbao", address: "P. Tecnológico Zamudio, 48170 Zamudio", phone: "+34 94 456 78 90", email: "bilbao@gecotay.com" },
   ];
 
+  const takeaways = [
+    { label: "Canales de contacto", value: "4" },
+    { label: "Delegaciones", value: "4" },
+    { label: "Tiempo de respuesta", value: "< 24 h" },
+    { label: "Cobertura", value: "Península + islas" },
+  ];
+
+  const faqs = [
+    { q: "¿Cuánto tardáis en responder?", a: "Respondemos en menos de 24 h laborables." },
+    { q: "¿Puedo pedir presupuesto por teléfono?", a: "Sí, llámanos al +34 96 123 45 67 o solicita llamada en /cotizar." },
+    { q: "¿Tenéis delegación en mi ciudad?", a: "Contamos con delegaciones en Valencia, Madrid, Barcelona y Bilbao." },
+    { q: "¿Atendéis soporte técnico por email?", a: "Sí, escribenos a soporte@gecotay.com y te responderemos en horario laboral." },
+  ];
+
   return (
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
@@ -45,6 +63,33 @@ export default function ContactoPage() {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Estamos para ayudarte. Rellena el formulario o usa cualquiera de nuestros canales directos.
           </p>
+        </div>
+      </section>
+
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-primary/5">
+        <div className="max-w-7xl mx-auto">
+          <KeyTakeaways items={takeaways} />
+          <div className="mt-8 text-center">
+            <EarlyCTA label="Solicitar llamada" href="/cotizar" variant="primary" />
+          </div>
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
+              <p className="text-sm text-gray-600">Catálogo completo</p>
+            </Link>
+            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
+              <p className="text-sm text-gray-600">Soluciones integrales</p>
+            </Link>
+            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
+              <p className="text-sm text-gray-600">Materiales certificados</p>
+            </Link>
+            <Link href="/nosotros" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Nosotros</h3>
+              <p className="text-sm text-gray-600">50 años de experiencia</p>
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -196,6 +241,8 @@ export default function ContactoPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre contacto" />
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./components/layout/Navbar";
+import Script from "next/script";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,9 +39,53 @@ export const viewport: Viewport = {
   themeColor: "#166534",
 };
 
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "GECOTAY",
+  image: "/images/logo/logo-horizontal-color.webp",
+  url: "https://gecotay.com",
+  telephone: "+34 96 123 45 67",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "C/ Industria 42",
+    addressLocality: "Paterna",
+    addressRegion: "Valencia",
+    postalCode: "46980",
+    addressCountry: "ES",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 39.505,
+    longitude: -0.433,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+      opens: "08:00",
+      closes: "18:00",
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Friday",
+      opens: "08:00",
+      closes: "15:00",
+    },
+  ],
+  priceRange: "€€",
+};
+
 export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <Script
+          type="application/ld+json"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>

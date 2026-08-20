@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import EarlyCTA from "../components/ui/EarlyCTA";
+import FAQSection from "../components/ui/FAQSection";
 
 const steps = [
   { id: 1, title: "Datos", desc: "Tu información" },
@@ -22,6 +26,20 @@ const timelines = [
   { value: "normal", label: "Estándar (4-8 semanas)" },
   { value: "planificado", label: "Planificado (2-3 meses)" },
   { value: "fase", label: "Por fases / largo plazo" },
+];
+
+const takeaways = [
+  { label: "Pasos", value: "4" },
+  { label: "Tiempo estimado", value: "< 5 min" },
+  { label: "Respuesta", value: "< 24 h" },
+  { label: "Sin compromiso", value: "100 %" },
+];
+
+const faqs = [
+  { q: "¿Cuánto tarda en llegar el presupuesto?", a: "Recibirás la propuesta en 24‑48 h laborables." },
+  { q: "¿Es vinculante la solicitud?", a: "No, es una solicitud sin compromiso; el presupuesto final se confirma tras revisión técnica." },
+  { q: "¿Puedo adjuntar planos?", a: "Sí, en el paso 3 puedes subir PDF, DWG, JPG, PNG, SKP o RVT (máx. 10 archivos, 20 MB cada uno)." },
+  { q: "¿Qué incluye el presupuesto?", a: "Planos, renders, memoria de calidades, desglose por partidas, planning, condiciones de pago y garantías." },
 ];
 
 export default function CotizarPage() {
@@ -199,6 +217,33 @@ export default function CotizarPage() {
         </div>
       </section>
 
+      <section className="py-12 px-4 sm:px-6 lg:px-8 bg-primary/5">
+        <div className="max-w-7xl mx-auto">
+          <KeyTakeaways items={takeaways} />
+          <div className="mt-8 text-center">
+            <EarlyCTA label="Comenzar solicitud" href="/cotizar" variant="primary" />
+          </div>
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
+              <p className="text-sm text-gray-600">Catálogo completo</p>
+            </Link>
+            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
+              <p className="text-sm text-gray-600">Soluciones integrales</p>
+            </Link>
+            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
+              <p className="text-sm text-gray-600">Materiales certificados</p>
+            </Link>
+            <Link href="/contacto" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+              <h3 className="font-semibold text-gray-900 mb-1">Contacto</h3>
+              <p className="text-sm text-gray-600">Canales directos</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <div className="flex items-center justify-between mb-10">
@@ -239,6 +284,8 @@ export default function CotizarPage() {
           </form>
         </div>
       </section>
+
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre presupuestos" />
 
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
         <div className="max-w-7xl mx-auto">
