@@ -77,7 +77,7 @@ export default function CoverflowCarousel({ items, height = "h-[50vh] md:h-[60vh
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <div className="relative w-full  mx-auto px-4 h-full flex items-center justify-center perspective-[1000px]">
+      <div className="relative w-full mx-auto px-4 h-full flex items-center justify-center perspective-[1000px]">
         {items.map((item, index) => {
           const offset = index - currentIndex;
           const isCenter = offset === 0;
