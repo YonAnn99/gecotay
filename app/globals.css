@@ -4,6 +4,9 @@
   --color-primary: #AAC637;
   --color-primary-dark: #8ab02c;
   --color-primary-light: #c4e06c;
+  /* Deep, brand-tinted charcoal (green undertone from --color-primary) used
+     for the floating nav islands' glass background. */
+  --color-ink: #10140d;
 }
 
 :root {

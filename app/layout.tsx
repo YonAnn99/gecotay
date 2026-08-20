@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import CookieBanner from "./components/CookieBanner";
 import Script from "next/script";
 import { EMPRESA, CONTACTO } from "./data/empresa";
 import "./globals.css";
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );
