@@ -7,7 +7,7 @@ const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/productos", label: "Productos" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/nosotros", label: "Nosotros" },
+  { href: "/acabados-y-tapices", label: "Acabados y tapices" },
   { href: "/contacto", label: "Contacto" },
 ];
 
@@ -48,7 +48,7 @@ export default function MobileDrawer() {
                   <Link
                     href={item.href}
                     onClick={toggle}
-                    className="block text-lg font-medium text-gray-700 hover:text-green-600 transition-colors"
+                    className="block text-lg font-medium text-gray-700 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -56,22 +56,6 @@ export default function MobileDrawer() {
               ))}
             </ul>
           </nav>
-          <div className="flex flex-col gap-3 pt-6 border-t border-gray-100">
-            <Link
-              href="/contacto"
-              onClick={toggle}
-              className="text-center py-3 text-gray-700 hover:text-green-600 font-medium transition-colors"
-            >
-              Contacto
-            </Link>
-            <Link
-              href="/cotizar"
-              onClick={toggle}
-              className="text-center py-3 text-white bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors"
-            >
-              Cotizar
-            </Link>
-          </div>
         </div>
       </aside>
     </>
