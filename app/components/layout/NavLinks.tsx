@@ -2,19 +2,15 @@
 
 import Link from "next/link";
 
-const navItems = [
-  { href: "/", label: "Inicio" },
-  { href: "/productos", label: "Productos" },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/acabados-y-tapices", label: "Acabados y tapices" },
-  { href: "/contacto", label: "Contacto" },
-];
+interface NavLinksProps {
+  items: { href: string; label: string }[];
+}
 
-export default function NavLinks() {
+export default function NavLinks({ items }: NavLinksProps) {
   return (
     <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
       <ul className="flex items-center gap-6">
-        {navItems.map((item) => (
+        {items.map((item) => (
           <li key={item.href}>
             <Link
               href={item.href}
