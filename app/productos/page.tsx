@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ProductosPage from "./ProductosPage";
+import AuroraBackground from "../components/ui/AuroraBackground";
 
 export const metadata: Metadata = {
   title: "Catálogo de productos | Grupo Ecotay",
@@ -21,5 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default function ProductosLayout() {
-  return <ProductosPage />;
+  return (
+    <>
+      <AuroraBackground />
+      <ProductosPage />
+    </>
+  );
 }

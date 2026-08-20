@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ServiciosPage from "./ServiciosPage";
+import AuroraBackground from "../components/ui/AuroraBackground";
 
 export const metadata: Metadata = {
   title: "Servicios integrales | Grupo Ecotay",
@@ -21,5 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default function ServiciosLayout() {
-  return <ServiciosPage />;
+  return (
+    <>
+      <AuroraBackground />
+      <ServiciosPage />
+    </>
+  );
 }

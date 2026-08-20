@@ -65,7 +65,7 @@ export default function NavMenu() {
   }, [isOpen]);
 
   return (
-    <div ref={containerRef} className="fixed top-4 right-4 z-50">
+    <div ref={containerRef} className="fixed top-10 right-30 z-50">
       <motion.div
         layout
         transition={{ duration: 0.2, ease: "easeOut" }}

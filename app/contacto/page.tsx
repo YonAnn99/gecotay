@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import ContactoPage from "./ContactoPage";
+import AuroraBackground from "../components/ui/AuroraBackground";
 
 export const metadata: Metadata = {
   title: "Contacto | Grupo Ecotay",
@@ -21,5 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default function ContactoLayout() {
-  return <ContactoPage />;
+  return (
+    <>
+      <AuroraBackground />
+      <ContactoPage />
+    </>
+  );
 }

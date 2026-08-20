@@ -10,7 +10,16 @@ export default function NavBrand() {
     <Link
       href="/"
       aria-label="GECOTAY - Inicio"
-      className="fixed top-4 left-4 z-50 flex items-center rounded-2xl bg-ink/75 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/30 px-6 py-4 transition-colors duration-200 hover:bg-ink/90"
+      className="fixed top-10 left-30 z-50
+        flex items-center justify-center
+        w-40 h-16
+        rounded-2xl
+        bg-ink/75
+        backdrop-blur-2xl
+        border border-white/10
+        shadow-2xl shadow-black/30
+        transition-colors duration-200
+        hover:bg-ink/90"
     >
       <Image
         src="/images/logo/logo-horizontal-white.webp"
@@ -18,7 +27,7 @@ export default function NavBrand() {
         width={200}
         height={58}
         priority
-        className="h-9 w-auto sm:h-10"
+        className="h-9 w-auto sm:h-10 scale-220"
       />
     </Link>
   );

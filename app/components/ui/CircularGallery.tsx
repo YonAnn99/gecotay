@@ -7,7 +7,8 @@
 // loosely-typed `any` for the ogl scene graph, matching the upstream source.
 
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from "ogl";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: ReturnType<typeof setTimeout>;
@@ -237,6 +238,7 @@ class Media {
   textColor: string;
   borderRadius: number;
   font?: string;
+  href?: string;
   program!: any;
   plane!: any;
   title!: Title;
@@ -263,7 +265,8 @@ class Media {
     bend,
     textColor,
     borderRadius = 0,
-    font
+    font,
+    href
   }: any) {
     this.geometry = geometry;
     this.gl = gl;
@@ -279,6 +282,7 @@ class Media {
     this.textColor = textColor;
     this.borderRadius = borderRadius;
     this.font = font;
+    this.href = href;
     this.createShader();
     this.createMesh();
     this.createTitle();
@@ -458,6 +462,9 @@ class App {
   boundOnTouchMove!: (e: any) => void;
   boundOnTouchUp!: () => void;
   boundOnKeyDown!: (e: KeyboardEvent) => void;
+  boundOnClick!: (e: any) => void;
+  onNavigate: (href: string) => void;
+  dragged = false;
 
   constructor(
     container: HTMLElement,
@@ -468,15 +475,17 @@ class App {
       borderRadius = 0,
       font = "bold 30px Figtree",
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      onNavigate
     }: {
-      items?: { image: string; text: string }[];
+      items?: { image: string; text: string; href?: string }[];
       bend: number;
       textColor?: string;
       borderRadius?: number;
       font?: string;
       scrollSpeed?: number;
       scrollEase?: number;
+      onNavigate?: (href: string) => void;
     }
   ) {
     document.documentElement.classList.remove("no-js");
@@ -484,6 +493,7 @@ class App {
     this.scrollSpeed = scrollSpeed;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
+    this.onNavigate = onNavigate ?? (() => {});
     this.createRenderer();
     this.createCamera();
     this.createScene();
@@ -518,7 +528,7 @@ class App {
     });
   }
   createMedias(
-    items: { image: string; text: string }[] | undefined,
+    items: { image: string; text: string; href?: string }[] | undefined,
     bend = 1,
     textColor: string | undefined,
     borderRadius: number | undefined,
@@ -555,24 +565,47 @@ class App {
         bend,
         textColor,
         borderRadius,
-        font
+        font,
+        href: data.href
       });
     });
   }
   onTouchDown(e: any) {
     this.isDown = true;
+    this.dragged = false;
     this.scroll.position = this.scroll.current;
     this.start = e.touches ? e.touches[0].clientX : e.clientX;
   }
   onTouchMove(e: any) {
     if (!this.isDown) return;
     const x = e.touches ? e.touches[0].clientX : e.clientX;
+    if (Math.abs(this.start - x) > 6) this.dragged = true;
     const distance = (this.start - x) * (this.scrollSpeed * 0.025);
     this.scroll.target = (this.scroll.position ?? 0) + distance;
   }
   onTouchUp() {
     this.isDown = false;
     this.onCheck();
+  }
+  onClick(e: any) {
+    if (this.dragged) return;
+    if (!this.medias || !this.medias.length) return;
+    const rect = this.container.getBoundingClientRect();
+    const px = e.clientX - rect.left;
+    const cx = px - this.container.clientWidth / 2;
+    const worldX = (cx / this.container.clientWidth) * this.viewport.width;
+    let best: Media | null = null;
+    let bestDist = Infinity;
+    for (const media of this.medias) {
+      const dist = Math.abs(worldX - media.plane.position.x);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = media;
+      }
+    }
+    if (best && bestDist <= best.plane.scale.x / 2 && best.href) {
+      this.onNavigate(best.href);
+    }
   }
   onWheel(e: any) {
     const delta = e.deltaY || e.wheelDelta || e.detail;
@@ -636,6 +669,7 @@ class App {
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
     this.boundOnKeyDown = this.onKeyDown.bind(this);
+    this.boundOnClick = this.onClick.bind(this);
     window.addEventListener("resize", this.boundOnResize);
     window.addEventListener("mousewheel", this.boundOnWheel);
     window.addEventListener("wheel", this.boundOnWheel);
@@ -646,6 +680,7 @@ class App {
     window.addEventListener("touchmove", this.boundOnTouchMove);
     window.addEventListener("touchend", this.boundOnTouchUp);
 
+    this.container?.addEventListener("click", this.boundOnClick);
     this.container?.addEventListener("keydown", this.boundOnKeyDown as any);
   }
   destroy() {
@@ -659,12 +694,12 @@ class App {
     window.removeEventListener("touchstart", this.boundOnTouchDown);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
     window.removeEventListener("touchend", this.boundOnTouchUp);
+    if (this.container) {
+      this.container.removeEventListener("click", this.boundOnClick);
+      this.container.removeEventListener("keydown", this.boundOnKeyDown as any);
+    }
     if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
       this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
-    }
-
-    if (this.container) {
-      this.container.removeEventListener("keydown", this.boundOnKeyDown as any);
     }
   }
 }
@@ -672,6 +707,7 @@ class App {
 export interface CircularGalleryItem {
   image: string;
   text: string;
+  href?: string;
 }
 
 export interface CircularGalleryProps {
@@ -683,6 +719,7 @@ export interface CircularGalleryProps {
   fontUrl?: string;
   scrollSpeed?: number;
   scrollEase?: number;
+  onNavigate?: (href: string) => void;
 }
 
 export default function CircularGallery({
@@ -693,9 +730,15 @@ export default function CircularGallery({
   font = "bold 30px Figtree",
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  onNavigate
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const handleNavigate = useCallback(
+    (href: string) => (onNavigate ? onNavigate(href) : router.push(href)),
+    [onNavigate, router]
+  );
   useEffect(() => {
     if (!containerRef.current) return;
     let app: App | undefined;
@@ -709,14 +752,15 @@ export default function CircularGallery({
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        scrollEase
+        scrollEase,
+        onNavigate: handleNavigate
       });
     });
     return () => {
       isMounted = false;
       if (app) app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, handleNavigate]);
   return (
     <div
       className="w-full h-full overflow-hidden cursor-grab active:cursor-grabbing focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
