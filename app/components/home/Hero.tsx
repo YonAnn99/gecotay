@@ -36,7 +36,7 @@ export default function Hero() {
             items={galleryItems}
             bend={3}
             borderRadius={0.05}
-            textColor="#171717"
+            textColor="#f5f5f4"
             onNavigate={handleNavigate}
           />
         </motion.div>

@@ -39,10 +39,10 @@ export default function NosotrosPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-6 leading-tight">
                 {EMPRESA.nombre.split(" de C.V.")[0]}
               </h1>
-              <p className="text-lg text-gray-600 mb-8">{NOSOTROS.quienesSomos}</p>
+              <p className="text-lg text-gray-300 mb-8">{NOSOTROS.quienesSomos}</p>
               <div className="flex flex-wrap gap-4">
                 <Link href="/cotizar" className="px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors">
                   Solicitar cotización
@@ -96,7 +96,7 @@ export default function NosotrosPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Nuestra <span className="text-primary">misión y visión</span></h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">Nuestra <span className="text-primary">misión y visión</span></h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             <article className="p-8 bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-xl transition-all duration-300">
@@ -140,8 +140,8 @@ export default function NosotrosPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-5xl mx-auto">
           <div className="p-8 sm:p-12 rounded-2xl border border-primary/20 bg-primary/5">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 text-center">Nuestro <span className="text-primary">compromiso de calidad</span></h2>
-            <p className="text-gray-700 text-center text-lg leading-relaxed">
+            <h2 className="text-3xl font-bold text-gray-100 mb-4 text-center">Nuestro <span className="text-primary">compromiso de calidad</span></h2>
+            <p className="text-gray-300 text-center text-lg leading-relaxed">
               {NOSOTROS.garantia}
             </p>
           </div>

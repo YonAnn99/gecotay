@@ -30,10 +30,10 @@ export default function ProductosPage() {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
             Catálogo de <span className="text-primary">productos</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             20 líneas de mobiliario de oficina, hogar y espacios de trabajo, con fabricación nacional
             e importada. Precios desde {formatMXN(LINEAS_PRODUCTO[LINEAS_PRODUCTO.length - 2].precioDesde)} MXN + IVA.
           </p>
@@ -118,8 +118,8 @@ export default function ProductosPage() {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">¿No encontraste lo que buscas?</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-4">¿No encontraste lo que buscas?</h2>
+          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
             Fabricamos a medida según tus especificaciones. Contáctanos para tu cotización.
           </p>
           <Link

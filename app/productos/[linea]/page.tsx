@@ -31,12 +31,12 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
     <>
       <section className="pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto">
-          <nav className="text-sm text-gray-500 mb-6" aria-label="Migas de pan">
+          <nav className="text-sm text-gray-400 mb-6" aria-label="Migas de pan">
             <Link href="/" className="hover:text-primary">Inicio</Link>
             <span className="mx-2">/</span>
             <Link href="/productos" className="hover:text-primary">Productos</Link>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">{producto.nombre}</span>
+            <span className="text-gray-100 font-medium">{producto.nombre}</span>
           </nav>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
@@ -50,10 +50,10 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
               />
             </div>
             <div>
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">{producto.nombre}</h1>
-              <p className="text-lg text-gray-600 mb-6">{producto.descripcion}</p>
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">{producto.nombre}</h1>
+              <p className="text-lg text-gray-300 mb-6">{producto.descripcion}</p>
               <p className="text-2xl font-bold text-primary mb-2">Desde {formatMXN(producto.precioDesde)} MXN + IVA</p>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-gray-400 mb-6">
                 Precios orientativos; incluyen flete dentro de CDMX y área metropolitana (planta baja).
               </p>
               <div className="flex flex-wrap gap-4">

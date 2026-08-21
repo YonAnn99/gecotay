@@ -110,10 +110,10 @@ export default function AvisoPrivacidadPage() {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
             Aviso de <span className="text-primary">privacidad</span>
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-300">
             El presente documento constituye el Aviso de Privacidad para efectos de lo dispuesto en la Ley
             Federal de Protección de Datos Personales en Posesión de los Particulares (la &quot;LFPDP&quot;) y las
             disposiciones que emanan de ella o se relacionan con la misma. Este Aviso aplica a la información
@@ -126,8 +126,8 @@ export default function AvisoPrivacidadPage() {
         <div className="max-w-4xl mx-auto space-y-10">
           {secciones.map((s) => (
             <div key={s.titulo}>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-4">{s.titulo}</h2>
-              <ul className="space-y-3 text-gray-700 leading-relaxed">
+              <h2 className="text-2xl font-semibold text-gray-100 mb-4">{s.titulo}</h2>
+              <ul className="space-y-3 text-gray-300 leading-relaxed">
                 {s.contenido.map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
                     <span className="text-primary mt-2 flex-shrink-0">•</span>
@@ -138,8 +138,8 @@ export default function AvisoPrivacidadPage() {
             </div>
           ))}
 
-          <div className="p-6 bg-primary/5 border border-primary/20 rounded-2xl text-sm text-gray-700">
-            <p className="font-semibold text-gray-900 mb-2">Última actualización</p>
+          <div className="p-6 bg-primary/5 border border-primary/20 rounded-2xl text-sm text-gray-300">
+            <p className="font-semibold text-gray-100 mb-2">Última actualización</p>
             <p>Agosto 2026</p>
             <p className="mt-2">
               Este Aviso de privacidad puede actualizarse periódicamente en www.gecotay.com. Para cualquier

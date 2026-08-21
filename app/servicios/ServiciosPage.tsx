@@ -26,10 +26,10 @@ export default function ServiciosPage() {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
             Nuestros <span className="text-primary">servicios</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Grupo Ecotay es un grupo de empresas profesionales que engloba varios sectores; brindamos
             servicios de diferentes índoles siempre con el respaldo de excelente servicio.
           </p>
@@ -118,8 +118,8 @@ export default function ServiciosPage() {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Cada proyecto es único</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-4">Cada proyecto es único</h2>
+          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
             Cuéntanos tu idea y la convertimos en realidad. Sin compromiso.
           </p>
           <Link

@@ -54,10 +54,10 @@ export default function AcabadosPage() {
 
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
             Acabados y <span className="text-primary">tapices</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-10">
             Telas, melaminas, metales y superficies para personalizar cualquier proyecto de mobiliario.
             Amplia variedad de colores y texturas para darle el acabado perfecto a tu espacio.
           </p>
@@ -103,10 +103,10 @@ export default function AcabadosPage() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+<h2 className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">
               Familias de <span className="text-primary">acabados</span>
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Selecciona una familia para ver sus muestras de color y textura.
             </p>
           </motion.div>
@@ -203,8 +203,8 @@ export default function AcabadosPage() {
       </section>
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">¿Listo para definir los acabados de tu proyecto?</h2>
-        <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">¿Listo para definir los acabados de tu proyecto?</h2>
+        <p className="text-gray-300 mb-8 max-w-xl mx-auto">
           Escríbenos por WhatsApp y descarga las cartas de colores para elegir tus materiales.
         </p>
         <div className="flex flex-wrap justify-center gap-4">

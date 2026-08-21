@@ -43,10 +43,10 @@ export default function DescargasPage() {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
             Área de <span className="text-primary">descargas</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Catálogo de productos y cartas de colores para elegir tus acabados.
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function DescargasPage() {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-8">Catálogo y colores</h2>
+          <h2 className="text-2xl font-semibold text-gray-100 mb-8">Catálogo y colores</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {descargas.map((d) => (
               <a
