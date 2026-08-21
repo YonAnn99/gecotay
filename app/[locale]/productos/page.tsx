@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import ProductosPage from "./ProductosPage";
-import GrainientBackground from "../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   title: "Catálogo de productos | Grupo Ecotay",
@@ -22,10 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProductosLayout() {
-  return (
-    <>
-      <GrainientBackground />
-      <ProductosPage />
-    </>
-  );
+  return <ProductosPage />;
 }

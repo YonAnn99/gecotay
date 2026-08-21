@@ -1,15 +1,5 @@
-import Hero from "./components/home/Hero";
-import Services from "./components/home/Services";
-import GrainientBackground from "./components/ui/GrainientBackground";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <>
-      <GrainientBackground />
-      <Hero />
-      <main className="flex-1">
-        <Services />
-      </main>
-    </>
-  );
+export default function Root() {
+  redirect("/es");
 }

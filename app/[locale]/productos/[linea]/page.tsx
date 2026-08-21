@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Gallery from "./../../components/ui/Gallery";
-import { LINEAS_PRODUCTO, CONTACTO } from "./../../data/empresa";
+import Gallery from "../../../components/ui/Gallery";
+import { LINEAS_PRODUCTO, CONTACTO } from "../../../data/empresa";
 
 const formatMXN = (n: number) =>
   new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);

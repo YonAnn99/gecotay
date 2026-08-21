@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import AcabadosPage from "./AcabadosPage";
-import GrainientBackground from "../components/ui/GrainientBackground";
+import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   title: "Acabados y tapices | Grupo Ecotay",

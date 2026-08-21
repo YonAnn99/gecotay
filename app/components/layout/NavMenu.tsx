@@ -5,6 +5,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
+interface NavMenuProps {
+  locale: string;
+}
+
 // All the links that previously lived split across the two desktop nav
 // groups + the mobile drawer now live in this single list, since the menu
 // is one unified toggle+dropdown at every breakpoint.
@@ -12,29 +16,32 @@ const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/productos", label: "Productos" },
   { href: "/servicios", label: "Servicios" },
+  { href: "/nosotros", label: "Nosotros" },
   { href: "/acabados-tapices", label: "Acabados y tapices" },
   { href: "/contacto", label: "Contacto" },
 ];
 
-function getActiveLabel(pathname: string) {
-  const exact = navItems.find((item) => item.href === pathname);
+function getActiveLabel(pathname: string, locale: string) {
+  const prefixedItems = navItems.map(item => ({
+    ...item,
+    href: `/${locale}${item.href}`
+  }));
+  const exact = prefixedItems.find((item) => item.href === pathname);
   if (exact) return exact.label;
-  // Fall back to the closest matching section for nested routes
-  // (e.g. /productos/ceri -> "Productos").
-  const nested = navItems
-    .filter((item) => item.href !== "/" && pathname.startsWith(item.href))
+  const nested = prefixedItems
+    .filter((item) => item.href !== `/${locale}/` && pathname.startsWith(item.href))
     .sort((a, b) => b.href.length - a.href.length)[0];
   return nested?.label ?? "Menú";
 }
 
 // Right floating "island" — shows the current section label next to a
 // toggle button that expands into a dropdown listing every nav item.
-export default function NavMenu() {
+export default function NavMenu({ locale }: NavMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [prevPathname, setPrevPathname] = useState(pathname);
   const containerRef = useRef<HTMLDivElement>(null);
-  const activeLabel = getActiveLabel(pathname);
+  const activeLabel = getActiveLabel(pathname, locale);
 
   // Close the dropdown on navigation (including back/forward) without doing
   // it inside a useEffect: adjusting state during render in response to a
@@ -109,10 +116,11 @@ export default function NavMenu() {
               <ul className="space-y-3 border-t border-white/10 px-5 pt-4 pb-5">
                 {navItems.map((item) => {
                   const isActive = item.label === activeLabel;
+                  const href = `/${locale}${item.href}`;
                   return (
-                    <li key={item.href}>
+                    <li key={href}>
                       <Link
-                        href={item.href}
+                        href={href}
                         onClick={() => setIsOpen(false)}
                         aria-current={isActive ? "page" : undefined}
                         className={`block text-sm transition-colors duration-200 ${

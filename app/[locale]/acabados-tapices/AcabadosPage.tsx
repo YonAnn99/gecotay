@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import { FINISHES, CONTACTO } from "../data/empresa";
+import { FINISHES, CONTACTO } from "../../data/empresa";
 
 const faqs = [
   {

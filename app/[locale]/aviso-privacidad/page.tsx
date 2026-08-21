@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EMPRESA, CONTACTO } from "../data/empresa";
+import { EMPRESA, CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
   title: "Aviso de privacidad | Grupo Ecotay",

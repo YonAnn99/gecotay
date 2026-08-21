@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "Grupo Ecotay – Office Furniture Manufacturing & Sales",
+    "subtitle": "Your space in our hands…",
+    "description": "We design, manufacture and install office furniture, seating, reception desks, boardroom tables and storage systems. Shipping to Mexico City and metropolitan area.",
+    "ctaQuote": "Request a Quote",
+    "ctaProducts": "View Products",
+    "ctaWhatsApp": "WhatsApp"
+  },
+  "services": {
+    "title": "Our Main Services",
+    "description": "Grupo Ecotay is a group of professional companies covering multiple sectors, always backed by excellent service.",
+    "viewAll": "View all services"
+  },
+  "about": {
+    "title": "Who We Are",
+    "mission": "Mission",
+    "vision": "Vision",
+    "warranty": "Warranty"
+  },
+  "newProducts": {
+    "title": "What's New",
+    "viewAll": "View all →",
+    "newBadge": "New",
+    "viewDetails": "View details →"
+  },
+  "whyChoose": {
+    "title": "Why Choose Us",
+    "warranty": "1–5 Year Warranty",
+    "warrantyDesc": "Up to 60 months on premium lines",
+    "delivery": "Free delivery & installation",
+    "deliveryDesc": "Mexico City & metro area",
+    "support": "Personalized attention",
+    "supportDesc": "Dedicated account executive",
+    "coverage": "Nationwide coverage",
+    "coverageDesc": "Shipping across Mexico"
+  }
+}

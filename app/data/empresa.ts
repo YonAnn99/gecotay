@@ -203,6 +203,7 @@ export interface LineaProducto {
   imagen: string;
   precioDesde: number;
   galeria: string[];
+  esNuevo?: boolean;
 }
 
 export const LINEAS_PRODUCTO: LineaProducto[] = [
@@ -304,6 +305,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     imagen: "/images/products/sim-portada.webp",
     precioDesde: 7899,
     galeria: ["/images/products/sim/01.webp", "/images/products/sim/02.webp", "/images/products/sim/03.webp", "/images/products/sim/04.webp", "/images/products/sim/05.webp"],
+    esNuevo: true,
   },
   {
     slug: "workspace",
@@ -313,6 +315,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     imagen: "/images/products/workspace-portada.webp",
     precioDesde: 9999,
     galeria: ["/images/products/workspace/01.webp", "/images/products/workspace/02.webp", "/images/products/workspace/03.webp", "/images/products/workspace/04.webp", "/images/products/workspace/05.webp", "/images/products/workspace/06.webp", "/images/products/workspace/07.webp", "/images/products/workspace/08.webp", "/images/products/workspace/09.webp", "/images/products/workspace/10.webp", "/images/products/workspace/11.webp", "/images/products/workspace/12.webp", "/images/products/workspace/13.webp", "/images/products/workspace/14.webp", "/images/products/workspace/15.webp", "/images/products/workspace/16.webp"],
+    esNuevo: true,
   },
   {
     slug: "salas-juntas",
@@ -322,6 +325,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     imagen: "/images/products/salas-juntas-portada.webp",
     precioDesde: 12999,
     galeria: ["/images/products/salas-juntas/01.webp", "/images/products/salas-juntas/02.webp", "/images/products/salas-juntas/03.webp", "/images/products/salas-juntas/04.webp", "/images/products/salas-juntas/05.webp", "/images/products/salas-juntas/06.webp", "/images/products/salas-juntas/07.webp", "/images/products/salas-juntas/08.webp", "/images/products/salas-juntas/09.webp", "/images/products/salas-juntas/10.webp", "/images/products/salas-juntas/11.webp", "/images/products/salas-juntas/12.webp", "/images/products/salas-juntas/13.webp", "/images/products/salas-juntas/14.webp", "/images/products/salas-juntas/15.webp", "/images/products/salas-juntas/16.webp", "/images/products/salas-juntas/17.webp", "/images/products/salas-juntas/18.webp", "/images/products/salas-juntas/19.webp", "/images/products/salas-juntas/20.webp", "/images/products/salas-juntas/21.webp", "/images/products/salas-juntas/22.webp", "/images/products/salas-juntas/23.webp", "/images/products/salas-juntas/24.webp"],
+    esNuevo: true,
   },
   {
     slug: "recepciones",
@@ -331,6 +335,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     imagen: "/images/products/recepciones-portada.webp",
     precioDesde: 8499,
     galeria: ["/images/products/recepciones/01.webp", "/images/products/recepciones/02.webp", "/images/products/recepciones/03.webp", "/images/products/recepciones/04.webp", "/images/products/recepciones/05.webp", "/images/products/recepciones/06.webp", "/images/products/recepciones/07.webp", "/images/products/recepciones/08.webp", "/images/products/recepciones/09.webp", "/images/products/recepciones/10.webp", "/images/products/recepciones/11.webp", "/images/products/recepciones/12.webp", "/images/products/recepciones/13.webp", "/images/products/recepciones/14.webp", "/images/products/recepciones/15.webp", "/images/products/recepciones/16.webp", "/images/products/recepciones/17.webp", "/images/products/recepciones/18.webp", "/images/products/recepciones/19.webp", "/images/products/recepciones/20.webp", "/images/products/recepciones/21.webp", "/images/products/recepciones/22.webp", "/images/products/recepciones/23.webp", "/images/products/recepciones/24.webp", "/images/products/recepciones/25.webp"],
+    esNuevo: true,
   },
   {
     slug: "almacenamiento",
@@ -340,7 +345,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     imagen: "/images/products/almacenamiento-portada.webp",
     precioDesde: 3999,
     galeria: ["/images/products/almacenamiento/01.webp", "/images/products/almacenamiento/02.webp", "/images/products/almacenamiento/03.webp", "/images/products/almacenamiento/04.webp", "/images/products/almacenamiento/05.webp", "/images/products/almacenamiento/06.webp", "/images/products/almacenamiento/07.webp", "/images/products/almacenamiento/08.webp", "/images/products/almacenamiento/09.webp", "/images/products/almacenamiento/10.webp", "/images/products/almacenamiento/11.webp", "/images/products/almacenamiento/12.webp", "/images/products/almacenamiento/13.webp", "/images/products/almacenamiento/14.webp", "/images/products/almacenamiento/15.webp", "/images/products/almacenamiento/16.webp", "/images/products/almacenamiento/17.webp", "/images/products/almacenamiento/18.webp", "/images/products/almacenamiento/19.webp", "/images/products/almacenamiento/20.webp", "/images/products/almacenamiento/21.webp", "/images/products/almacenamiento/22.webp", "/images/products/almacenamiento/23.webp", "/images/products/almacenamiento/24.webp", "/images/products/almacenamiento/25.webp"],
-  },
+},
   {
     slug: "silleria",
     nombre: "Sillería",
@@ -348,7 +353,12 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
       "Pasamos el 85% de nuestra vida laboral sentados; ofrecemos sillas ejecutivas, secretariales, de visita y bancas, en versiones tapizadas, de malla, plásticas, de aluminio y metálicas.",
     imagen: "/images/products/silleria-portada.webp",
     precioDesde: 1299,
-    galeria: ["/images/products/silleria/01.webp", "/images/products/silleria/02.webp", "/images/products/silleria/03.webp", "/images/products/silleria/04.webp", "/images/products/silleria/05.webp", "/images/products/silleria/06.webp", "/images/products/silleria/07.webp", "/images/products/silleria/08.webp", "/images/products/silleria/09.webp", "/images/products/silleria/10.webp", "/images/products/silleria/11.webp", "/images/products/silleria/12.webp", "/images/products/silleria/13.webp", "/images/products/silleria/14.webp", "/images/products/silleria/15.webp", "/images/products/silleria/16.webp", "/images/products/silleria/17.webp", "/images/products/silleria/18.webp", "/images/products/silleria/19.webp", "/images/products/silleria/20.webp", "/images/products/silleria/21.webp", "/images/products/silleria/22.webp", "/images/products/silleria/23.webp", "/images/products/silleria/24.webp", "/images/products/silleria/25.webp", "/images/products/silleria/26.webp", "/images/products/silleria/27.webp", "/images/products/silleria/28.webp", "/images/products/silleria/29.webp", "/images/products/silleria/30.webp", "/images/products/silleria/31.webp", "/images/products/silleria/32.webp", "/images/products/silleria/33.webp", "/images/products/silleria/34.webp", "/images/products/silleria/35.webp", "/images/products/silleria/36.webp", "/images/products/silleria/37.webp", "/images/products/silleria/38.webp", "/images/products/silleria/39.webp", "/images/products/silleria/40.webp", "/images/products/silleria/41.webp", "/images/products/silleria/42.webp", "/images/products/silleria/43.webp", "/images/products/silleria/44.webp", "/images/products/silleria/45.webp", "/images/products/silleria/46.webp", "/images/products/silleria/47.webp", "/images/products/silleria/48.webp", "/images/products/silleria/49.webp", "/images/products/silleria/50.webp", "/images/products/silleria/51.webp", "/images/products/silleria/52.webp", "/images/products/silleria/53.webp", "/images/products/silleria/54.webp", "/images/products/silleria/55.webp", "/images/products/silleria/56.webp", "/images/products/silleria/57.webp", "/images/products/silleria/58.webp", "/images/products/silleria/59.webp", "/images/products/silleria/60.webp", "/images/products/silleria/61.webp", "/images/products/silleria/62.webp", "/images/products/silleria/63.webp", "/images/products/silleria/64.webp", "/images/products/silleria/65.webp", "/images/products/silleria/66.webp"],
+    galeria: [
+      "/images/products/silleria/01.webp",
+      "/images/products/silleria/02.webp",
+      "/images/products/silleria/03.webp"
+    ],
+    esNuevo: true,
   },
   {
     slug: "home",

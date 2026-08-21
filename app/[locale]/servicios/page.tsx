@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import ServiciosPage from "./ServiciosPage";
-import GrainientBackground from "../components/ui/GrainientBackground";
+import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   title: "Servicios integrales | Grupo Ecotay",

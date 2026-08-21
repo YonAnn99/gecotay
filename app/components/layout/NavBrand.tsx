@@ -3,12 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
+interface NavBrandProps {
+  locale: string;
+}
+
 // Left floating "island" — brand mark only, mirroring the logo pill from
 // the reference design.
-export default function NavBrand() {
+export default function NavBrand({ locale }: NavBrandProps) {
   return (
     <Link
-      href="/"
+      href={`/${locale}`}
       aria-label="GECOTAY - Inicio"
       className="fixed top-10 left-30 z-50
         flex items-center justify-center

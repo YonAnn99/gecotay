@@ -1,0 +1,38 @@
+{
+  "hero": {
+    "title": "Grupo Ecotay – Fabricación y Venta de Mobiliario de Oficina",
+    "subtitle": "Su espacio en nuestras manos…",
+    "description": "Diseñamos, fabricamos e instalamos mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento. Envíos a CDMX y área metropolitana.",
+    "ctaQuote": "Solicitar Cotización",
+    "ctaProducts": "Ver Productos",
+    "ctaWhatsApp": "WhatsApp"
+  },
+  "services": {
+    "title": "Nuestros Servicios Principales",
+    "description": "Grupo Ecotay es un grupo de empresas profesionales que engloba varios sectores, siempre con el respaldo de excelente servicio.",
+    "viewAll": "Ver todos los servicios"
+  },
+  "about": {
+    "title": "¿Quiénes Somos?",
+    "mission": "Misión",
+    "vision": "Visión",
+    "warranty": "Garantía"
+  },
+  "newProducts": {
+    "title": "Lo Más Nuevo",
+    "viewAll": "Ver todo →",
+    "newBadge": "Nuevo",
+    "viewDetails": "Ver detalles →"
+  },
+  "whyChoose": {
+    "title": "Por Qué Elegirnos",
+    "warranty": "Garantía 1–5 años",
+    "warrantyDesc": "Hasta 60 meses en gama alta",
+    "delivery": "Entrega e instalación gratis",
+    "deliveryDesc": "CDMX y área metropolitana",
+    "support": "Atención personalizada",
+    "supportDesc": "Ejecutivo dedicado por proyecto",
+    "coverage": "Cobertura nacional",
+    "coverageDesc": "Envíos a todo México"
+  }
+}

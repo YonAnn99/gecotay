@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import KeyTakeaways from "../components/ui/KeyTakeaways";
-import EarlyCTA from "../components/ui/EarlyCTA";
-import FAQSection from "../components/ui/FAQSection";
-import { LINEAS_PRODUCTO, CONTACTO } from "../data/empresa";
+import KeyTakeaways from "../../components/ui/KeyTakeaways";
+import EarlyCTA from "../../components/ui/EarlyCTA";
+import FAQSection from "../../components/ui/FAQSection";
+import { LINEAS_PRODUCTO, CONTACTO } from "../../data/empresa";
 
 const formatMXN = (n: number) =>
   new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);

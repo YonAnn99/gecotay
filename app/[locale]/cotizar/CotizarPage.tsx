@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import KeyTakeaways from "../components/ui/KeyTakeaways";
-import EarlyCTA from "../components/ui/EarlyCTA";
-import FAQSection from "../components/ui/FAQSection";
-import { CONTACTO } from "../data/empresa";
+import KeyTakeaways from "../../components/ui/KeyTakeaways";
+import EarlyCTA from "../../components/ui/EarlyCTA";
+import FAQSection from "../../components/ui/FAQSection";
+import { CONTACTO } from "../../data/empresa";
 
 const steps = [
   { id: 1, title: "Datos", desc: "Tu información" },

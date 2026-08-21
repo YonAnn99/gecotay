@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CONTACTO } from "../data/empresa";
+import { CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
   title: "Descargas | Grupo Ecotay",

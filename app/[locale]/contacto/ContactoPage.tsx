@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import KeyTakeaways from "../components/ui/KeyTakeaways";
-import EarlyCTA from "../components/ui/EarlyCTA";
-import FAQSection from "../components/ui/FAQSection";
-import { EMPRESA, CONTACTO, REDES, POLITICAS } from "../data/empresa";
+import KeyTakeaways from "../../components/ui/KeyTakeaways";
+import EarlyCTA from "../../components/ui/EarlyCTA";
+import FAQSection from "../../components/ui/FAQSection";
+import { EMPRESA, CONTACTO, REDES, POLITICAS } from "../../data/empresa";
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({

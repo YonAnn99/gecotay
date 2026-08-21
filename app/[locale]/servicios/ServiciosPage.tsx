@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import KeyTakeaways from "../components/ui/KeyTakeaways";
-import EarlyCTA from "../components/ui/EarlyCTA";
-import FAQSection from "../components/ui/FAQSection";
-import { SERVICIOS, CONTACTO } from "../data/empresa";
+import KeyTakeaways from "../../components/ui/KeyTakeaways";
+import EarlyCTA from "../../components/ui/EarlyCTA";
+import FAQSection from "../../components/ui/FAQSection";
+import { SERVICIOS, CONTACTO } from "../../data/empresa";
 
 const takeaways = [
   { label: "Servicios integrales", value: "11" },
