@@ -1,11 +1,11 @@
 import Hero from "./components/home/Hero";
 import Services from "./components/home/Services";
-import AuroraBackground from "./components/ui/AuroraBackground";
+import GrainientBackground from "./components/ui/GrainientBackground";
 
 export default function Home() {
   return (
     <>
-      <AuroraBackground />
+      <GrainientBackground />
       <Hero />
       <main className="flex-1">
         <Services />

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import AcabadosPage from "./AcabadosPage";
-import AuroraBackground from "../components/ui/AuroraBackground";
+import GrainientBackground from "../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   title: "Acabados y tapices | Grupo Ecotay",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function AcabadosLayout() {
   return (
     <>
-      <AuroraBackground />
+      <GrainientBackground />
       <AcabadosPage />
     </>
   );
