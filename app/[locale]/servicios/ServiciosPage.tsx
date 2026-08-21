@@ -15,7 +15,7 @@ const takeaways = [
 ];
 
 const faqs = [
-  { q: "¿Qué servicios ofrece Grupo Ecotay?", a: "Atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y aluminio, y comidas empresariales." },
+  { q: "¿Qué servicios ofrece Grupo Gecotay?", a: "Atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y aluminio, y comidas empresariales." },
   { q: "¿Entregan el mobiliario ensamblado?", a: "Sí. Todos nuestros productos en área metropolitana se entregan ya ensamblados y sin costo alguno en planta baja." },
   { q: "¿Realizan mantenimiento preventivo?", a: "Sí, nuestros colaboradores realizan mantenimientos preventivos y correctivos para alargar la vida de su mobiliario." },
   { q: "¿Ofrecen servicios de carpintería y tapicería?", a: "Sí, contamos con servicios generales de carpintería, barnices, ebanistería con tallas y chapas, y tapicería en telas, vinilos y pieles naturales." },
@@ -30,7 +30,7 @@ export default function ServiciosPage() {
             Nuestros <span className="text-primary">servicios</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Grupo Ecotay es un grupo de empresas profesionales que engloba varios sectores; brindamos
+            Grupo Gecotay es un grupo de empresas profesionales que engloba varios sectores; brindamos
             servicios de diferentes índoles siempre con el respaldo de excelente servicio.
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function ServiciosPage() {
                 Un ejecutivo de ventas te atenderá por WhatsApp o correo para tu cotización.
               </p>
               <Link
-                href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, me gustaría asesoría sobre sus servicios.")}`}
+                href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, me gustaría asesoría sobre sus servicios.")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block w-full text-center px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors"

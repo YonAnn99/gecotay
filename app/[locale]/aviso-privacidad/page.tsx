@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { EMPRESA, CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
-  title: "Aviso de privacidad | Grupo Ecotay",
+  title: "Aviso de privacidad | Grupo Gecotay",
   description:
-    "Aviso de privacidad de Grupo Ecotay S.A.S. de C.V. conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDP).",
+    "Aviso de privacidad de Grupo Gecotay S.A.S. de C.V. conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDP).",
 };
 
 const direccionOficial =
@@ -17,7 +17,7 @@ const secciones = [
       "Para efectos de lo dispuesto en la LFPDP y en particular en su Artículo 17, el Titular manifiesta que el presente Aviso de privacidad le ha sido dado a conocer por el Responsable.",
       "Que ha leído, entendido y acordado los términos señalados en este Aviso de privacidad, por lo que otorga su consentimiento respecto al tratamiento de sus Datos Personales conforme lo establece la LFPDP y legislación aplicable.",
       "Que en caso de que los Datos Personales recopilados incluyan Datos Personales sensibles o financieros, sean proporcionados en formato impreso o utilizando medios electrónicos, son actos que constituyen su consentimiento expreso como titular, en términos del segundo párrafo del artículo 8 de la LFPDP y demás legislación aplicable.",
-      "Que otorga su consentimiento para que GRUPO ECOTAY S.A.S. de C.V. o sus Encargados realicen transferencias de Datos Personales a terceros nacionales o extranjeros, en el entendido de que el tratamiento que dichos terceros den a sus Datos Personales deberá ajustarse a lo establecido en este Aviso de privacidad.",
+      "Que otorga su consentimiento para que GRUPO GECOTAY S.A.S. de C.V. o sus Encargados realicen transferencias de Datos Personales a terceros nacionales o extranjeros, en el entendido de que el tratamiento que dichos terceros den a sus Datos Personales deberá ajustarse a lo establecido en este Aviso de privacidad.",
       "Que en caso de que el Titular no se oponga a los términos del Aviso de privacidad se considerará acordado y consentido su contenido; el consentimiento del Titular podrá ser revocado en cualquier momento.",
       "No obstante cualquier disposición de este Aviso de privacidad, el Titular reconoce que no se requerirá de su consentimiento para el tratamiento de Datos Personales en cualquiera de los casos señalados en el Artículo 10 de la LFPDP.",
     ],
@@ -28,14 +28,14 @@ const secciones = [
       "La recolección de Datos Personales podrá efectuarse por comunicación telefónica con el Responsable o con sus Encargados o empleados, mediante entrega directa, mediante el uso de correos electrónicos y mensajes cortos de texto, o mediante la utilización de sus sitios web y herramientas de captura automática de datos (las cuales permiten recolectar información que envía su navegador, como el tipo de navegador, el idioma del usuario y la dirección IP).",
       "Ejemplos, a título enunciativo mas no limitativo, de información que el Responsable puede recopilar: nombre y apellidos; fecha de nacimiento; domicilio particular, laboral o fiscal; dirección de correo electrónico; nombre de identificación en redes sociales; número telefónico particular o laboral; número de celular; número de cuentas bancarias; clave del Registro Federal de Contribuyentes (RFC); Clave Única de Registro de Población (CURP).",
       "Documentación que puede ser recolectada para la verificación de identidad: credencial de elector, cartilla del servicio militar nacional liberada, cédula profesional, pasaporte, forma migratoria, cédula de registro en el RFC, cédula de registro con la CURP, comprobante de domicilio e informe especial de crédito emitido por una Sociedad de Información Crediticia.",
-      "Para postulantes a empleados podrá solicitarse, entre otros: acta de nacimiento, comprobantes de estudios, estado de cuenta de la Afore, hoja de retención de impuestos, así como estudios psicométrico, médico y socio-económico efectuados por GRUPO ECOTAY S.A.S. de C.V.; también podrían ser solicitados los Datos Personales de sus familiares, dependientes o beneficiarios y la documentación comprobatoria conducente.",
+      "Para postulantes a empleados podrá solicitarse, entre otros: acta de nacimiento, comprobantes de estudios, estado de cuenta de la Afore, hoja de retención de impuestos, así como estudios psicométrico, médico y socio-económico efectuados por GRUPO GECOTAY S.A.S. de C.V.; también podrían ser solicitados los Datos Personales de sus familiares, dependientes o beneficiarios y la documentación comprobatoria conducente.",
     ],
   },
   {
     titulo: "3. Finalidad de los datos personales",
     contenido: [
       "Los Datos Personales del Titular son recolectados y tratados por el Responsable o sus Encargados con la finalidad de permitir al Titular:",
-      "Solicitar, comprar, cambiar o devolver productos ofrecidos por GRUPO ECOTAY S.A.S. de C.V. (mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento).",
+      "Solicitar, comprar, cambiar o devolver productos ofrecidos por GRUPO GECOTAY S.A.S. de C.V. (mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento).",
       "Solicitar, contratar, cambiar o cancelar servicios ofrecidos por la empresa (planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y aluminio).",
       "Efectuar pagos en línea y solicitar factura o comprobante fiscal digital.",
       "Solicitar una cotización sobre productos y servicios.",
@@ -44,13 +44,13 @@ const secciones = [
       "Utilizar los distintos servicios de los sitios web de la empresa, incluyendo la descarga de contenidos y formatos.",
       "Procesar pagos y cualquier otra actividad de naturaleza análoga a las descritas previamente.",
       "Asimismo, el Responsable, directamente o a través de sus Encargados, puede utilizar los Datos Personales con la finalidad de realizar estudios sobre intereses y comportamiento de clientes, consumidores y proveedores; efectuar estudios de mercado y de consumo para ofrecer productos y servicios personalizados y publicidad adecuada; elaborar estadísticas internas; formalizar el proceso transaccional; gestionar la requisición, evaluación y adjudicación de proveedores; verificar la capacidad de crédito o pago del Titular a través de sociedades de información crediticia, y comprobar las transacciones comerciales realizadas con el Responsable.",
-      "Para los postulantes a empleados de GRUPO ECOTAY S.A.S. de C.V., los Datos Personales serán utilizados para efectuar el proceso de reclutamiento y selección de personal y realizar el proceso de contratación.",
+      "Para los postulantes a empleados de GRUPO GECOTAY S.A.S. de C.V., los Datos Personales serán utilizados para efectuar el proceso de reclutamiento y selección de personal y realizar el proceso de contratación.",
     ],
   },
   {
     titulo: "4. Recolección de datos al navegar en www.gecotay.com",
     contenido: [
-      "Dentro de las herramientas de captura automática de datos utilizadas por GRUPO ECOTAY S.A.S. de C.V. en sus sitios y páginas web se encuentran las cookies, los web beacons y los enlaces en los correos electrónicos.",
+      "Dentro de las herramientas de captura automática de datos utilizadas por GRUPO GECOTAY S.A.S. de C.V. en sus sitios y páginas web se encuentran las cookies, los web beacons y los enlaces en los correos electrónicos.",
       "Los correos electrónicos incluyen vínculos que permiten a GECOTAY saber si usted activó dicho vínculo y visitó la página web de destino, pudiendo esta información ser incluida en su perfil.",
       "En caso de que usted prefiera que GECOTAY no recolecte información sobre su interacción con dichos vínculos, puede optar por modificar el formato de las comunicaciones (por ejemplo, recibir el mensaje en texto y no en formato HTML) o hacer caso omiso del vínculo y no acceder a su contenido.",
       "El sitio web www.gecotay.com únicamente utiliza almacenamiento local funcional para recordar tus preferencias (por ejemplo, tu elección de cookies). No utilizamos cookies de análisis ni de publicidad de terceros.",
@@ -67,14 +67,14 @@ const secciones = [
     contenido: [
       "El Responsable y/o sus Encargados conservarán los Datos Personales del Titular durante el tiempo necesario para procesar sus solicitudes de información, productos y/o servicios, así como para mantener los registros contables, financieros y de auditoría, en términos de la LFPDP y de la legislación mercantil, fiscal y administrativa vigente.",
       "Los Datos Personales se encuentran protegidos por medidas de seguridad administrativas, técnicas y físicas adecuadas contra el daño, pérdida, alteración, destrucción o uso, acceso o tratamiento no autorizados, conforme a la LFPDP.",
-      "No obstante, GRUPO ECOTAY S.A.S. de C.V. no garantiza que terceros no autorizados no puedan tener acceso a los sistemas físicos o lógicos de los Titulares o del Responsable, o a los documentos electrónicos y ficheros almacenados en sus sistemas; por ello, la empresa no será responsable de los daños y perjuicios que pudieran derivarse de dicho acceso no autorizado.",
+      "No obstante, GRUPO GECOTAY S.A.S. de C.V. no garantiza que terceros no autorizados no puedan tener acceso a los sistemas físicos o lógicos de los Titulares o del Responsable, o a los documentos electrónicos y ficheros almacenados en sus sistemas; por ello, la empresa no será responsable de los daños y perjuicios que pudieran derivarse de dicho acceso no autorizado.",
     ],
   },
   {
     titulo: "7. Departamento de datos personales y domicilio",
     contenido: [
       "Para cualquier comunicación acerca de este Aviso de privacidad, contacta a nuestro Departamento de Datos Personales y/o quejas:",
-      `GRUPO ECOTAY S.A.S. de C.V., Departamento de Quejas`,
+      `GRUPO GECOTAY S.A.S. de C.V., Departamento de Quejas`,
       direccionOficial,
       `Correo: ${CONTACTO.correos.quejas} / ${CONTACTO.correos.allservice}`,
       "Para efectos de la fracción I del Artículo 16 de la LFPDP, el domicilio del Responsable es el establecido en esta sección 7 del presente Aviso de privacidad.",
@@ -98,7 +98,7 @@ const secciones = [
   {
     titulo: "9. Cambios al aviso de privacidad",
     contenido: [
-      "GRUPO ECOTAY S.A.S. de C.V. se reserva el derecho de actualizar periódicamente el presente Aviso de privacidad para reflejar los cambios en nuestras prácticas de información.",
+      "GRUPO GECOTAY S.A.S. de C.V. se reserva el derecho de actualizar periódicamente el presente Aviso de privacidad para reflejar los cambios en nuestras prácticas de información.",
       "Es responsabilidad del Titular revisar periódicamente el contenido del Aviso de privacidad en el sitio www.gecotay.com, donde se publicarán los cambios realizados conjuntamente con la fecha de la última actualización.",
       "De no expresar lo contrario, el Responsable entenderá que el Titular ha leído, entendido y acordado los términos ahí expuestos, lo que constituye su consentimiento a los cambios y/o actualizaciones respecto al tratamiento de sus Datos Personales.",
     ],

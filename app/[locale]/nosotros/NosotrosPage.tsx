@@ -26,7 +26,7 @@ const takeaways = [
 ];
 
 const faqs = [
-  { q: "¿Qué es Grupo Ecotay?", a: "Es un grupo de empresas de diferentes sectores dedicado a la fabricación, distribución y comercialización de mobiliario de excelente calidad y servicios integrales." },
+  { q: "¿Qué es Grupo Gecotay?", a: "Es un grupo de empresas de diferentes sectores dedicado a la fabricación, distribución y comercialización de mobiliario de excelente calidad y servicios integrales." },
   { q: "¿Dónde se encuentra la empresa?", a: "En Cda. de San Luis Potosí Mz. 2 Lt. 2, Col. Ejidos de Tulpetlac, Ecatepec de Morelos, Estado de México, C.P. 55114." },
   { q: "¿Qué garantía tienen sus productos?", a: "Todos los productos fabricados y distribuidos cuentan con 1 año de garantía contra defectos de fabricación, y en productos de gama alta hasta 60 meses." },
   { q: "¿Puedo solicitar una cotización?", a: "Sí, escríbenos por WhatsApp al " + CONTACTO.whatsapp + " o a " + CONTACTO.correos.ventas + "." },
@@ -55,7 +55,7 @@ export default function NosotrosPage() {
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">
               <Image
                 src="/images/products/recepciones-portada.webp"
-                alt="Mobiliario Grupo Ecotay"
+                alt="Mobiliario Grupo Gecotay"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -148,7 +148,7 @@ export default function NosotrosPage() {
         </div>
       </section>
 
-      <FAQSection items={faqs} title="Preguntas frecuentes sobre Grupo Ecotay" />
+      <FAQSection items={faqs} title="Preguntas frecuentes sobre Grupo Gecotay" />
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto text-center">
@@ -157,7 +157,7 @@ export default function NosotrosPage() {
             Escríbenos por WhatsApp al {CONTACTO.whatsapp} o a {CONTACTO.correos.ventas} y cotiza sin compromiso.
           </p>
           <Link
-            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, me gustaría recibir atención de ventas.")}`}
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, me gustaría recibir atención de ventas.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-primary bg-white hover:bg-gray-100 rounded-xl transition-colors"

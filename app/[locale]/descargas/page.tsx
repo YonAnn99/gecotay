@@ -3,14 +3,14 @@ import Link from "next/link";
 import { CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
-  title: "Descargas | Grupo Ecotay",
+  title: "Descargas | Grupo Gecotay",
   description:
-    "Descarga el catálogo 2026 de Grupo Ecotay y las cartas de colores de telas, melaminas y metales.",
+    "Descarga el catálogo 2026 de Grupo Gecotay y las cartas de colores de telas, melaminas y metales.",
 };
 
 const descargas = [
   {
-    titulo: "Catálogo Grupo Ecotay 2026",
+    titulo: "Catálogo Grupo Gecotay 2026",
     descripcion:
       "Catálogo completo de líneas de mobiliario de oficina, hogar, recepciones, sillería y más.",
     archivo: "/docs/gecotay-catalogo-2026.pdf",
@@ -86,7 +86,7 @@ export default function DescargasPage() {
             Escríbenos y te enviamos la información de acabados que necesites.
           </p>
           <Link
-            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, necesito información sobre acabados y colores.")}`}
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, necesito información sobre acabados y colores.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"

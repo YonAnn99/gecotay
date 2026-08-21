@@ -209,7 +209,7 @@ export default function AcabadosPage() {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Link
-            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, me gustaría asesoría sobre acabados y tapices.")}`}
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, me gustaría asesoría sobre acabados y tapices.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"

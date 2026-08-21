@@ -62,7 +62,7 @@ export default function CotizarPage() {
     const proyecto = projectTypes.find((p) => p.value === formData.tipoProyecto)?.label || "No especificado";
     const plazo = timelines.find((t) => t.value === formData.plazo)?.label || "No especificado";
     const mensaje = [
-      "Hola Grupo Ecotay, quiero solicitar un presupuesto:",
+      "Hola Grupo Gecotay, quiero solicitar un presupuesto:",
       `Nombre: ${formData.nombre}`,
       `Email: ${formData.email}`,
       formData.telefono ? `Teléfono: ${formData.telefono}` : "",

@@ -1,7 +1,9 @@
+import SplashScreen from "./components/ui/SplashScreen";
+
 export const metadata = {
   title: {
-    default: "Grupo Ecotay | Fabricación y Venta de Mobiliario de Oficina",
-    template: "%s | Grupo Ecotay",
+    default: "Grupo Gecotay | Fabricación y Venta de Mobiliario de Oficina",
+    template: "%s | Grupo Gecotay",
   },
   description: "Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
   icons: {
@@ -31,7 +33,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className="min-h-full flex flex-col antialiased">{children}</body>
+      <body className="min-h-full flex flex-col antialiased">
+        <SplashScreen />
+        {children}
+      </body>
     </html>
   );
 }

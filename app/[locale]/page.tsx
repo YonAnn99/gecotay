@@ -14,13 +14,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const isEs = locale === "es";
   return {
     title: isEs
-      ? "Grupo Ecotay | Fabricación y Venta de Mobiliario de Oficina en CDMX y Edomex"
-      : "Grupo Ecotay | Office Furniture Manufacturing & Sales in Mexico City",
+      ? "Grupo Gecotay | Fabricación y Venta de Mobiliario de Oficina en CDMX y Edomex"
+      : "Grupo Gecotay | Office Furniture Manufacturing & Sales in Mexico City",
     description: isEs
       ? "Fabricamos y distribuimos mobiliario de oficina, sillería, recepciones, salas de juntas y almacenamiento. Garantía hasta 5 años. Envío gratis en CDMX y área metropolitana."
       : "We manufacture and distribute office furniture, seating, reception desks, boardroom tables and storage. Up to 5‑year warranty. Free shipping in Mexico City metro area.",
     openGraph: {
-      title: isEs ? "Grupo Ecotay – Mobiliario de Oficina" : "Grupo Ecotay – Office Furniture",
+      title: isEs ? "Grupo Gecotay – Mobiliario de Oficina" : "Grupo Gecotay – Office Furniture",
       description: isEs
         ? "Diseño, fabricación e instalación de mobiliario para oficinas. Cotiza hoy."
         : "Design, manufacturing and installation of office furniture. Request a quote today.",

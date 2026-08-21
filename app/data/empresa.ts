@@ -1,6 +1,6 @@
 export const EMPRESA = {
-  nombre: "Grupo Ecotay S.A.S. de C.V.",
-  nombreCorto: "Grupo Ecotay",
+  nombre: "Grupo Gecotay S.A.S. de C.V.",
+  nombreCorto: "Grupo Gecotay",
   lema: "Su espacio en nuestras manos...",
   url: "https://www.gecotay.com",
   rfc: "GEC180710HU8",
@@ -33,9 +33,9 @@ export const CONTACTO = {
 };
 
 export const REDES = {
-  facebook: { label: "Mobiliario Ecotay", url: "https://www.facebook.com/search/top?q=mobiliario%20ecotay" },
+  facebook: { label: "Mobiliario Gecotay", url: "https://www.facebook.com/search/top?q=mobiliario%20ecotay" },
   instagram: { label: "@Grupo_Ecotay", url: "https://www.instagram.com/Grupo_Ecotay" },
-  youtube: { label: "Grupo Ecotay", url: "https://www.youtube.com/@GrupoEcotay" },
+  youtube: { label: "Grupo Gecotay", url: "https://www.youtube.com/@GrupoEcotay" },
   twitter: { label: "@grupoecotay", url: "https://x.com/grupoecotay" },
 };
 
@@ -83,20 +83,20 @@ export const VALORES = [
 
 export const NOSOTROS = {
   quienesSomos:
-    "Grupo Ecotay S.A.S. de C.V. es un grupo de empresas de diferentes sectores dedicado a la fabricación, distribución y comercialización de mobiliario de excelente calidad y servicios integrales para oficina, hogar y espacios de trabajo. Trabajamos de la mano con el cliente para ser la mejor opción en el mercado.",
+    "Grupo Gecotay S.A.S. de C.V. es un grupo de empresas de diferentes sectores dedicado a la fabricación, distribución y comercialización de mobiliario de excelente calidad y servicios integrales para oficina, hogar y espacios de trabajo. Trabajamos de la mano con el cliente para ser la mejor opción en el mercado.",
   mision:
     "Ofertar, crear e innovar mobiliario de excelente calidad y servicios que le den plus valor a sus productos. Trabajando junto con el cliente de la mano para ser la mejor opción en el mercado, encontrando en nosotros todo lo que necesita. Forjándonos de tal manera que utilizaremos nuestro mayor esfuerzo para satisfacer las necesidades, a un precio justo.",
   vision:
-    "Ser una empresa de renombre en el mercado, caracterizada por sus buenos productos, servicios y precios. Conformada por equipos que desempeñen su buen trabajo y que creen un ambiente sano en donde el personal de Grupo Ecotay S.A.S. de C.V. se inspire para dar lo mejor de sí, ofreciendo así un producto que satisface las necesidades y deseos de los clientes.",
+    "Ser una empresa de renombre en el mercado, caracterizada por sus buenos productos, servicios y precios. Conformada por equipos que desempeñen su buen trabajo y que creen un ambiente sano en donde el personal de Grupo Gecotay S.A.S. de C.V. se inspire para dar lo mejor de sí, ofreciendo así un producto que satisface las necesidades y deseos de los clientes.",
   garantia:
-    "Todos los productos fabricados y distribuidos por Grupo Ecotay cuentan con 1 año de garantía contra defectos de fabricación, y en productos de gama alta 60 meses de garantía. La garantía se hace válida con una simple llamada de notificación y el departamento correspondiente le dará seguimiento para su reparación o, en su defecto, cambio físico del producto.",
+    "Todos los productos fabricados y distribuidos por Grupo Gecotay cuentan con 1 año de garantía contra defectos de fabricación, y en productos de gama alta 60 meses de garantía. La garantía se hace válida con una simple llamada de notificación y el departamento correspondiente le dará seguimiento para su reparación o, en su defecto, cambio físico del producto.",
 };
 
 export const POLITICAS = {
   ventas: [
     "Todas las compras sin excepción tendrán que ser por escrito (llenar formato de pedido y/o confirmadas por correo electrónico).",
     "Antes de generar un pedido es responsabilidad del cliente consultar existencias; de lo contrario la empresa no se compromete a respetar los tiempos de entrega pactados en las cotizaciones una vez vencidas.",
-    "El personal de Grupo Ecotay no está autorizado para recibir dinero en efectivo, a menos que así se acuerde con el cliente en plena confidencialidad.",
+    "El personal de Grupo Gecotay no está autorizado para recibir dinero en efectivo, a menos que así se acuerde con el cliente en plena confidencialidad.",
     "Toda cancelación o cambio de producto dentro de los 5 primeros días se penaliza con el 20% del total cancelado; después de 5 días no se podrá hacer cancelación o cambio de modelo.",
   ],
   precios: [
@@ -177,7 +177,7 @@ export const SERVICIOS = [
     slug: "transporte",
     titulo: "Transporte",
     descripcion:
-      "Ecotay, como su nombre lo indica, es un grupo de empresas de diferentes sectores; ofertamos el servicio de mudanzas y traslados de mercancías, así como reubicaciones de mobiliario.",
+      "Gecotay, como su nombre lo indica, es un grupo de empresas de diferentes sectores; ofertamos el servicio de mudanzas y traslados de mercancías, así como reubicaciones de mobiliario.",
     imagen: "/images/services/transporte.webp",
   },
   {
@@ -391,7 +391,7 @@ export const LINEAS_PRODUCTO: LineaProducto[] = [
     slug: "servicios",
     nombre: "Servicios",
     descripcion:
-      "Grupo Ecotay es un grupo de empresas profesionales que engloba varios sectores; brindamos servicios de diferentes índoles siempre con el respaldo y la garantía de excelente servicio.",
+      "Grupo Gecotay es un grupo de empresas profesionales que engloba varios sectores; brindamos servicios de diferentes índoles siempre con el respaldo y la garantía de excelente servicio.",
     imagen: "/images/products/servicios-portada.webp",
     precioDesde: 999,
     galeria: ["/images/products/servicios/01.webp", "/images/products/servicios/02.webp", "/images/products/servicios/03.webp", "/images/products/servicios/04.webp", "/images/products/servicios/05.webp", "/images/products/servicios/06.webp", "/images/products/servicios/07.webp", "/images/products/servicios/08.webp", "/images/products/servicios/09.webp", "/images/products/servicios/10.webp", "/images/products/servicios/11.webp", "/images/products/servicios/12.webp"],

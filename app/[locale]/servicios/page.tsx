@@ -3,20 +3,20 @@ import ServiciosPage from "./ServiciosPage";
 import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
-  title: "Servicios integrales | Grupo Ecotay",
+  title: "Servicios integrales | Grupo Gecotay",
   description:
-    "Servicios de Grupo Ecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
+    "Servicios de Grupo Gecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
   openGraph: {
-    title: "Servicios integrales | Grupo Ecotay",
-    description: "11 servicios integrales de Grupo Ecotay para mobiliario y espacios de trabajo.",
+    title: "Servicios integrales | Grupo Gecotay",
+    description: "11 servicios integrales de Grupo Gecotay para mobiliario y espacios de trabajo.",
     type: "website",
     locale: "es_MX",
-    siteName: "Grupo Ecotay",
+    siteName: "Grupo Gecotay",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Servicios integrales | Grupo Ecotay",
-    description: "11 servicios integrales de Grupo Ecotay.",
+    title: "Servicios integrales | Grupo Gecotay",
+    description: "11 servicios integrales de Grupo Gecotay.",
   },
   robots: { index: true, follow: true },
 };

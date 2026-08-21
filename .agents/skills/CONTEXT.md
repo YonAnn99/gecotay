@@ -51,6 +51,53 @@
 - Keyboard navigation on carousel (←/→), touch swipe support.
 - Reduced‑motion friendly (animations respect `prefers-reduced-motion` via Tailwind defaults).
 
+### Internationalisation (i18n) – NEW ✅
+- **Locale-based routing** via `[locale]` segment (`es` default, `en` supported).
+- **Middleware** (`app/middleware.ts`) detects `Accept-Language`, sets `NEXT_LOCALE` cookie, rewrites `/` → `/es` (or `/en`).
+- **Root redirect page** (`app/page.tsx`) as fallback: `redirect('/es')`.
+- **All internal links** prefixed with locale (`/${locale}/…`).
+- **Message catalogs** (`app/messages/es.json`, `en.json`) + tiny `t(locale, key)` helper in `app/lib/i18n.ts`.
+- **Page metadata** includes `alternates.languages` for `hreflang`.
+- **Schema.org** `legalName` updated to localized brand.
+
+### Homepage SEO Overhaul – NEW ✅
+- **Hero section** now has semantic hierarchy: `<h1>` (brand + keywords), `<h2>` (slogan), descriptive `<p>`, two CTAs (Cotizar, Ver Productos).
+- **Services** heading demoted to `<h2>`; intro paragraph translated.
+- **New sections**: “Quiénes Somos” (`<h2>` + mission/vision/warranty cards), “Lo Más Nuevo” (`<h2>` + 6 product cards flagged `esNuevo`), “Por Qué Elegirnos” (`<h2>` + 4 trust signals).
+- **CircularGallery clicks** now navigate to `/${locale}/productos/<slug>` (fixed 404 bug).
+- **Removed duplicate WhatsApp CTA** (global float button retained).
+
+### Brand Unification – NEW ✅
+- **Automated script** (`scripts/rebrand-ecotay-to-gecotay.mjs`) replaced **all** user-visible “Ecotay” → “Gecotay” across 20+ files (messages, metadata, data layer, component copy, WhatsApp templates, FAQs).
+- Legal entity name, social-handle labels, JSON-LD `name`/`legalName` now read **“Grupo Gecotay S.A.S. de C.V.”**.
+- Social URLs & e-mail addresses preserved.
+
+### Configurable Grainient Background – NEW ✅
+- Swapped local vendored copy for **official ReactBits `Grainient`** installed via MCP (`npx shadcn@latest add @react-bits/Grainient-TS-TW`).
+- `GrainientBackground.tsx` now consumes a single `GRAINIENT_CONFIG` constant:
+  - Palette: **Gecotay Green `#AAC637` / Pure Black `#000000` / White `#ffffff`**.
+  - `colorBalance: -0.35`, `blendSoftness: 0.28`, `rotationAmount: 260` → white appears only as a faint highlight.
+- Future updates via `npx shadcn@latest add @react-bits/Grainient-TS-TW`.
+
+### Splash Screen / Preloader – NEW ✅
+- **`app/components/ui/SplashScreen.tsx`** – full-screen white overlay, centered logo (`logo-horizontal-color.webp`) + “BIENVENIDO”.
+- Shows for **2.5 s**, then 700 ms fade-out; `pointer-events: none` when hidden.
+- Rendered at root layout (`app/layout.tsx`) so it appears on first load for both locales.
+- Accessible (`role="status" aria-label="Cargando"`), respects `prefers-reduced-motion`.
+
+### Performance & Assets
+- **All images converted to WebP** (cwebp q80) and served via `next/image` with proper `sizes` & `loading` (eager for hero/carousel center, lazy for others).
+- **Carousel images** preloaded, `will-change: transform, opacity` for 60 fps animations.
+- **Favicon & PWA icons** generated (ICO, PNG 16/32, Apple touch, Android 192/512, `site.webmanifest`).
+- **Font loading** via `next/font` (self‑hosted Geist).
+
+### Accessibility & UX
+- Semantic HTML5 (`header`, `nav`, `main`, `section`, `footer`, `article`, `dl/dt/dd` for FAQ).
+- ARIA labels on carousel, mobile menu, links.
+- Focus‑visible outlines, colour contrast compliant.
+- Keyboard navigation on carousel (←/→), touch swipe support.
+- Reduced‑motion friendly (animations respect `prefers-reduced-motion` via Tailwind defaults).
+
 ## Pending / To‑Do (🔲)
 
 | Area | Tasks |
@@ -59,7 +106,6 @@
 | **Automated Accessibility (axe)** | ChromeDriver version mismatch – install matching driver (`npx browser-driver-manager install chrome`) and re‑run. |
 | **Image Optimisation** | Replace remaining placeholder images (category/product/finish) with final brand photography; ensure all `alt` texts are descriptive. |
 | **Content Review** | Verify copy with marketing (FAQ answers, TL;DR copy, CTA wording). |
-| **Internationalisation (i18n)** | Add English (or other) locale if required. |
 | **Testing** | Unit tests (Jest + React Testing Library), E2E (Cypress) for critical flows (cotizar wizard, contact form). |
 | **Analytics / Consent** | Integrate GA4 / Matomo + cookie banner respecting GDPR. |
 | **Deploy Pipeline** | GitHub Actions → build → lint → test → deploy to Vercel/Netlify. |
@@ -68,43 +114,65 @@
 ## Key Files & Directories
 ```
 app/
- ├─ layout.tsx               # Global metadata, LocalBusiness schema, fonts
- ├─ page.tsx                 # Home (Hero + Services + Footer)
+ ├─ layout.tsx               # Global metadata, LocalBusiness schema, fonts, SplashScreen
+ ├─ page.tsx                 # Root redirect → /es
+ ├─ middleware.ts            # Locale detection & rewrite
  ├─ not-found.tsx
- ├─ productos/
- │   ├─ page.tsx             # metadata + ProductosPage
- │   └─ ProductosPage.tsx    # TL;DR, early CTA, FAQ, categories, featured
- ├─ servicios/
- │   ├─ page.tsx
- │   └─ ServiciosPage.tsx
- ├─ nosotros/
- │   ├─ page.tsx
- │   └─ NosotrosPage.tsx
- ├─ acabados-tapices/
- │   ├─ page.tsx
- │   └─ AcabadosPage.tsx
- ├─ contacto/
- │   ├─ page.tsx
- │   └─ ContactoPage.tsx
- ├─ cotizar/
- │   ├─ page.tsx
- │   └─ CotizarPage.tsx
- └─ components/
-     ├─ ui/
-     │   ├─ KeyTakeaways.tsx
-     │   ├─ EarlyCTA.tsx
-     │   ├─ FAQSection.tsx
-     │   └─ CoverflowCarousel.tsx
-     ├─ layout/
-     │   ├─ Navbar.tsx
-     │   ├─ NavBrand.tsx
-     │   ├─ NavLinks.tsx
-     │   ├─ MobileMenuButton.tsx
-     │   ├─ MobileDrawer.tsx
-     │   └─ Footer.tsx
-     └─ home/
-         ├─ Hero.tsx
-         └─ Services.tsx
+ ├─ [locale]/
+ │   ├─ layout.tsx           # Locale-aware Navbar, Footer, JSON-LD
+ │   ├─ page.tsx             # Home (Hero, Services, About, NewProducts, WhyChoose)
+ │   ├─ products/
+ │   │   ├─ page.tsx
+ │   │   ├─ ProductosPage.tsx
+ │   │   └─ [linea]/page.tsx
+ │   ├─ servicios/
+ │   │   ├─ page.tsx
+ │   │   └─ ServiciosPage.tsx
+ │   ├─ nosotros/
+ │   │   ├─ page.tsx
+ │   │   └─ NosotrosPage.tsx
+ │   ├─ acabados-tapices/
+ │   │   ├─ page.tsx
+ │   │   └─ AcabadosPage.tsx
+ │   ├─ contacto/
+ │   │   ├─ page.tsx
+ │   │   └─ ContactoPage.tsx
+ │   ├─ cotizar/
+ │   │   ├─ page.tsx
+ │   │   └─ CotizarPage.tsx
+ │   ├─ aviso-privacidad/page.tsx
+ │   └─ descargas/page.tsx
+ ├─ components/
+ │   ├─ ui/
+ │   │   ├─ SplashScreen.tsx          # NEW
+ │   │   ├─ Grainient.tsx             # ReactBits (MCP)
+ │   │   ├─ GrainientBackground.tsx   # Configurable
+ │   │   ├─ Icons.tsx
+ │   │   ├─ CircularGallery.tsx
+ │   │   ├─ KeyTakeaways.tsx
+ │   │   ├─ EarlyCTA.tsx
+ │   │   ├─ FAQSection.tsx
+ │   │   └─ CoverflowCarousel.tsx
+ │   ├─ layout/
+ │   │   ├─ Navbar.tsx
+ │   │   ├─ NavBrand.tsx
+ │   │   ├─ NavMenu.tsx
+ │   │   └─ Footer.tsx
+ │   └─ home/
+ │       ├─ Hero.tsx                  # Overhauled (h1/h2, locale nav)
+ │       ├─ Services.tsx
+ │       ├─ About.tsx                 # NEW
+ │       ├─ NewProducts.tsx           # NEW
+ │       └─ WhyChoose.tsx             # NEW
+ ├─ lib/
+ │   └─ i18n.ts                       # t(locale, key) helper
+ ├─ messages/
+ │   ├─ es.json
+ │   └─ en.json
+ └─ data/
+     └─ empresa.ts                    # Brand data, esNuevo flags
+scripts/
+ └─ rebrand-ecotay-to-gecotay.mjs     # Automated rebrand
 public/
  ├─ images/
  │   ├─ logo/*.webp
@@ -136,4 +204,4 @@ npx @axe-core/cli http://localhost:3000
 ```
 
 ---
-*Generated on 2026‑08‑20 – reflects state after commit **38b0220** (SEO audit implementation).*
+*Generated on 2026‑08‑21 – reflects state after commit **pending** (i18n, SEO overhaul, brand unification, Grainient MCP, Splash Screen).*

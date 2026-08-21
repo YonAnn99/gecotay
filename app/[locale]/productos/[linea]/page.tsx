@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ linea: st
   const producto = LINEAS_PRODUCTO.find((l) => l.slug === linea);
   if (!producto) return {};
   return {
-    title: `${producto.nombre} | Grupo Ecotay`,
+    title: `${producto.nombre} | Grupo Gecotay`,
     description: `${producto.descripcion} Precios desde ${formatMXN(producto.precioDesde)} MXN + IVA.`,
   };
 }
@@ -58,7 +58,7 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(`Hola Grupo Ecotay, me interesa cotizar la ${producto.nombre}.`)}`}
+                  href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(`Hola Grupo Gecotay, me interesa cotizar la ${producto.nombre}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors"

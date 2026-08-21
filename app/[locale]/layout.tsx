@@ -20,9 +20,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Grupo Ecotay | Fabricación y venta de mobiliario de oficina",
+  title: "Grupo Gecotay | Fabricación y venta de mobiliario de oficina",
   description:
-    "Grupo Ecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
+    "Grupo Gecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -48,8 +48,8 @@ export const viewport: Viewport = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Grupo Ecotay S.A.S. de C.V.",
-  legalName: "GRUPO ECOTAY S.A.S. de C.V.",
+  name: "Grupo Gecotay S.A.S. de C.V.",
+  legalName: "GRUPO GECOTAY S.A.S. de C.V.",
   slogan: "Su espacio en nuestras manos...",
   url: EMPRESA.url,
   logo: "/images/logo/logo-horizontal-color.webp",
