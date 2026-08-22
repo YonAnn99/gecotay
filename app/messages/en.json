@@ -34,5 +34,36 @@
     "supportDesc": "Dedicated account executive",
     "coverage": "Nationwide coverage",
     "coverageDesc": "Shipping across Mexico"
+  },
+  "nav": {
+    "inicio": "Home",
+    "productos": "Products",
+    "servicios": "Services",
+    "nosotros": "About Us",
+    "acabados": "Finishes & Fabrics",
+    "contacto": "Contact",
+    "menu": "Menu",
+    "abrir": "Open menu",
+    "cerrar": "Close menu",
+    "navegacion": "Main navigation"
+  },
+  "footer": {
+    "explora": "Explore",
+    "informacion": "Information",
+    "descripcion": "Manufacturing and sales of office, home and workspace furniture.",
+    "descargas": "Downloads",
+    "cotizar": "Request a quote",
+    "acabados": "Finishes & Fabrics",
+    "aviso": "Privacy Notice",
+    "politicas": "Sales Policies",
+    "contactoTitulo": "Contact",
+    "derechos": "All rights reserved."
+  },
+  "cookies": {
+    "titulo": "Cookie Use",
+    "mensaje": "This site uses functional local storage only, to remember your preferences (such as this cookie choice). We do not use third-party analytics or advertising cookies.",
+    "aceptar": "Accept",
+    "rechazar": "Reject",
+    "aviso": "Read the privacy notice"
   }
 }

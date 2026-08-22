@@ -53,12 +53,12 @@
 
 ### Internationalisation (i18n) – NEW ✅
 - **Locale-based routing** via `[locale]` segment (`es` default, `en` supported).
-- **Middleware** (`app/middleware.ts`) detects `Accept-Language`, sets `NEXT_LOCALE` cookie, rewrites `/` → `/es` (or `/en`).
-- **Root redirect page** (`app/page.tsx`) as fallback: `redirect('/es')`.
+- **Proxy** (`proxy.ts`, raíz del proyecto) detects `Accept-Language`, sets `NEXT_LOCALE` cookie, redirects `/` → `/es` (or `/en`). *Next.js 16 renombró Middleware → Proxy; `middleware.ts` ya no es una convención válida.*
 - **All internal links** prefixed with locale (`/${locale}/…`).
 - **Message catalogs** (`app/messages/es.json`, `en.json`) + tiny `t(locale, key)` helper in `app/lib/i18n.ts`.
 - **Page metadata** includes `alternates.languages` for `hreflang`.
 - **Schema.org** `legalName` updated to localized brand.
+- **Chrome i18n completo**: `NavMenu`, `NavBrand`, `Footer` y `CookieBanner` consumen catálogos (`nav.*`, `footer.*`, `cookies.*`). *El contenido profundo de páginas sigue en español (pendiente revisión con marketing).*
 
 ### Homepage SEO Overhaul – NEW ✅
 - **Hero section** now has semantic hierarchy: `<h1>` (brand + keywords), `<h2>` (slogan), descriptive `<p>`, two CTAs (Cotizar, Ver Productos).
@@ -79,11 +79,11 @@
   - `colorBalance: -0.35`, `blendSoftness: 0.28`, `rotationAmount: 260` → white appears only as a faint highlight.
 - Future updates via `npx shadcn@latest add @react-bits/Grainient-TS-TW`.
 
-### Splash Screen / Preloader – NEW ✅
-- **`app/components/ui/SplashScreen.tsx`** – full-screen white overlay, centered logo (`logo-horizontal-color.webp`) + “BIENVENIDO”.
-- Shows for **2.5 s**, then 700 ms fade-out; `pointer-events: none` when hidden.
-- Rendered at root layout (`app/layout.tsx`) so it appears on first load for both locales.
-- Accessible (`role="status" aria-label="Cargando"`), respects `prefers-reduced-motion`.
+### Splash Screen / Preloader – NEW ✅ (reworked 2026-08-22)
+- **`app/components/ui/SplashScreen.tsx`** – full-screen white overlay, centered logo (`logo-horizontal-color.webp`, ratio intrínseco real 436×280) + “BIENVENIDO”.
+- Solo se muestra **una vez por sesión** (`sessionStorage`), dura 1.5 s + fade 0.4 s; renderiza `null` en SSR (no bloquea LCP).
+- Respeta `prefers-reduced-motion` (se omite por completo).
+- Montado en el root layout (`app/[locale]/layout.tsx`).
 
 ### Performance & Assets
 - **All images converted to WebP** (cwebp q80) and served via `next/image` with proper `sizes` & `loading` (eager for hero/carousel center, lazy for others).
@@ -97,6 +97,19 @@
 - Focus‑visible outlines, colour contrast compliant.
 - Keyboard navigation on carousel (←/→), touch swipe support.
 - Reduced‑motion friendly (animations respect `prefers-reduced-motion` via Tailwind defaults).
+
+## Architectural Fixes – 2026-08-22 ✅
+
+| Fix | Detalle |
+|-----|---------|
+| **Doble `<html>/<body>` eliminado** | `app/layout.tsx` y `app/page.tsx` borrados; `app/[locale]/layout.tsx` es ahora el **root layout único** (patrón oficial i18n de Next). Incluye fuentes, globals.css, metadata, viewport, SplashScreen, schema JSON-LD. Verificado: un solo `<html lang="es">`. |
+| **Middleware → Proxy** | Next.js 16 renombró la convención: `app/middleware.ts` se ignoraba silenciosamente (las redirecciones de locale nunca funcionaron; lo enmascaraba el root redirect). Ahora vive en `proxy.ts` (raíz) con export `proxy()`. Verificado: `/` → `307 /es/`. |
+| **Sitemap dinámico + robots** | `public/sitemap.xml` eliminado. Nuevo `app/sitemap.ts`: URLs por locale (`/es/…`, `/en/…`) con `xhtml:link hreflang`, incluye las líneas de producto dinámicamente desde `LINEAS_PRODUCTO`. Nuevo `app/robots.ts` (`/robots.txt`). |
+| **Schema corregido** | `"@type": "LocalBusiness"` (antes Organization) con URLs absolutas vía `metadataBase: new URL(EMPRESA.url)`. |
+| **SplashScreen rework** | Ratio intrínseco real del logo (436×280, antes 280×81 → warning de next/image); una vez por sesión, 1.5 s + fade 0.4 s (antes 2.5 s fijos), sin SSR (LCP), reduced-motion friendly. `NavBrand` y `Footer` también con dims correctas. |
+| **i18n chrome completo** | Catálogos ampliados (`nav.*`, `footer.*`, `cookies.*`); `NavMenu`, `Footer` y `CookieBanner` localizados (CookieBanner además tenía links sin prefijo de locale). |
+| **Lint limpio** | 0 errores (4 `any`/`<a>`→`<Link>` corregidos); `.agents/**` excluido en `eslint.config.mjs`. Quedan solo 2 warnings del código vendoreado de ReactBits (`Grainient.tsx`). |
+| **Nav responsive** | Islands del nav reposicionadas para móviles: `top-5 left-4/right-4` con tamaños reducidos < 640px (antes `left-30/right-30` se solapaban/overflow en pantallas pequeñas); etiqueta del menú oculta < 420 px. |
 
 ## Pending / To‑Do (🔲)
 
@@ -113,13 +126,12 @@
 
 ## Key Files & Directories
 ```
+proxy.ts                     # Locale detection & redirect (Next 16 "Proxy", ex-middleware)
 app/
- ├─ layout.tsx               # Global metadata, LocalBusiness schema, fonts, SplashScreen
- ├─ page.tsx                 # Root redirect → /es
- ├─ middleware.ts            # Locale detection & rewrite
- ├─ not-found.tsx
+ ├─ sitemap.ts               # Sitemap dinámico por locale + hreflang
+ ├─ robots.ts                # /robots.txt
  ├─ [locale]/
- │   ├─ layout.tsx           # Locale-aware Navbar, Footer, JSON-LD
+ │   ├─ layout.tsx           # ROOT LAYOUT: html/body, fonts, metadata, SplashScreen, JSON-LD
  │   ├─ page.tsx             # Home (Hero, Services, About, NewProducts, WhyChoose)
  │   ├─ products/
  │   │   ├─ page.tsx
@@ -182,8 +194,8 @@ public/
  │   ├─ products/*.webp
  │   └─ finishes/*.webp
  ├─ favicon.ico, *.png, *.webmanifest
- └─ sitemap.xml
 ```
+> Nota: el sitemap ya no es un archivo estático en `public/` — se genera en `/sitemap.xml` vía `app/sitemap.ts`.
 
 ## How to Run Locally
 ```bash
@@ -204,4 +216,4 @@ npx @axe-core/cli http://localhost:3000
 ```
 
 ---
-*Generated on 2026‑08‑21 – reflects state after commit **pending** (i18n, SEO overhaul, brand unification, Grainient MCP, Splash Screen).*
+*Generated on 2026‑08‑21 · Updated 2026‑08‑22 – architectural fixes (single root layout, Proxy migration, dynamic sitemap/robots, splash rework, chrome i18n, lint clean, mobile nav fix).*

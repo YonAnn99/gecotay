@@ -44,7 +44,11 @@ const faqs = [
   { q: "¿Qué incluye el presupuesto?", a: "Planos, renders, memoria de calidades, desglose por partidas, planning, condiciones de pago y garantías." },
 ];
 
-export default function CotizarPage() {
+interface CotizarPageProps {
+  locale: string;
+}
+
+export default function CotizarPage({ locale }: CotizarPageProps) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     nombre: "", email: "", telefono: "", empresa: "", cargo: "",
@@ -236,7 +240,7 @@ export default function CotizarPage() {
       </div>
       <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary">
         <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        Al enviar, aceptas nuestro <a href="/aviso-privacidad" className="underline hover:text-primary-dark">Aviso de privacidad</a>. Trataremos tus datos para responder a tu solicitud de presupuesto.
+        Al enviar, aceptas nuestro <Link href={`/${locale}/aviso-privacidad`} className="underline hover:text-primary-dark">Aviso de privacidad</Link>. Trataremos tus datos para responder a tu solicitud de presupuesto.
       </div>
       {status === "success" && (
         <div className="p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">

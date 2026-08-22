@@ -14,9 +14,10 @@ export default function NavBrand({ locale }: NavBrandProps) {
     <Link
       href={`/${locale}`}
       aria-label="GECOTAY - Inicio"
-      className="fixed top-10 left-30 z-50
+      className="fixed top-5 left-4 z-50
         flex items-center justify-center
-        w-40 h-16
+        w-28 max-[379px]:w-24 h-12
+        sm:top-10 sm:left-30 sm:w-40 sm:h-16
         rounded-2xl
         bg-ink/75
         backdrop-blur-2xl
@@ -28,10 +29,10 @@ export default function NavBrand({ locale }: NavBrandProps) {
       <Image
         src="/images/logo/logo-horizontal-white.webp"
         alt=""
-        width={200}
-        height={58}
+        width={436}
+        height={280}
         priority
-        className="h-9 w-auto sm:h-10 scale-220"
+        className="h-8 w-auto sm:h-10 scale-220"
       />
     </Link>
   );

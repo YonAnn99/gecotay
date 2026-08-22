@@ -1,13 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
+import { notFound } from "next/navigation";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import CookieBanner from "../components/CookieBanner";
 import WhatsAppFloat from "../components/ui/WhatsAppFloat";
 import GrainientBackground from "../components/ui/GrainientBackground";
-import Script from "next/script";
+import SplashScreen from "../components/ui/SplashScreen";
 import { EMPRESA, CONTACTO } from "../data/empresa";
 import "../globals.css";
+
+const locales = ["es", "en"];
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,8 +23,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
 export const metadata: Metadata = {
-  title: "Grupo Gecotay | Fabricación y venta de mobiliario de oficina",
+  metadataBase: new URL(EMPRESA.url),
+  title: {
+    default: "Grupo Gecotay | Fabricación y venta de mobiliario de oficina",
+    template: "%s | Grupo Gecotay",
+  },
   description:
     "Grupo Gecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
   icons: {
@@ -47,13 +59,13 @@ export const viewport: Viewport = {
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "LocalBusiness",
   name: "Grupo Gecotay S.A.S. de C.V.",
   legalName: "GRUPO GECOTAY S.A.S. de C.V.",
   slogan: "Su espacio en nuestras manos...",
   url: EMPRESA.url,
-  logo: "/images/logo/logo-horizontal-color.webp",
-  image: "/images/logo/logo-horizontal-color.webp",
+  logo: `${EMPRESA.url}/images/logo/logo-horizontal-color.webp`,
+  image: `${EMPRESA.url}/images/logo/logo-horizontal-color.webp`,
   taxID: EMPRESA.rfc,
   telephone: "+525550270661",
   email: CONTACTO.correos.ventas,
@@ -97,23 +109,24 @@ interface LocaleLayoutProps {
 
 export default async function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const { locale } = await params;
+  if (!locales.includes(locale)) notFound();
+
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <head>
+      <body className="min-h-full flex flex-col">
+        <SplashScreen />
+        <GrainientBackground />
+        <Navbar locale={locale} />
+        <WhatsAppFloat />
+        <main className="flex-1">{children}</main>
+        <Footer locale={locale} />
+        <CookieBanner locale={locale} />
         <Script
           id="schema-org"
           type="application/ld+json"
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
         />
-      </head>
-      <body className="min-h-full flex flex-col">
-        <GrainientBackground />
-        <Navbar locale={locale} />
-        <WhatsAppFloat />
-        <main className="flex-1">{children}</main>
-        <Footer locale={locale} />
-        <CookieBanner />
       </body>
     </html>
   );

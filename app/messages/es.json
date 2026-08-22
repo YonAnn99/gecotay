@@ -34,5 +34,36 @@
     "supportDesc": "Ejecutivo dedicado por proyecto",
     "coverage": "Cobertura nacional",
     "coverageDesc": "Envíos a todo México"
+  },
+  "nav": {
+    "inicio": "Inicio",
+    "productos": "Productos",
+    "servicios": "Servicios",
+    "nosotros": "Nosotros",
+    "acabados": "Acabados y tapices",
+    "contacto": "Contacto",
+    "menu": "Menú",
+    "abrir": "Abrir menú",
+    "cerrar": "Cerrar menú",
+    "navegacion": "Navegación principal"
+  },
+  "footer": {
+    "explora": "Explora",
+    "informacion": "Información",
+    "descripcion": "Fabricación y venta de mobiliario de oficina, hogar y espacios de trabajo.",
+    "descargas": "Descargas",
+    "cotizar": "Solicitar presupuesto",
+    "acabados": "Acabados y tapices",
+    "aviso": "Aviso de privacidad",
+    "politicas": "Políticas de venta",
+    "contactoTitulo": "Contacto",
+    "derechos": "Todos los derechos reservados."
+  },
+  "cookies": {
+    "titulo": "Uso de cookies",
+    "mensaje": "Este sitio utiliza únicamente almacenamiento local funcional para recordar tus preferencias (por ejemplo, esta elección de cookies). No usamos cookies de análisis ni de publicidad de terceros.",
+    "aceptar": "Aceptar",
+    "rechazar": "Rechazar",
+    "aviso": "Ver aviso de privacidad"
   }
 }

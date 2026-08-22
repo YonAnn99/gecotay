@@ -11,7 +11,7 @@ interface NewProductsProps {
 }
 
 // Choose 6 lines flagged as new (esNuevo) or fallback to latest few
-const NEW_PRODUCT_LINES = LINEAS_PRODUCTO.filter((l) => (l as any).esNuevo).slice(0, 6);
+const NEW_PRODUCT_LINES = LINEAS_PRODUCTO.filter((l) => l.esNuevo).slice(0, 6);
 
 export default function NewProducts({ locale }: NewProductsProps) {
   return (

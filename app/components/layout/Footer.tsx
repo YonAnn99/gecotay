@@ -4,10 +4,20 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { EMPRESA, CONTACTO, REDES, NAVEGACION } from "../../data/empresa";
+import { t } from "../../lib/i18n";
 
 interface FooterProps {
   locale: string;
 }
+
+const navLabelKeys: Record<string, string> = {
+  "/": "nav.inicio",
+  "/productos": "nav.productos",
+  "/servicios": "nav.servicios",
+  "/nosotros": "nav.nosotros",
+  "/acabados-tapices": "nav.acabados",
+  "/contacto": "nav.contacto",
+};
 
 const socialLinks = [
   {
@@ -33,7 +43,8 @@ export default function Footer({ locale }: FooterProps) {
 
   const prefixedNav = NAVEGACION.principal.map(link => ({
     ...link,
-    href: `/${locale}${link.href}`
+    href: `/${locale}${link.href}`,
+    label: navLabelKeys[link.href] ? t(locale, navLabelKeys[link.href]) : link.label
   }));
 
   return (
@@ -48,10 +59,10 @@ export default function Footer({ locale }: FooterProps) {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 mb-12">
           <motion.div className="col-span-2 lg:col-span-1" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }}>
             <Link href={`/${locale}`} className="flex items-center gap-2 mb-4" aria-label={`${EMPRESA.nombre} - Inicio`}>
-              <Image src="/images/logo/logo-horizontal-white.webp" alt="" width="140" height="40" className="h-10 w-auto" priority />
+              <Image src="/images/logo/logo-horizontal-white.webp" alt="" width={140} height={90} className="h-10 w-auto" priority />
             </Link>
             <p className="text-sm text-gray-400 mb-4">
-              {EMPRESA.nombre}. Fabricación y venta de mobiliario de oficina, hogar y espacios de trabajo.
+              {t(locale, "footer.descripcion")}
             </p>
             <p className="text-sm text-gray-500 mb-6">{CONTACTO.direccionCompleta}</p>
             <div className="flex gap-4">
@@ -71,7 +82,7 @@ export default function Footer({ locale }: FooterProps) {
           </motion.div>
 
           <motion.nav initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.15 }}>
-            <h4 className="font-semibold text-white mb-4">Explora</h4>
+            <h4 className="font-semibold text-white mb-4">{t(locale, "footer.explora")}</h4>
             <ul className="space-y-2">
               {prefixedNav.map((link) => (
                 <li key={link.href}>
@@ -84,28 +95,28 @@ export default function Footer({ locale }: FooterProps) {
           </motion.nav>
 
           <motion.nav initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}>
-            <h4 className="font-semibold text-white mb-4">Información</h4>
+            <h4 className="font-semibold text-white mb-4">{t(locale, "footer.informacion")}</h4>
             <ul className="space-y-2">
               <li>
-                <Link href={`/${locale}/descargas`} className="text-sm hover:text-primary transition-colors duration-200">Descargas</Link>
+                <Link href={`/${locale}/descargas`} className="text-sm hover:text-primary transition-colors duration-200">{t(locale, "footer.descargas")}</Link>
               </li>
               <li>
-                <Link href={`/${locale}/cotizar`} className="text-sm hover:text-primary transition-colors duration-200">Solicitar presupuesto</Link>
+                <Link href={`/${locale}/cotizar`} className="text-sm hover:text-primary transition-colors duration-200">{t(locale, "footer.cotizar")}</Link>
               </li>
               <li>
-                <Link href={`/${locale}/acabados-tapices`} className="text-sm hover:text-primary transition-colors duration-200">Acabados y tapices</Link>
+                <Link href={`/${locale}/acabados-tapices`} className="text-sm hover:text-primary transition-colors duration-200">{t(locale, "footer.acabados")}</Link>
               </li>
               <li>
-                <Link href={`/${locale}/aviso-privacidad`} className="text-sm hover:text-primary transition-colors duration-200">Aviso de privacidad</Link>
+                <Link href={`/${locale}/aviso-privacidad`} className="text-sm hover:text-primary transition-colors duration-200">{t(locale, "footer.aviso")}</Link>
               </li>
               <li>
-                <Link href={`/${locale}/contacto#politicas`} className="text-sm hover:text-primary transition-colors duration-200">Políticas de venta</Link>
+                <Link href={`/${locale}/contacto#politicas`} className="text-sm hover:text-primary transition-colors duration-200">{t(locale, "footer.politicas")}</Link>
               </li>
             </ul>
           </motion.nav>
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.25 }}>
-            <h4 className="font-semibold text-white mb-4">Contacto</h4>
+            <h4 className="font-semibold text-white mb-4">{t(locale, "footer.contactoTitulo")}</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href={`tel:+52${CONTACTO.telefono1.replace(/\s/g, "")}`} className="hover:text-primary transition-colors duration-200">
@@ -139,14 +150,14 @@ export default function Footer({ locale }: FooterProps) {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <p className="text-sm text-gray-500">
-            © {currentYear} {EMPRESA.nombre}. Todos los derechos reservados.
+            © {currentYear} {EMPRESA.nombre}. {t(locale, "footer.derechos")}
           </p>
           <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-            <Link href={`/${locale}/aviso-privacidad`} className="hover:text-primary transition-colors">Aviso de privacidad</Link>
+            <Link href={`/${locale}/aviso-privacidad`} className="hover:text-primary transition-colors">{t(locale, "footer.aviso")}</Link>
             <span aria-hidden="true">·</span>
-            <Link href={`/${locale}/contacto#politicas`} className="hover:text-primary transition-colors">Políticas de venta</Link>
+            <Link href={`/${locale}/contacto#politicas`} className="hover:text-primary transition-colors">{t(locale, "footer.politicas")}</Link>
             <span aria-hidden="true">·</span>
-            <Link href={`/${locale}/descargas`} className="hover:text-primary transition-colors">Descargas</Link>
+            <Link href={`/${locale}/descargas`} className="hover:text-primary transition-colors">{t(locale, "footer.descargas")}</Link>
           </div>
         </motion.div>
       </motion.div>

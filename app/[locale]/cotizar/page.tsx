@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function CotizarLayout() {
-  return <CotizarPage />;
+export default async function CotizarLayout({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return <CotizarPage locale={locale} />;
 }
