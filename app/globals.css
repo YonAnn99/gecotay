@@ -57,10 +57,8 @@ body {
   animation: splash-text-in 500ms cubic-bezier(0.23, 1, 0.32, 1) 400ms both;
 }
 
-.splash-bar {
-  animation: splash-bar-fill 5000ms linear both;
-  box-shadow: 0 0 12px rgba(170, 198, 55, 0.6);
-}
+/* Bar progress is driven from React via inline transition (phases:
+   0 -> 0.85 while loading, -> 1 when the page is ready). */
 
 @keyframes splash-overlay-in {
   from { opacity: 0; }
@@ -82,20 +80,10 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes splash-bar-fill {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .splash-overlay,
   .splash-logo,
-  .splash-text,
-  .splash-bar {
+  .splash-text {
     animation-duration: 200ms;
-  }
-
-  .splash-bar {
-    animation-duration: 5000ms;
   }
 }
