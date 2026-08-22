@@ -19,3 +19,83 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ─── Splash screen (runs on the compositor while the page hydrates) ─── */
+
+.splash-overlay {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 45%,
+    #171d10 0%,
+    var(--color-ink) 55%,
+    #0a0c08 100%
+  );
+  animation: splash-overlay-in 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.splash-overlay-out {
+  animation: splash-overlay-out 500ms ease-out both;
+}
+
+.splash-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(32rem, 90vw);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -58%);
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(170, 198, 55, 0.14) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.splash-logo {
+  animation: splash-logo-in 600ms cubic-bezier(0.23, 1, 0.32, 1) 100ms both;
+  filter: drop-shadow(0 8px 32px rgba(0, 0, 0, 0.45));
+}
+
+.splash-text {
+  animation: splash-text-in 500ms cubic-bezier(0.23, 1, 0.32, 1) 400ms both;
+}
+
+.splash-bar {
+  animation: splash-bar-fill 5000ms linear both;
+  box-shadow: 0 0 12px rgba(170, 198, 55, 0.6);
+}
+
+@keyframes splash-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes splash-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes splash-logo-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes splash-text-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-bar-fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-overlay,
+  .splash-logo,
+  .splash-text,
+  .splash-bar {
+    animation-duration: 200ms;
+  }
+
+  .splash-bar {
+    animation-duration: 5000ms;
+  }
+}
