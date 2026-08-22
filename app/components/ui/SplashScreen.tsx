@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const SPLASH_KEY = "gecotay-splash-shown";
 const SHOW_MS = 1500;
 const FADE_MS = 400;
 
@@ -12,9 +11,8 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || sessionStorage.getItem(SPLASH_KEY)) return;
+    if (reduced) return;
 
-    sessionStorage.setItem(SPLASH_KEY, "1");
     const raf = requestAnimationFrame(() => setState("visible"));
     const showTimer = setTimeout(() => setState("fading"), SHOW_MS);
     const fadeTimer = setTimeout(() => setState("hidden"), SHOW_MS + FADE_MS);

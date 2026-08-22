@@ -6,11 +6,11 @@ import NewProducts from "../components/home/NewProducts";
 import WhyChoose from "../components/home/WhyChoose";
 
 interface PageProps {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const locale = params.locale;
+  const { locale } = await params;
   const isEs = locale === "es";
   return {
     title: isEs
@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default function Home({ params }: PageProps) {
-  const locale = params.locale;
+export default async function Home({ params }: PageProps) {
+  const { locale } = await params;
   return (
     <>
       <Hero locale={locale} />

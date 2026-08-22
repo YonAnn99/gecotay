@@ -81,7 +81,7 @@
 
 ### Splash Screen / Preloader – NEW ✅ (reworked 2026-08-22)
 - **`app/components/ui/SplashScreen.tsx`** – full-screen white overlay, centered logo (`logo-horizontal-color.webp`, ratio intrínseco real 436×280) + “BIENVENIDO”.
-- Solo se muestra **una vez por sesión** (`sessionStorage`), dura 1.5 s + fade 0.4 s; renderiza `null` en SSR (no bloquea LCP).
+- Solo se muestra **en cada recarga** (decisión del usuario; quitar el gate de `sessionStorage` si se prefiere once-per-session), dura 1.5 s + fade 0.4 s; renderiza `null` en SSR (no bloquea LCP inicial).
 - Respeta `prefers-reduced-motion` (se omite por completo).
 - Montado en el root layout (`app/[locale]/layout.tsx`).
 
@@ -106,8 +106,9 @@
 | **Middleware → Proxy** | Next.js 16 renombró la convención: `app/middleware.ts` se ignoraba silenciosamente (las redirecciones de locale nunca funcionaron; lo enmascaraba el root redirect). Ahora vive en `proxy.ts` (raíz) con export `proxy()`. Verificado: `/` → `307 /es/`. |
 | **Sitemap dinámico + robots** | `public/sitemap.xml` eliminado. Nuevo `app/sitemap.ts`: URLs por locale (`/es/…`, `/en/…`) con `xhtml:link hreflang`, incluye las líneas de producto dinámicamente desde `LINEAS_PRODUCTO`. Nuevo `app/robots.ts` (`/robots.txt`). |
 | **Schema corregido** | `"@type": "LocalBusiness"` (antes Organization) con URLs absolutas vía `metadataBase: new URL(EMPRESA.url)`. |
-| **SplashScreen rework** | Ratio intrínseco real del logo (436×280, antes 280×81 → warning de next/image); una vez por sesión, 1.5 s + fade 0.4 s (antes 2.5 s fijos), sin SSR (LCP), reduced-motion friendly. `NavBrand` y `Footer` también con dims correctas. |
+| **SplashScreen rework** | Ratio intrínseco real del logo (436×280, antes 280×81 → warning de next/image); **se muestra en cada recarga** (decisión del usuario), 1.5 s + fade 0.4 s (antes 2.5 s fijos), sin SSR (LCP), reduced-motion friendly. `NavBrand` y `Footer` también con dims correctas. |
 | **i18n chrome completo** | Catálogos ampliados (`nav.*`, `footer.*`, `cookies.*`); `NavMenu`, `Footer` y `CookieBanner` localizados (CookieBanner además tenía links sin prefijo de locale). |
+| **`params` async en páginas** | En Next.js 16 `params` es una Promise: corregido `app/[locale]/page.tsx` (`await params` en `generateMetadata` y `Home`; el resto de páginas ya lo hacía bien — verificado con grep). |
 | **Lint limpio** | 0 errores (4 `any`/`<a>`→`<Link>` corregidos); `.agents/**` excluido en `eslint.config.mjs`. Quedan solo 2 warnings del código vendoreado de ReactBits (`Grainient.tsx`). |
 | **Nav responsive** | Islands del nav reposicionadas para móviles: `top-5 left-4/right-4` con tamaños reducidos < 640px (antes `left-30/right-30` se solapaban/overflow en pantallas pequeñas); etiqueta del menú oculta < 420 px. |
 
@@ -115,6 +116,8 @@
 
 | Area | Tasks |
 |------|-------|
+| **Convenciones Next.js 16** | Recordar al agregar páginas nuevas: `params`/`searchParams` son **Promises** (`await`), el proxy es `proxy.ts` (no `middleware.ts`), y revisar `node_modules/next/dist/docs/` antes de usar APIs — hay breaking changes vs. Next 15. |
+| **Splash en móviles lentos** | Con splash en cada recarga, medir impacto real en LCP móvil con Lighthouse; considerar reducir a <1 s si penaliza. |
 | **Lighthouse / Core Web Vitals** | Full CI run (performance ≥ 90, accessibility ≥ 90, best practices ≥ 90, SEO ≥ 90). Current local run timed‑out; need stable ChromeDriver. |
 | **Automated Accessibility (axe)** | ChromeDriver version mismatch – install matching driver (`npx browser-driver-manager install chrome`) and re‑run. |
 | **Image Optimisation** | Replace remaining placeholder images (category/product/finish) with final brand photography; ensure all `alt` texts are descriptive. |
