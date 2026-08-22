@@ -70,7 +70,7 @@ export default function SplashScreen() {
     >
       <div className="splash-glow" aria-hidden="true" />
 
-      <div className="relative flex flex-col items-center px-6 text-center">
+      <div className="relative flex flex-col items-center px-6 text-center translate-y-3">
         <Image
           src="/images/logo/logo-horizontal-white.webp"
           alt="Grupo Gecotay"
@@ -79,7 +79,7 @@ export default function SplashScreen() {
           priority
           className="splash-logo w-44 sm:w-56 h-auto"
         />
-        <p className="splash-text mt-8 text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
+        <p className="splash-text mt-8 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
           Bienvenido
         </p>
         <div
