@@ -1,45 +1,67 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
-import Image from "next/image";
+import { useEffect, useSyncExternalStore } from "react";
 
 const MIN_SHOW_MS = 2500;
 const MAX_SHOW_MS = 7000;
 const FADE_MS = 500;
 const BAR_FILL_MS = 300;
 
-// Hydration gate: server and first client render agree on `false`, so the
-// splash never participates in hydration. It mounts right after.
+// Hydration gate: this component renders null on the server AND on the
+// first client render. The splash itself lives in the SSR HTML (see the
+// locale layout) so it paints with the first byte; this component only
+// controls its lifecycle via DOM once mounted.
 const emptySubscribe = () => () => {};
 const getHydrated = () => true;
 const getNotHydrated = () => false;
 
 export default function SplashScreen() {
   const hydrated = useSyncExternalStore(emptySubscribe, getHydrated, getNotHydrated);
-  const [mounted, setMounted] = useState(false);
-  const [full, setFull] = useState(false);
-  const [exiting, setExiting] = useState(false);
-  const [gone, setGone] = useState(false);
 
   useEffect(() => {
     if (!hydrated) return;
 
+    const splash = document.getElementById("splash");
+    if (!splash) return;
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+    if (reduced) {
+      splash.remove();
+      return;
+    }
 
-    const raf = requestAnimationFrame(() => setMounted(true));
-
+    const bar = document.getElementById("splash-bar");
     let loaded = document.readyState === "complete";
     let minElapsed = false;
     let revealing = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    const reveal = () => {
+      if (revealing) return;
+      revealing = true;
+
+      if (bar) {
+        bar.style.transitionDuration = `${BAR_FILL_MS}ms`;
+        bar.style.transitionTimingFunction = "ease-out";
+        bar.style.transform = "scaleX(1)";
+      }
+      timers.push(setTimeout(() => splash.classList.add("splash-overlay-out"), BAR_FILL_MS));
+      timers.push(setTimeout(() => splash.remove(), BAR_FILL_MS + FADE_MS));
+    };
 
     const tryReveal = () => {
-      if (revealing || !minElapsed || !loaded) return;
-      revealing = true;
-      setFull(true);
-      setTimeout(() => setExiting(true), BAR_FILL_MS);
-      setTimeout(() => setGone(true), BAR_FILL_MS + FADE_MS);
+      if (!revealing && minElapsed && loaded) reveal();
     };
+
+    // Start the bar creep once mounted (transition instead of keyframes so
+    // JS can retarget it when the page finishes loading).
+    if (bar) {
+      requestAnimationFrame(() => {
+        bar.style.transitionDuration = "1800ms";
+        bar.style.transitionTimingFunction = "linear";
+        bar.style.transform = "scaleX(0.85)";
+      });
+    }
 
     const onLoad = () => {
       loaded = true;
@@ -48,67 +70,24 @@ export default function SplashScreen() {
     if (loaded) tryReveal();
     else window.addEventListener("load", onLoad);
 
-    // The page may already be fully loaded before the brand minimum elapses:
-    // the overlay waits for it, then reveals.
-    const minTimer = setTimeout(() => {
-      minElapsed = true;
-      tryReveal();
-    }, MIN_SHOW_MS);
-    // Never trap the user behind the splash if something keeps loading.
-    const maxTimer = setTimeout(() => {
-      minElapsed = true;
-      loaded = true;
-      tryReveal();
-    }, MAX_SHOW_MS);
+    timers.push(
+      setTimeout(() => {
+        minElapsed = true;
+        tryReveal();
+      }, MIN_SHOW_MS),
+      // Never trap the user behind the splash if something keeps loading.
+      setTimeout(() => {
+        minElapsed = true;
+        loaded = true;
+        tryReveal();
+      }, MAX_SHOW_MS)
+    );
 
     return () => {
-      cancelAnimationFrame(raf);
-      clearTimeout(minTimer);
-      clearTimeout(maxTimer);
       window.removeEventListener("load", onLoad);
+      timers.forEach(clearTimeout);
     };
   }, [hydrated]);
 
-  if (!hydrated || gone) return null;
-
-  return (
-    <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center splash-overlay ${
-        exiting ? "splash-overlay-out" : ""
-      }`}
-      role="status"
-      aria-label="Cargando"
-      aria-hidden={exiting}
-    >
-      <div className="splash-glow" aria-hidden="true" />
-
-      <div className="relative flex flex-col items-center px-6 text-center">
-        <Image
-          src="/images/logo/logo-horizontal-white.webp"
-          alt="Grupo Gecotay"
-          width={436}
-          height={280}
-          priority
-          className="splash-logo w-44 sm:w-56 h-auto"
-        />
-        <p className="splash-text mt-7 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
-          Bienvenido
-        </p>
-        <div
-          className="mt-7 h-[2px] w-40 sm:w-56 overflow-hidden rounded-full bg-white/10"
-          aria-hidden="true"
-        >
-          <div
-            className="h-full w-full origin-center rounded-full bg-primary transition-transform ease-out will-change-transform"
-            style={{
-              transform: full ? "scaleX(1)" : `scaleX(${mounted ? 0.85 : 0})`,
-              transitionDuration: full ? `${BAR_FILL_MS}ms` : "1800ms",
-              transitionTimingFunction: full ? "ease-out" : "linear",
-              boxShadow: "0 0 12px rgba(170, 198, 55, 0.6)",
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  );
+  return null;
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Image from "next/image";
 import Script from "next/script";
 import { notFound } from "next/navigation";
 import Navbar from "../components/layout/Navbar";
@@ -114,6 +115,34 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   return (
     <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
+        {/* Static splash: paints with the first server byte, before any JS.
+            SplashScreen (client) controls its lifecycle via DOM. */}
+        <div id="splash" className="splash-overlay" role="status" aria-label="Cargando">
+          <div className="splash-glow" aria-hidden="true" />
+          <div className="relative flex flex-col items-center px-6 text-center">
+            <Image
+              src="/images/logo/logo-horizontal-white.webp"
+              alt="Grupo Gecotay"
+              width={436}
+              height={280}
+              priority
+              className="splash-logo w-44 sm:w-56 h-auto"
+            />
+            <p className="splash-text mt-7 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
+              Bienvenido
+            </p>
+            <div
+              className="mt-7 h-[2px] w-40 sm:w-56 overflow-hidden rounded-full bg-white/10"
+              aria-hidden="true"
+            >
+              <div
+                id="splash-bar"
+                className="h-full w-full origin-center rounded-full bg-primary will-change-transform"
+                style={{ transform: "scaleX(0)" }}
+              />
+            </div>
+          </div>
+        </div>
         <SplashScreen />
         <GrainientBackground />
         <Navbar locale={locale} />
