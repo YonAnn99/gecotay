@@ -65,5 +65,13 @@
     "aceptar": "Accept",
     "rechazar": "Reject",
     "aviso": "Read the privacy notice"
+  },
+  "search": {
+    "placeholder": "Search products, services…",
+    "label": "Open search",
+    "empty": "No results",
+    "pages": "Pages",
+    "products": "Products",
+    "services": "Services"
   }
 }

@@ -1,5 +1,6 @@
 import NavBrand from "./NavBrand";
 import NavMenu from "./NavMenu";
+import NavSearch from "./NavSearch";
 
 interface NavbarProps {
   locale: string;
@@ -12,6 +13,7 @@ export default function Navbar({ locale }: NavbarProps) {
   return (
     <header>
       <NavBrand locale={locale} />
+      <NavSearch locale={locale} />
       <NavMenu locale={locale} />
     </header>
   );

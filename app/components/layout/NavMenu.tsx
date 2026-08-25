@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { t } from "@/app/lib/i18n";
+import { SEARCH_OPEN_EVENT } from "./NavSearch";
 
 interface NavMenuProps {
   locale: string;
@@ -81,27 +82,53 @@ export default function NavMenu({ locale }: NavMenuProps) {
         transition={{ duration: 0.2, ease: "easeOut" }}
         className="w-48 max-[379px]:w-40 sm:w-60 overflow-hidden rounded-2xl bg-ink/75 backdrop-blur-2xl border border-white/10 shadow-2xl shadow-black/30"
       >
-        <button
-          type="button"
-          onClick={() => setIsOpen((prev) => !prev)}
-          aria-expanded={isOpen}
-          aria-controls="nav-menu-panel"
-          aria-label={isOpen ? t(locale, "nav.cerrar") : t(locale, "nav.abrir")}
-          className="flex w-full items-center justify-between gap-3 px-5 py-3.5 text-white transition-colors duration-200 hover:bg-white/5"
-        >
-          <span className="hidden min-[420px]:inline text-sm font-medium">{activeLabel}</span>
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10">
+        <div className="flex w-full items-stretch">
+          {/* Mobile search trigger — opens the NavSearch palette */}
+          <button
+            type="button"
+            aria-label={t(locale, "search.label")}
+            onClick={() => window.dispatchEvent(new Event(SEARCH_OPEN_EVENT))}
+            className="flex items-center justify-center px-4 text-white/70 transition-colors duration-200 hover:bg-white/5 hover:text-white lg:hidden"
+          >
             <svg
-              className={`h-4 w-4 transition-transform duration-300 ease-out ${isOpen ? "rotate-45" : "rotate-0"}`}
+              className="h-4 w-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               aria-hidden="true"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+              />
             </svg>
-          </span>
-        </button>
+          </button>
+          <div className="w-px my-3 bg-white/10 lg:hidden" aria-hidden="true" />
+
+          <button
+            type="button"
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-expanded={isOpen}
+            aria-controls="nav-menu-panel"
+            aria-label={isOpen ? t(locale, "nav.cerrar") : t(locale, "nav.abrir")}
+            className="flex flex-1 items-center justify-between gap-3 px-5 py-3.5 text-white transition-colors duration-200 hover:bg-white/5"
+          >
+            <span className="hidden min-[420px]:inline text-sm font-medium">{activeLabel}</span>
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10">
+              <svg
+                className={`h-4 w-4 transition-transform duration-300 ease-out ${isOpen ? "rotate-45" : "rotate-0"}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </span>
+          </button>
+        </div>
 
         <AnimatePresence initial={false}>
           {isOpen && (
