@@ -70,7 +70,7 @@ export default function SplashScreen() {
     >
       <div className="splash-glow" aria-hidden="true" />
 
-      <div className="relative flex flex-col items-center px-6 text-center translate-y-3">
+      <div className="relative flex flex-col items-center px-6 text-center">
         <Image
           src="/images/logo/logo-horizontal-white.webp"
           alt="Grupo Gecotay"
@@ -79,15 +79,15 @@ export default function SplashScreen() {
           priority
           className="splash-logo w-44 sm:w-56 h-auto"
         />
-        <p className="splash-text mt-8 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
+        <p className="splash-text mt-7 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
           Bienvenido
         </p>
         <div
-          className="mt-8 h-[2px] w-40 sm:w-56 overflow-hidden rounded-full bg-white/10"
+          className="mt-7 h-[2px] w-40 sm:w-56 overflow-hidden rounded-full bg-white/10"
           aria-hidden="true"
         >
           <div
-            className="h-full w-full origin-left rounded-full bg-primary transition-transform ease-out will-change-transform"
+            className="h-full w-full origin-center rounded-full bg-primary transition-transform ease-out will-change-transform"
             style={{
               transform: full ? "scaleX(1)" : `scaleX(${mounted ? 0.85 : 0})`,
               transitionDuration: full ? `${BAR_FILL_MS}ms` : "1800ms",
