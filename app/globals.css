@@ -23,6 +23,12 @@ body {
 /* ─── Splash screen (runs on the compositor while the page hydrates) ─── */
 
 .splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: radial-gradient(
     ellipse 80% 60% at 50% 45%,
     #171d10 0%,
