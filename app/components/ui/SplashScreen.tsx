@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 
 const MIN_SHOW_MS = 2500;
@@ -8,13 +8,22 @@ const MAX_SHOW_MS = 7000;
 const FADE_MS = 500;
 const BAR_FILL_MS = 300;
 
+// Hydration gate: server and first client render agree on `false`, so the
+// splash never participates in hydration. It mounts right after.
+const emptySubscribe = () => () => {};
+const getHydrated = () => true;
+const getNotHydrated = () => false;
+
 export default function SplashScreen() {
+  const hydrated = useSyncExternalStore(emptySubscribe, getHydrated, getNotHydrated);
   const [mounted, setMounted] = useState(false);
   const [full, setFull] = useState(false);
   const [exiting, setExiting] = useState(false);
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
+    if (!hydrated) return;
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 
@@ -41,7 +50,10 @@ export default function SplashScreen() {
 
     // The page may already be fully loaded before the brand minimum elapses:
     // the overlay waits for it, then reveals.
-    const minTimer = setTimeout(tryReveal, MIN_SHOW_MS);
+    const minTimer = setTimeout(() => {
+      minElapsed = true;
+      tryReveal();
+    }, MIN_SHOW_MS);
     // Never trap the user behind the splash if something keeps loading.
     const maxTimer = setTimeout(() => {
       minElapsed = true;
@@ -55,9 +67,9 @@ export default function SplashScreen() {
       clearTimeout(maxTimer);
       window.removeEventListener("load", onLoad);
     };
-  }, []);
+  }, [hydrated]);
 
-  if (gone) return null;
+  if (!hydrated || gone) return null;
 
   return (
     <div
