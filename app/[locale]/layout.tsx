@@ -121,12 +121,12 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <div className="splash-glow" aria-hidden="true" />
           <div className="relative flex flex-col items-center px-6 text-center">
             <Image
-              src="/images/logo/logo-horizontal-white.webp"
+              src="/images/logo/logo-vertical-white.webp"
               alt="Grupo Gecotay"
-              width={436}
-              height={280}
+              width={312}
+              height={278}
               priority
-              className="splash-logo w-44 sm:w-56 h-auto"
+              className="splash-logo w-32 sm:w-40 h-auto"
             />
             <p className="splash-text mt-7 mr-[-0.35em] sm:mr-[-0.45em] text-lg sm:text-2xl font-medium text-white/90 tracking-[0.35em] sm:tracking-[0.45em] uppercase">
               Bienvenido
