@@ -58,10 +58,10 @@ export default function AcabadosPage({ locale }: AcabadosPageProps) {
 
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">
             Acabados y <span className="text-primary">tapices</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-10">
+          <p className="text-xl text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] max-w-3xl mx-auto mb-10">
             Telas, melaminas, metales y superficies para personalizar cualquier proyecto de mobiliario.
             Amplia variedad de colores y texturas para darle el acabado perfecto a tu espacio.
           </p>
@@ -107,10 +107,10 @@ export default function AcabadosPage({ locale }: AcabadosPageProps) {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-<h2 className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">
+<h2 className="text-3xl sm:text-4xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">
               Familias de <span className="text-primary">acabados</span>
             </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] max-w-2xl mx-auto">
               Selecciona una familia para ver sus muestras de color y textura.
             </p>
           </motion.div>
@@ -175,7 +175,7 @@ export default function AcabadosPage({ locale }: AcabadosPageProps) {
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/30" aria-labelledby="faq-heading">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50" aria-labelledby="faq-heading">
         <div className="max-w-3xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -207,8 +207,8 @@ export default function AcabadosPage({ locale }: AcabadosPageProps) {
       </section>
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">¿Listo para definir los acabados de tu proyecto?</h2>
-        <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+        <h2 className="text-3xl sm:text-4xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">¿Listo para definir los acabados de tu proyecto?</h2>
+        <p className="text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] mb-8 max-w-xl mx-auto">
           Escríbenos por WhatsApp y descarga las cartas de colores para elegir tus materiales.
         </p>
         <div className="flex flex-wrap justify-center gap-4">

@@ -24,6 +24,16 @@
     "newBadge": "Nuevo",
     "viewDetails": "Ver detalles →"
   },
+  "logistics": {
+    "shippingLabel": "Envíos",
+    "shippingValue": "2–15 días hábiles",
+    "coverageLabel": "Cobertura",
+    "coverageValue": "CDMX y área metropolitana",
+    "installationLabel": "Instalación",
+    "installationValue": "Incluida sin costo",
+    "warrantyLabel": "Garantía",
+    "warrantyValue": "Hasta 5 años"
+  },
   "whyChoose": {
     "title": "Por Qué Elegirnos",
     "warranty": "Garantía 1–5 años",

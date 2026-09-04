@@ -28,7 +28,7 @@ export default function FAQSection({ items, title = "Preguntas frecuentes" }: FA
   };
 
   return (
-    <section className="py-20 bg-gray-50/30" aria-labelledby="faq-heading">
+    <section className="py-20 bg-gray-50" aria-labelledby="faq-heading">
       <Script
         id="faq-schema"
         type="application/ld+json"
@@ -43,7 +43,7 @@ export default function FAQSection({ items, title = "Preguntas frecuentes" }: FA
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold text-gray-100 mb-4">
+          <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             {title}
           </h2>
         </motion.div>

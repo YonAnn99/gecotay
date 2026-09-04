@@ -42,13 +42,13 @@ export default function Hero({ locale }: HeroProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">
               {t(locale, "hero.title")}
             </h1>
-            <h2 className="text-xl sm:text-2xl lg:text-3xl text-primary/90 font-medium mb-6 max-w-3xl mx-auto">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl text-primary/90 font-medium [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] mb-6 max-w-3xl mx-auto">
               {t(locale, "hero.subtitle")}
             </h2>
-            <p className="text-lg sm:text-xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-200 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] mb-8 max-w-2xl mx-auto leading-relaxed">
               {t(locale, "hero.description")}
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

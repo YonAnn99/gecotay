@@ -1,10 +1,16 @@
+// NEXT_PUBLIC_SITE_URL lets each Vercel environment (production on
+// gecotay.com, preview deployments, local dev) resolve to its own origin
+// without a code change; the literal stays as the production fallback so
+// `npm run build` still works with no .env.local present.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.gecotay.com";
+
 export const EMPRESA = {
   nombre: "Grupo Gecotay S.A.S. de C.V.",
   nombreCorto: "Grupo Gecotay",
   lema: "Su espacio en nuestras manos...",
-  url: "https://www.gecotay.com",
+  url: SITE_URL,
   rfc: "GEC180710HU8",
-  dominio: "gecotay.com",
+  dominio: new URL(SITE_URL).hostname.replace(/^www\./, ""),
   year: new Date().getFullYear(),
 };
 

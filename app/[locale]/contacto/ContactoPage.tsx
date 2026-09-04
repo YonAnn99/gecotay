@@ -90,10 +90,10 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">
             <span className="text-primary">Contacto</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] max-w-2xl mx-auto">
             {EMPRESA.nombre} — {EMPRESA.lema}
           </p>
         </div>
@@ -130,7 +130,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              <h2 className="text-2xl font-semibold text-gray-100 mb-6">Envíanos un mensaje</h2>
+              <h2 className="text-2xl font-semibold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-6">Envíanos un mensaje</h2>
               {status === "success" && (
                 <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-800">
                   ¡Gracias! Se abrió WhatsApp con tu mensaje. Si no se abrió, también puedes
@@ -141,7 +141,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
                   a {CONTACTO.correos.ventas}.
                 </div>
               )}
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5 bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
@@ -288,7 +288,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Ubicación</h2>
           <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
@@ -307,8 +307,8 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
 
       <section id="politicas" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-semibold text-gray-100 mb-2 text-center">Políticas de venta</h2>
-          <p className="text-gray-300 text-center mb-10 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-semibold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-2 text-center">Políticas de venta</h2>
+          <p className="text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] text-center mb-10 max-w-2xl mx-auto">
             {EMPRESA.nombre} pone a su disposición las siguientes políticas para que nuestros clientes estén mejor informados.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -338,8 +338,8 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-4">¿Prefieres que te contactemos?</h2>
-          <p className="text-gray-300 mb-8 max-w-xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">¿Prefieres que te contactemos?</h2>
+          <p className="text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] mb-8 max-w-xl mx-auto">
             Déjanos tu número por WhatsApp o correo y un ejecutivo de ventas te atenderá para tu cotización.
           </p>
           <a

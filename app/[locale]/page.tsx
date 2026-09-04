@@ -4,6 +4,8 @@ import Services from "../components/home/Services";
 import About from "../components/home/About";
 import NewProducts from "../components/home/NewProducts";
 import WhyChoose from "../components/home/WhyChoose";
+import KeyTakeaways from "../components/ui/KeyTakeaways";
+import { t } from "../lib/i18n";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -37,10 +39,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Home({ params }: PageProps) {
   const { locale } = await params;
+  const logisticsTakeaways = [
+    { label: t(locale, "logistics.shippingLabel"), value: t(locale, "logistics.shippingValue") },
+    { label: t(locale, "logistics.coverageLabel"), value: t(locale, "logistics.coverageValue") },
+    { label: t(locale, "logistics.installationLabel"), value: t(locale, "logistics.installationValue") },
+    { label: t(locale, "logistics.warrantyLabel"), value: t(locale, "logistics.warrantyValue") },
+  ];
   return (
     <>
       <Hero locale={locale} />
       <main className="flex-1">
+        <KeyTakeaways items={logisticsTakeaways} />
         <Services locale={locale} />
         <About locale={locale} />
         <NewProducts locale={locale} />

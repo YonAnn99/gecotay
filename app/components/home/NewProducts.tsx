@@ -15,7 +15,7 @@ const NEW_PRODUCT_LINES = LINEAS_PRODUCTO.filter((l) => l.esNuevo).slice(0, 6);
 
 export default function NewProducts({ locale }: NewProductsProps) {
   return (
-    <section id="nuevos-productos" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
+    <section id="nuevos-productos" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <motion.h2

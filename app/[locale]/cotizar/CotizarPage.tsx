@@ -261,10 +261,10 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-100 [text-shadow:0_1px_3px_rgba(0,0,0,0.9),0_2px_14px_rgba(0,0,0,0.6)] mb-4">
             Solicita tu <span className="text-primary">presupuesto</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] max-w-2xl mx-auto">
             Cuéntanos tu proyecto y recibirás una propuesta técnica y económica sin compromiso en 24-48h.
           </p>
         </div>
@@ -305,7 +305,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${step >= s.id ? "bg-primary text-white" : "bg-gray-200 text-gray-500"}`}>
                   {step > s.id ? <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/></svg> : s.id}
                 </div>
-                <span className="text-xs text-gray-500 mt-1 text-center w-24">{s.title}</span>
+                <span className="text-xs text-gray-400 mt-1 text-center w-24">{s.title}</span>
                 {i < steps.length - 1 && <div className={`absolute top-5 left-1/2 w-full h-0.5 ${step > s.id ? "bg-primary" : "bg-gray-200"}`} />}
               </div>
             ))}
@@ -348,7 +348,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
 
       <FAQSection items={faqs} title="Preguntas frecuentes sobre presupuestos" />
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50/30">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">¿Qué incluye tu presupuesto?</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

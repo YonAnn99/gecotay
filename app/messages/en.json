@@ -24,6 +24,16 @@
     "newBadge": "New",
     "viewDetails": "View details →"
   },
+  "logistics": {
+    "shippingLabel": "Shipping",
+    "shippingValue": "2–15 business days",
+    "coverageLabel": "Coverage",
+    "coverageValue": "Mexico City & metro area",
+    "installationLabel": "Installation",
+    "installationValue": "Included at no cost",
+    "warrantyLabel": "Warranty",
+    "warrantyValue": "Up to 5 years"
+  },
   "whyChoose": {
     "title": "Why Choose Us",
     "warranty": "1–5 Year Warranty",
