@@ -1,4 +1,9 @@
-import { CarouselItem } from "../ui/CoverflowCarousel";
+export interface CarouselItem {
+  id: string;
+  title: string;
+  image: string;
+  href: string;
+}
 
 export const carouselItems: CarouselItem[] = [
   {

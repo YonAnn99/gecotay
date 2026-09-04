@@ -21,7 +21,11 @@ const faqs = [
   { q: "¿Ofrecen servicios de carpintería y tapicería?", a: "Sí, contamos con servicios generales de carpintería, barnices, ebanistería con tallas y chapas, y tapicería en telas, vinilos y pieles naturales." },
 ];
 
-export default function ServiciosPage() {
+interface ServiciosPageProps {
+  locale: string;
+}
+
+export default function ServiciosPage({ locale }: ServiciosPageProps) {
   return (
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
@@ -38,7 +42,7 @@ export default function ServiciosPage() {
 
       <KeyTakeaways items={takeaways} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-        <EarlyCTA label="Solicitar asesoría" href="/cotizar" variant="primary" />
+        <EarlyCTA label="Solicitar asesoría" href={`/${locale}/cotizar`} variant="primary" />
       </div>
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
@@ -91,7 +95,7 @@ export default function ServiciosPage() {
                 Descarga nuestro catálogo 2026 y las cartas de colores de telas, melaminas y metales.
               </p>
               <Link
-                href="/descargas"
+                href={`/${locale}/descargas`}
                 className="block w-full text-center px-6 py-3 font-semibold text-gray-700 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-xl transition-colors"
               >
                 Área de descargas
@@ -103,7 +107,7 @@ export default function ServiciosPage() {
                 Somos un grupo de empresas de diferentes sectores al servicio de tus necesidades.
               </p>
               <Link
-                href="/nosotros"
+                href={`/${locale}/nosotros`}
                 className="inline-flex items-center gap-1 px-4 py-2 text-sm font-medium bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
               >
                 Conoce más sobre nosotros
@@ -123,7 +127,7 @@ export default function ServiciosPage() {
             Cuéntanos tu idea y la convertimos en realidad. Sin compromiso.
           </p>
           <Link
-            href="/cotizar"
+            href={`/${locale}/cotizar`}
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"
           >
             Solicitar presupuesto

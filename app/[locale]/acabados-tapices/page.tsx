@@ -3,7 +3,9 @@ import AcabadosPage from "./AcabadosPage";
 import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
-  title: "Acabados y tapices | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Acabados y tapices",
   description:
     "Acabados y tapices de Grupo Gecotay: telas, melaminas, metales y superficies para personalizar tu mobiliario. Descarga las cartas de colores.",
   openGraph: {
@@ -22,13 +24,21 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    languages: { es: "/es/acabados-tapices", en: "/en/acabados-tapices" },
+  },
 };
 
-export default function AcabadosLayout() {
+export default async function AcabadosLayout({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   return (
     <>
       <GrainientBackground />
-      <AcabadosPage />
+      <AcabadosPage locale={locale} />
     </>
   );
 }

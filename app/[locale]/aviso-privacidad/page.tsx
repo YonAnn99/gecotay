@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { EMPRESA, CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
-  title: "Aviso de privacidad | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Aviso de privacidad",
   description:
     "Aviso de privacidad de Grupo Gecotay S.A.S. de C.V. conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDP).",
+  alternates: {
+    languages: { es: "/es/aviso-privacidad", en: "/en/aviso-privacidad" },
+  },
 };
 
 const direccionOficial =

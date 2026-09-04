@@ -24,9 +24,21 @@ export default function SplashScreen() {
     const splash = document.getElementById("splash");
     if (!splash) return;
 
+    // `splash` is a React-rendered element (from the locale layout), so it
+    // must never be detached via `.remove()` — React still tracks it as a
+    // child of <body>, and a future re-render (e.g. any client-side
+    // navigation) would then try to reconcile against a node that is no
+    // longer actually in the DOM, throwing insertBefore/removeChild
+    // NotFoundErrors. Hiding it in place keeps the real DOM in sync with
+    // what React believes it rendered.
+    const hide = () => {
+      splash.style.display = "none";
+      splash.setAttribute("aria-hidden", "true");
+    };
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
-      splash.remove();
+      hide();
       return;
     }
 
@@ -46,7 +58,7 @@ export default function SplashScreen() {
         bar.style.transform = "scaleX(1)";
       }
       timers.push(setTimeout(() => splash.classList.add("splash-overlay-out"), BAR_FILL_MS));
-      timers.push(setTimeout(() => splash.remove(), BAR_FILL_MS + FADE_MS));
+      timers.push(setTimeout(hide, BAR_FILL_MS + FADE_MS));
     };
 
     const tryReveal = () => {

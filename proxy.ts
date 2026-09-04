@@ -5,14 +5,15 @@ const locales = ["es", "en"];
 const defaultLocale = "es";
 
 function getLocale(request: NextRequest): string {
+  // Intentionally does not fall back to the browser's Accept-Language header:
+  // this site targets Spanish-speaking visitors and the English content is
+  // not fully translated yet (see .agents/skills/CONTEXT.md), so a browser
+  // set to English would otherwise land on a half-translated /en experience
+  // with no way to switch back (there is no language switcher UI). New
+  // visitors always get /es; /en stays reachable by direct URL, and the
+  // NEXT_LOCALE cookie remembers whichever locale was last visited.
   const cookie = request.cookies.get("NEXT_LOCALE")?.value;
   if (cookie && locales.includes(cookie)) return cookie;
-
-  const acceptLanguage = request.headers.get("accept-language");
-  if (acceptLanguage) {
-    const preferred = acceptLanguage.split(",")[0].split("-")[0];
-    if (locales.includes(preferred)) return preferred;
-  }
   return defaultLocale;
 }
 
@@ -39,7 +40,13 @@ export function proxy(request: NextRequest) {
     const response = NextResponse.next();
     const currentLocale = pathname.split("/")[1];
     if (locales.includes(currentLocale)) {
-      response.cookies.set("NEXT_LOCALE", currentLocale, { path: "/", maxAge: 31536000 });
+      response.cookies.set("NEXT_LOCALE", currentLocale, {
+        path: "/",
+        maxAge: 31536000,
+        sameSite: "lax",
+        httpOnly: true,
+        secure: request.nextUrl.protocol === "https:",
+      });
     }
     return response;
   }
@@ -48,7 +55,13 @@ export function proxy(request: NextRequest) {
   const locale = getLocale(request);
   const newUrl = `/${locale}${pathname}${request.nextUrl.search}`;
   const response = NextResponse.redirect(new URL(newUrl, request.url));
-  response.cookies.set("NEXT_LOCALE", locale, { path: "/", maxAge: 31536000 });
+  response.cookies.set("NEXT_LOCALE", locale, {
+    path: "/",
+    maxAge: 31536000,
+    sameSite: "lax",
+    httpOnly: true,
+    secure: request.nextUrl.protocol === "https:",
+  });
   return response;
 }
 

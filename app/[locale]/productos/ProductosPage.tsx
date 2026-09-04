@@ -24,8 +24,13 @@ const faqs = [
   { q: "¿Fabricas a medida?", a: "Sí, gran parte de nuestro mobiliario se fabrica a medida según las necesidades del cliente." },
 ];
 
-export default function ProductosPage() {
+interface ProductosPageProps {
+  locale: string;
+}
+
+export default function ProductosPage({ locale }: ProductosPageProps) {
   const destacadas = LINEAS_PRODUCTO.slice(0, 4);
+  const precioDesde = Math.min(...LINEAS_PRODUCTO.map((l) => l.precioDesde));
   return (
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
@@ -35,14 +40,14 @@ export default function ProductosPage() {
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             20 líneas de mobiliario de oficina, hogar y espacios de trabajo, con fabricación nacional
-            e importada. Precios desde {formatMXN(LINEAS_PRODUCTO[LINEAS_PRODUCTO.length - 2].precioDesde)} MXN + IVA.
+            e importada. Precios desde {formatMXN(precioDesde)} MXN + IVA.
           </p>
         </div>
       </section>
 
       <KeyTakeaways items={takeaways} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
-        <EarlyCTA label="Solicitar catálogo completo" href="/descargas" variant="primary" />
+        <EarlyCTA label="Solicitar catálogo completo" href={`/${locale}/descargas`} variant="primary" />
       </div>
 
       <section className="py-16 px-4 sm:px-6 lg:px-8">
@@ -51,7 +56,7 @@ export default function ProductosPage() {
             {LINEAS_PRODUCTO.map((linea) => (
               <Link
                 key={linea.slug}
-                href={`/productos/${linea.slug}`}
+                href={`/${locale}/productos/${linea.slug}`}
                 className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
@@ -84,7 +89,7 @@ export default function ProductosPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12">
             <h2 className="text-2xl font-semibold text-gray-900">Líneas destacadas</h2>
-            <Link href="/descargas" className="text-primary font-medium hover:underline">
+            <Link href={`/${locale}/descargas`} className="text-primary font-medium hover:underline">
               Descargar catálogo 2026 →
             </Link>
           </div>
@@ -92,7 +97,7 @@ export default function ProductosPage() {
             {destacadas.map((linea) => (
               <Link
                 key={linea.slug}
-                href={`/productos/${linea.slug}`}
+                href={`/${locale}/productos/${linea.slug}`}
                 className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
@@ -123,7 +128,7 @@ export default function ProductosPage() {
             Fabricamos a medida según tus especificaciones. Contáctanos para tu cotización.
           </p>
           <Link
-            href="/cotizar"
+            href={`/${locale}/cotizar`}
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"
           >
             Solicitar proyecto a medida

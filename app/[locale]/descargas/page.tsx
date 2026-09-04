@@ -3,9 +3,14 @@ import Link from "next/link";
 import { CONTACTO } from "../../data/empresa";
 
 export const metadata: Metadata = {
-  title: "Descargas | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Descargas",
   description:
     "Descarga el catálogo 2026 de Grupo Gecotay y las cartas de colores de telas, melaminas y metales.",
+  alternates: {
+    languages: { es: "/es/descargas", en: "/en/descargas" },
+  },
 };
 
 const descargas = [

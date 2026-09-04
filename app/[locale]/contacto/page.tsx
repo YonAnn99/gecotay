@@ -3,7 +3,9 @@ import ContactoPage from "./ContactoPage";
 import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
-  title: "Contacto | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Contacto",
   description:
     "Contacta a Grupo Gecotay en Ecatepec, Estado de México. Teléfonos 55 5027 0661, 55 1562 0103 y 55 7676 5844. WhatsApp 55 4152 2017. ventas@gecotay.com",
   openGraph: {
@@ -19,13 +21,21 @@ export const metadata: Metadata = {
     description: "Teléfono, WhatsApp y correo de Grupo Gecotay.",
   },
   robots: { index: true, follow: true },
+  alternates: {
+    languages: { es: "/es/contacto", en: "/en/contacto" },
+  },
 };
 
-export default function ContactoLayout() {
+export default async function ContactoLayout({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   return (
     <>
       <GrainientBackground />
-      <ContactoPage />
+      <ContactoPage locale={locale} />
     </>
   );
 }

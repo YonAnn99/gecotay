@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import CotizarPage from "./CotizarPage";
 
 export const metadata: Metadata = {
-  title: "Solicita tu presupuesto | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Solicita tu presupuesto",
   description:
     "Completa el formulario en 4 pasos y envía tu solicitud de presupuesto por WhatsApp o correo a Grupo Gecotay.",
   openGraph: {
@@ -18,6 +20,9 @@ export const metadata: Metadata = {
     description: "Presupuesto personalizado de mobiliario.",
   },
   robots: { index: true, follow: true },
+  alternates: {
+    languages: { es: "/es/cotizar", en: "/en/cotizar" },
+  },
 };
 
 export default async function CotizarLayout({

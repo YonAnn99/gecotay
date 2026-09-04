@@ -32,7 +32,11 @@ const faqs = [
   { q: "¿Puedo solicitar una cotización?", a: "Sí, escríbenos por WhatsApp al " + CONTACTO.whatsapp + " o a " + CONTACTO.correos.ventas + "." },
 ];
 
-export default function NosotrosPage() {
+interface NosotrosPageProps {
+  locale: string;
+}
+
+export default function NosotrosPage({ locale }: NosotrosPageProps) {
   return (
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
@@ -44,10 +48,10 @@ export default function NosotrosPage() {
               </h1>
               <p className="text-lg text-gray-300 mb-8">{NOSOTROS.quienesSomos}</p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/cotizar" className="px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors">
+                <Link href={`/${locale}/cotizar`} className="px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors">
                   Solicitar cotización
                 </Link>
-                <Link href="/productos" className="px-6 py-3 font-semibold text-gray-700 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-xl transition-colors">
+                <Link href={`/${locale}/productos`} className="px-6 py-3 font-semibold text-gray-700 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-xl transition-colors">
                   Ver productos
                 </Link>
               </div>
@@ -70,22 +74,22 @@ export default function NosotrosPage() {
         <div className="max-w-7xl mx-auto">
           <KeyTakeaways items={takeaways} />
           <div className="mt-8 text-center">
-            <EarlyCTA label="Hablar con un ejecutivo" href="/contacto" variant="primary" />
+            <EarlyCTA label="Hablar con un ejecutivo" href={`/${locale}/contacto`} variant="primary" />
           </div>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/productos`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
               <p className="text-sm text-gray-600">20 líneas de mobiliario</p>
             </Link>
-            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/servicios`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
               <p className="text-sm text-gray-600">Soluciones integrales</p>
             </Link>
-            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/acabados-tapices`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
               <p className="text-sm text-gray-600">Materiales a tu elección</p>
             </Link>
-            <Link href="/contacto" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/contacto`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Contacto</h3>
               <p className="text-sm text-gray-600">Estamos para ayudarte</p>
             </Link>

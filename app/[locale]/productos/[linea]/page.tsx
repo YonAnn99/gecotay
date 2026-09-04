@@ -12,18 +12,26 @@ export function generateStaticParams() {
   return LINEAS_PRODUCTO.map((linea) => ({ linea: linea.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ linea: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; linea: string }> }): Promise<Metadata> {
   const { linea } = await params;
   const producto = LINEAS_PRODUCTO.find((l) => l.slug === linea);
   if (!producto) return {};
   return {
-    title: `${producto.nombre} | Grupo Gecotay`,
+    // Just the page-specific part: the root layout's title.template appends
+    // " | Grupo Gecotay" for this (child) segment automatically.
+    title: producto.nombre,
     description: `${producto.descripcion} Precios desde ${formatMXN(producto.precioDesde)} MXN + IVA.`,
+    alternates: {
+      languages: {
+        es: `/es/productos/${producto.slug}`,
+        en: `/en/productos/${producto.slug}`,
+      },
+    },
   };
 }
 
-export default async function LineaPage({ params }: { params: Promise<{ linea: string }> }) {
-  const { linea } = await params;
+export default async function LineaPage({ params }: { params: Promise<{ locale: string; linea: string }> }) {
+  const { locale, linea } = await params;
   const producto = LINEAS_PRODUCTO.find((l) => l.slug === linea);
   if (!producto) notFound();
 
@@ -32,9 +40,9 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
       <section className="pt-28 pb-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="max-w-7xl mx-auto">
           <nav className="text-sm text-gray-400 mb-6" aria-label="Migas de pan">
-            <Link href="/" className="hover:text-primary">Inicio</Link>
+            <Link href={`/${locale}`} className="hover:text-primary">Inicio</Link>
             <span className="mx-2">/</span>
-            <Link href="/productos" className="hover:text-primary">Productos</Link>
+            <Link href={`/${locale}/productos`} className="hover:text-primary">Productos</Link>
             <span className="mx-2">/</span>
             <span className="text-gray-100 font-medium">{producto.nombre}</span>
           </nav>
@@ -66,7 +74,7 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
                   Cotizar por WhatsApp
                 </Link>
                 <Link
-                  href="/cotizar"
+                  href={`/${locale}/cotizar`}
                   className="px-6 py-3 font-semibold text-gray-700 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-xl transition-colors"
                 >
                   Solicitar presupuesto
@@ -93,7 +101,7 @@ export default async function LineaPage({ params }: { params: Promise<{ linea: s
               .map((l) => (
                 <Link
                   key={l.slug}
-                  href={`/productos/${l.slug}`}
+                  href={`/${locale}/productos/${l.slug}`}
                   className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300"
                 >
                   <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">

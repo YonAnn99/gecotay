@@ -26,7 +26,11 @@ const faqs = [
   },
 ];
 
-export default function AcabadosPage() {
+interface AcabadosPageProps {
+  locale: string;
+}
+
+export default function AcabadosPage({ locale }: AcabadosPageProps) {
   const [activa, setActiva] = useState(FINISHES.familias[0].slug);
   const familia = FINISHES.familias.find((f) => f.slug === activa) ?? FINISHES.familias[0];
 
@@ -62,7 +66,7 @@ export default function AcabadosPage() {
             Amplia variedad de colores y texturas para darle el acabado perfecto a tu espacio.
           </p>
           <Link
-            href="/descargas"
+            href={`/${locale}/descargas`}
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200 shadow-lg shadow-primary/25"
           >
             Descargar cartas de colores
@@ -217,7 +221,7 @@ export default function AcabadosPage() {
             Pedir asesoría por WhatsApp
           </Link>
           <Link
-            href="/descargas"
+            href={`/${locale}/descargas`}
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-gray-700 bg-white border border-gray-200 hover:border-primary hover:text-primary rounded-xl transition-colors duration-200"
           >
             Descargar cartas de colores

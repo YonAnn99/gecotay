@@ -40,7 +40,7 @@ const takeaways = [
 const faqs = [
   { q: "¿Cuánto tarda en llegar el presupuesto?", a: "Recibirás la propuesta en 24‑48 h laborables." },
   { q: "¿Es vinculante la solicitud?", a: "No, es una solicitud sin compromiso; el presupuesto final se confirma tras revisión técnica." },
-  { q: "¿Puedo adjuntar planos?", a: "Sí, en el paso 3 puedes subir PDF, DWG, JPG, PNG, SKP o RVT (máx. 10 archivos, 20 MB cada uno)." },
+  { q: "¿Puedo adjuntar planos?", a: "Sí, una vez enviada tu solicitud por WhatsApp o correo, responde ahí mismo adjuntando tus planos, renders o referencias (PDF, DWG, JPG, PNG)." },
   { q: "¿Qué incluye el presupuesto?", a: "Planos, renders, memoria de calidades, desglose por partidas, planning, condiciones de pago y garantías." },
 ];
 
@@ -53,11 +53,11 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
   const [formData, setFormData] = useState({
     nombre: "", email: "", telefono: "", empresa: "", cargo: "",
     tipoProyecto: "", descripcion: "", ubicacion: "", superficie: "", plazo: "",
-    presupuesto: "", servicios: [] as string[], archivos: null as FileList | null, observaciones: "",
+    presupuesto: "", servicios: [] as string[], observaciones: "",
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  const handleChange = (field: string, value: string | string[] | FileList | null) => {
+  const handleChange = (field: string, value: string | string[]) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -114,7 +114,14 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
       .join("\n")
   )}`;
 
-  const nextStep = () => setStep((s) => Math.min(s + 1, 4));
+  const nextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const form = e.currentTarget.form;
+    if (form && !form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    setStep((s) => Math.min(s + 1, 4));
+  };
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
 
   const renderStep1 = () => (
@@ -214,10 +221,9 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
           ))}
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Planos, renders o referencias (opcional)</label>
-        <input type="file" id="archivos" multiple accept=".pdf,.dwg,.jpg,.png" onChange={(e) => handleChange("archivos", e.target.files)} className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
-        <p className="text-xs text-gray-500 mt-1">Máx. 10 archivos, 20 MB cada uno. PDF, DWG, JPG, PNG.</p>
+      <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary">
+        <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        ¿Tienes planos, renders o referencias? Envíalos respondiendo al chat de WhatsApp o al correo una vez que recibas tu solicitud enviada — este formulario no permite adjuntar archivos directamente.
       </div>
       <div>
         <label htmlFor="observaciones" className="block text-sm font-medium text-gray-700 mb-1">Observaciones adicionales</label>
@@ -268,22 +274,22 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
         <div className="max-w-7xl mx-auto">
           <KeyTakeaways items={takeaways} />
           <div className="mt-8 text-center">
-            <EarlyCTA label="Comenzar solicitud" href="/cotizar" variant="primary" />
+            <EarlyCTA label="Comenzar solicitud" href={`/${locale}/cotizar`} variant="primary" />
           </div>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/productos`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
               <p className="text-sm text-gray-600">Catálogo completo</p>
             </Link>
-            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/servicios`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
               <p className="text-sm text-gray-600">Soluciones integrales</p>
             </Link>
-            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/acabados-tapices`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
               <p className="text-sm text-gray-600">Materiales certificados</p>
             </Link>
-            <Link href="/contacto" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/contacto`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Contacto</h3>
               <p className="text-sm text-gray-600">Canales directos</p>
             </Link>
@@ -305,7 +311,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm" noValidate>
+          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
             {step === 1 && renderStep1()}
             {step === 2 && renderStep2()}
             {step === 3 && renderStep3()}

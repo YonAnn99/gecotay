@@ -7,7 +7,11 @@ import EarlyCTA from "../../components/ui/EarlyCTA";
 import FAQSection from "../../components/ui/FAQSection";
 import { EMPRESA, CONTACTO, REDES, POLITICAS } from "../../data/empresa";
 
-export default function ContactoPage() {
+interface ContactoPageProps {
+  locale: string;
+}
+
+export default function ContactoPage({ locale }: ContactoPageProps) {
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -99,22 +103,22 @@ export default function ContactoPage() {
         <div className="max-w-7xl mx-auto">
           <KeyTakeaways items={takeaways} />
           <div className="mt-8 text-center">
-            <EarlyCTA label="Solicitar presupuesto" href="/cotizar" variant="primary" />
+            <EarlyCTA label="Solicitar presupuesto" href={`/${locale}/cotizar`} variant="primary" />
           </div>
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <Link href="/productos" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/productos`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
               <p className="text-sm text-gray-600">20 líneas de mobiliario</p>
             </Link>
-            <Link href="/servicios" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/servicios`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>
               <p className="text-sm text-gray-600">Soluciones integrales</p>
             </Link>
-            <Link href="/acabados-tapices" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/acabados-tapices`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Acabados y tapices</h3>
               <p className="text-sm text-gray-600">Materiales a tu elección</p>
             </Link>
-            <Link href="/nosotros" className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
+            <Link href={`/${locale}/nosotros`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Nosotros</h3>
               <p className="text-sm text-gray-600">Quiénes somos</p>
             </Link>
@@ -137,7 +141,7 @@ export default function ContactoPage() {
                   a {CONTACTO.correos.ventas}.
                 </div>
               )}
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>
@@ -294,6 +298,7 @@ export default function ContactoPage() {
               className="w-full h-[420px]"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              sandbox="allow-scripts allow-same-origin allow-popups"
               allowFullScreen
             />
           </div>

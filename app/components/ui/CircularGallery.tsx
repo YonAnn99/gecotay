@@ -121,7 +121,7 @@ async function resolveFont(font: string, fontUrl?: string) {
     }
     return resolved;
   } catch (error) {
-    console.error("CircularGallery: unable to load font from", fontUrl, error);
+    console.error("CircularGallery: unable to load font from", effectiveUrl, error);
     return font;
   }
 }
@@ -673,10 +673,13 @@ class App {
     window.addEventListener("resize", this.boundOnResize);
     window.addEventListener("mousewheel", this.boundOnWheel);
     window.addEventListener("wheel", this.boundOnWheel);
-    window.addEventListener("mousedown", this.boundOnTouchDown);
+    // mousedown/touchstart are scoped to the gallery container so interactions
+    // elsewhere on the page don't start a drag; mousemove/mouseup/touchmove/touchend
+    // stay on window so an in-progress drag keeps tracking if the pointer leaves the container.
+    this.container?.addEventListener("mousedown", this.boundOnTouchDown);
     window.addEventListener("mousemove", this.boundOnTouchMove);
     window.addEventListener("mouseup", this.boundOnTouchUp);
-    window.addEventListener("touchstart", this.boundOnTouchDown);
+    this.container?.addEventListener("touchstart", this.boundOnTouchDown);
     window.addEventListener("touchmove", this.boundOnTouchMove);
     window.addEventListener("touchend", this.boundOnTouchUp);
 
@@ -688,18 +691,29 @@ class App {
     window.removeEventListener("resize", this.boundOnResize);
     window.removeEventListener("mousewheel", this.boundOnWheel);
     window.removeEventListener("wheel", this.boundOnWheel);
-    window.removeEventListener("mousedown", this.boundOnTouchDown);
     window.removeEventListener("mousemove", this.boundOnTouchMove);
     window.removeEventListener("mouseup", this.boundOnTouchUp);
-    window.removeEventListener("touchstart", this.boundOnTouchDown);
     window.removeEventListener("touchmove", this.boundOnTouchMove);
     window.removeEventListener("touchend", this.boundOnTouchUp);
     if (this.container) {
+      this.container.removeEventListener("mousedown", this.boundOnTouchDown);
+      this.container.removeEventListener("touchstart", this.boundOnTouchDown);
       this.container.removeEventListener("click", this.boundOnClick);
       this.container.removeEventListener("keydown", this.boundOnKeyDown as any);
     }
-    if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
-      this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
+    // The container may already have been detached from the document by React
+    // (e.g. a route change unmounting this whole section) by the time this
+    // cleanup runs. Removing the canvas is only needed when the container
+    // itself stays mounted (props changed, same instance re-created) — when
+    // the container is gone, its canvas goes with it, so skip and swallow any
+    // race so it never surfaces as an uncaught DOM error during navigation.
+    try {
+      const canvas = this.renderer?.gl?.canvas;
+      if (canvas?.parentNode && this.container?.isConnected) {
+        canvas.parentNode.removeChild(canvas);
+      }
+    } catch {
+      // Ignore — the node was already removed as part of an ancestor unmount.
     }
   }
 }
@@ -744,7 +758,7 @@ export default function CircularGallery({
     let app: App | undefined;
     let isMounted = true;
     resolveFont(font, fontUrl).then((resolvedFont) => {
-      if (!isMounted || !containerRef.current) return;
+      if (!isMounted || !containerRef.current || !containerRef.current.isConnected) return;
       app = new App(containerRef.current, {
         items,
         bend,

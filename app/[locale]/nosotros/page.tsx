@@ -2,7 +2,9 @@ import { Metadata } from "next";
 import NosotrosPage from "./NosotrosPage";
 
 export const metadata: Metadata = {
-  title: "Nosotros | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Nosotros",
   description:
     "Conoce a Grupo Gecotay S.A.S. de C.V.: quiénes somos, nuestra misión, visión y valores. Fabricación de mobiliario en Ecatepec, Estado de México.",
   openGraph: {
@@ -18,8 +20,16 @@ export const metadata: Metadata = {
     description: "Misión, visión y valores de Grupo Gecotay.",
   },
   robots: { index: true, follow: true },
+  alternates: {
+    languages: { es: "/es/nosotros", en: "/en/nosotros" },
+  },
 };
 
-export default function NosotrosLayout() {
-  return <NosotrosPage />;
+export default async function NosotrosLayout({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return <NosotrosPage locale={locale} />;
 }

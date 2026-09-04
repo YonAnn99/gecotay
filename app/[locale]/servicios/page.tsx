@@ -3,7 +3,9 @@ import ServiciosPage from "./ServiciosPage";
 import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
-  title: "Servicios integrales | Grupo Gecotay",
+  // Just the page-specific part: the root layout's title.template appends
+  // " | Grupo Gecotay" for this (child) segment automatically.
+  title: "Servicios integrales",
   description:
     "Servicios de Grupo Gecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
   openGraph: {
@@ -19,13 +21,21 @@ export const metadata: Metadata = {
     description: "11 servicios integrales de Grupo Gecotay.",
   },
   robots: { index: true, follow: true },
+  alternates: {
+    languages: { es: "/es/servicios", en: "/en/servicios" },
+  },
 };
 
-export default function ServiciosLayout() {
+export default async function ServiciosLayout({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   return (
     <>
       <GrainientBackground />
-      <ServiciosPage />
+      <ServiciosPage locale={locale} />
     </>
   );
 }
