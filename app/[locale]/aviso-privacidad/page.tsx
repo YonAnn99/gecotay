@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   description:
     "Aviso de privacidad de Grupo Gecotay S.A.S. de C.V. conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDP).",
   alternates: {
-    languages: { es: "/es/aviso-privacidad", en: "/en/aviso-privacidad" },
+    canonical: "/es/aviso-privacidad",
+    languages: { es: "/es/aviso-privacidad", "x-default": "/es/aviso-privacidad" },
   },
 };
 

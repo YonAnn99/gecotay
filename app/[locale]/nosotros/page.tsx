@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: {
-    languages: { es: "/es/nosotros", en: "/en/nosotros" },
+    canonical: "/es/nosotros",
+    languages: { es: "/es/nosotros", "x-default": "/es/nosotros" },
   },
 };
 

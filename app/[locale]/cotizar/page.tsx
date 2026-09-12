@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: {
-    languages: { es: "/es/cotizar", en: "/en/cotizar" },
+    canonical: "/es/cotizar",
+    languages: { es: "/es/cotizar", "x-default": "/es/cotizar" },
   },
 };
 

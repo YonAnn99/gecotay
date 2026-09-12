@@ -6,13 +6,16 @@ import Link from "next/link";
 import KeyTakeaways from "../../components/ui/KeyTakeaways";
 import EarlyCTA from "../../components/ui/EarlyCTA";
 import FAQSection from "../../components/ui/FAQSection";
-import { LINEAS_PRODUCTO, CONTACTO } from "../../data/empresa";
+import { CONTACTO } from "../../data/empresa";
+import type { ProductoPublico } from "../../lib/contenido";
+import { IMAGEN_RESPALDO } from "../../lib/imagenes";
 
 const formatMXN = (n: number) =>
   new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);
 
-const takeaways = [
-  { label: "Líneas de producto", value: "20" },
+// El conteo de líneas se calcula del catálogo real: antes estaba escrito a
+// mano y se habría quedado desfasado en cuanto el admin añadiera una línea.
+const takeawaysBase = [
   { label: "Garantía", value: "1 año" },
   { label: "Envíos", value: "2–15 días" },
   { label: "Fabricación", value: "Nacional e importada" },
@@ -57,11 +60,24 @@ const faqs = [
 
 interface ProductosPageProps {
   locale: string;
+  lineas: ProductoPublico[];
 }
 
-export default function ProductosPage({ locale }: ProductosPageProps) {
-  const destacadas = LINEAS_PRODUCTO.slice(0, 4);
-  const precioDesde = Math.min(...LINEAS_PRODUCTO.map((l) => l.precioDesde));
+export default function ProductosPage({ locale, lineas }: ProductosPageProps) {
+  const destacadas = lineas.slice(0, 4);
+
+  // Puede no haber ningún precio si el admin deja todas las líneas sin
+  // importe, así que `Math.min` sobre un array vacío (que daría Infinity)
+  // queda descartado antes de llegar al formateador.
+  const preciosConocidos = lineas
+    .map((l) => l.precioDesde)
+    .filter((n): n is number => n != null);
+  const precioDesde = preciosConocidos.length ? Math.min(...preciosConocidos) : null;
+
+  const takeaways = [
+    { label: "Líneas de producto", value: String(lineas.length) },
+    ...takeawaysBase,
+  ];
 
   const [categoria, setCategoria] = useState<string | null>(null);
   const [rangoPrecio, setRangoPrecio] = useState<string | null>(null);
@@ -70,13 +86,15 @@ export default function ProductosPage({ locale }: ProductosPageProps) {
   const lineasFiltradas = useMemo(() => {
     const categoriaActiva = CATEGORIAS.find((c) => c.id === categoria);
     const rangoActivo = RANGOS_PRECIO.find((r) => r.id === rangoPrecio);
-    return LINEAS_PRODUCTO.filter((linea) => {
+    return lineas.filter((linea) => {
       if (categoriaActiva && !categoriaActiva.slugs.includes(linea.slug)) return false;
-      if (rangoActivo && !rangoActivo.test(linea.precioDesde)) return false;
+      // Sin precio no se puede decidir el rango: la línea queda fuera cuando
+      // hay un filtro de precio activo, en vez de colarse en todos.
+      if (rangoActivo && (linea.precioDesde == null || !rangoActivo.test(linea.precioDesde))) return false;
       if (soloNuevas && !linea.esNuevo) return false;
       return true;
     });
-  }, [categoria, rangoPrecio, soloNuevas]);
+  }, [lineas, categoria, rangoPrecio, soloNuevas]);
 
   const hayFiltrosActivos = categoria !== null || rangoPrecio !== null || soloNuevas;
 
@@ -88,8 +106,9 @@ export default function ProductosPage({ locale }: ProductosPageProps) {
             Catálogo de <span className="text-primary">productos</span>
           </h1>
           <p className="text-xl text-gray-300 [text-shadow:0_1px_3px_rgba(0,0,0,0.85),0_2px_12px_rgba(0,0,0,0.55)] max-w-3xl mx-auto">
-            20 líneas de mobiliario de oficina, hogar y espacios de trabajo, con fabricación nacional
-            e importada. Precios desde {formatMXN(precioDesde)} MXN + IVA.
+            {lineas.length} líneas de mobiliario de oficina, hogar y espacios de trabajo, con
+            fabricación nacional e importada.
+            {precioDesde != null && ` Precios desde ${formatMXN(precioDesde)} MXN + IVA.`}
           </p>
         </div>
       </section>
@@ -206,15 +225,17 @@ export default function ProductosPage({ locale }: ProductosPageProps) {
               >
                 <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
                   <Image
-                    src={linea.imagen}
+                    src={linea.imagen ?? IMAGEN_RESPALDO}
                     alt={linea.nombre}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
-                  <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-primary/90 text-white rounded-full">
-                    Desde {formatMXN(linea.precioDesde)}
-                  </span>
+                  {linea.precioDesde != null && (
+                    <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-primary/90 text-white rounded-full">
+                      Desde {formatMXN(linea.precioDesde)}
+                    </span>
+                  )}
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-1">{linea.nombre}</h3>
@@ -248,7 +269,7 @@ export default function ProductosPage({ locale }: ProductosPageProps) {
               >
                 <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
                   <Image
-                    src={linea.imagen}
+                    src={linea.imagen ?? IMAGEN_RESPALDO}
                     alt={linea.nombre}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -257,7 +278,9 @@ export default function ProductosPage({ locale }: ProductosPageProps) {
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-semibold text-gray-900 mt-1 mb-2">{linea.nombre}</h3>
-                  <span className="text-primary font-bold">Desde {formatMXN(linea.precioDesde)}</span>
+                  {linea.precioDesde != null && (
+                    <span className="text-primary font-bold">Desde {formatMXN(linea.precioDesde)}</span>
+                  )}
                 </div>
               </Link>
             ))}

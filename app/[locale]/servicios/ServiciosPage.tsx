@@ -5,7 +5,9 @@ import Link from "next/link";
 import KeyTakeaways from "../../components/ui/KeyTakeaways";
 import EarlyCTA from "../../components/ui/EarlyCTA";
 import FAQSection from "../../components/ui/FAQSection";
-import { SERVICIOS, CONTACTO } from "../../data/empresa";
+import { CONTACTO } from "../../data/empresa";
+import type { ServicioPublico } from "../../lib/contenido";
+import { IMAGEN_RESPALDO } from "../../lib/imagenes";
 
 const takeaways = [
   { label: "Servicios integrales", value: "11" },
@@ -23,9 +25,10 @@ const faqs = [
 
 interface ServiciosPageProps {
   locale: string;
+  servicios: ServicioPublico[];
 }
 
-export default function ServiciosPage({ locale }: ServiciosPageProps) {
+export default function ServiciosPage({ locale, servicios }: ServiciosPageProps) {
   return (
     <>
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-primary/5 to-transparent">
@@ -48,14 +51,14 @@ export default function ServiciosPage({ locale }: ServiciosPageProps) {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {SERVICIOS.map((svc) => (
+            {servicios.map((svc) => (
               <article
                 key={svc.slug}
                 className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-primary/30 transition-all duration-300"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                   <Image
-                    src={svc.imagen}
+                    src={svc.imagen ?? IMAGEN_RESPALDO}
                     alt={svc.titulo}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

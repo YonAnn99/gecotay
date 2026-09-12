@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import Image from "next/image";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
@@ -10,19 +8,10 @@ import WhatsAppFloat from "../components/ui/WhatsAppFloat";
 import GrainientBackground from "../components/ui/GrainientBackground";
 import SplashScreen from "../components/ui/SplashScreen";
 import { EMPRESA, CONTACTO } from "../data/empresa";
+import { fontVariables } from "../lib/fonts";
 import "../globals.css";
 
 const locales = ["es", "en"];
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -113,7 +102,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   if (!locales.includes(locale)) notFound();
 
   return (
-    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang={locale} className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         {/* Static splash: paints with the first server byte, before any JS.
             SplashScreen (client) controls its lifecycle via DOM. */}
@@ -150,11 +139,16 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <main className="flex-1">{children}</main>
         <Footer locale={locale} />
         <CookieBanner locale={locale} />
-        <Script
-          id="schema-org"
+        {/* Rendered as a plain <script> in the server HTML (not via next/script):
+            structured data must be present in the first response, not injected
+            after window.load. This is the approach Next recommends in
+            node_modules/next/dist/docs/01-app/02-guides/json-ld.md. The
+            \u003c escape scrubs any "<" that could break out of the tag. */}
+        <script
           type="application/ld+json"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema).replace(/</g, "\\u003c"),
+          }}
         />
       </body>
     </html>

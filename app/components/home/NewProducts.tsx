@@ -4,16 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { t } from "@/app/lib/i18n";
-import { LINEAS_PRODUCTO } from "@/app/data/empresa";
+import type { ProductoPublico } from "@/app/lib/contenido";
+import { IMAGEN_RESPALDO } from "@/app/lib/imagenes";
 
 interface NewProductsProps {
   locale: string;
+  lineas: ProductoPublico[];
 }
 
-// Choose 6 lines flagged as new (esNuevo) or fallback to latest few
-const NEW_PRODUCT_LINES = LINEAS_PRODUCTO.filter((l) => l.esNuevo).slice(0, 6);
+export default function NewProducts({ locale, lineas }: NewProductsProps) {
+  // Las marcadas como novedad desde el panel; si no hay ninguna, las primeras
+  // del catálogo, para que la sección nunca aparezca vacía.
+  const conNovedad = lineas.filter((l) => l.esNuevo);
+  const NEW_PRODUCT_LINES = (conNovedad.length ? conNovedad : lineas).slice(0, 6);
 
-export default function NewProducts({ locale }: NewProductsProps) {
   return (
     <section id="nuevos-productos" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-7xl mx-auto">
@@ -54,7 +58,7 @@ export default function NewProducts({ locale }: NewProductsProps) {
             >
               <div className="relative h-48 overflow-hidden">
                 <Image
-                  src={line.imagen}
+                  src={line.imagen ?? IMAGEN_RESPALDO}
                   alt={line.nombre}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"

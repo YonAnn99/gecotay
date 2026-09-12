@@ -19,7 +19,9 @@ const valoresIcons = [
 ];
 
 const takeaways = [
-  { label: "Líneas de producto", value: "20" },
+  // El catálogo se edita desde el panel, así que un número fijo aquí se
+  // desincroniza. Se nombra la amplitud sin comprometer una cifra.
+  { label: "Líneas de producto", value: "20+" },
   { label: "Servicios integrales", value: "11" },
   { label: "Garantía", value: "1 año" },
   { label: "Envíos", value: "2–15 días" },
@@ -79,7 +81,7 @@ export default function NosotrosPage({ locale }: NosotrosPageProps) {
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             <Link href={`/${locale}/productos`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
-              <p className="text-sm text-gray-600">20 líneas de mobiliario</p>
+              <p className="text-sm text-gray-600">Nuestro catálogo de mobiliario</p>
             </Link>
             <Link href={`/${locale}/servicios`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>

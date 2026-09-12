@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Hero from "../components/home/Hero";
 import Services from "../components/home/Services";
+import { obtenerProductos, obtenerServicios } from "../lib/contenido";
 import About from "../components/home/About";
 import NewProducts from "../components/home/NewProducts";
 import WhyChoose from "../components/home/WhyChoose";
@@ -10,6 +11,9 @@ import { t } from "../lib/i18n";
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
+
+// Red de seguridad por si se pierde una invalidación del panel.
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -29,9 +33,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       locale,
     },
     alternates: {
+      canonical: "/es",
       languages: {
         es: "/es",
-        en: "/en",
+        "x-default": "/es",
       },
     },
   };
@@ -39,6 +44,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function Home({ params }: PageProps) {
   const { locale } = await params;
+
+  const [lineas, servicios] = await Promise.all([obtenerProductos(), obtenerServicios()]);
   const logisticsTakeaways = [
     { label: t(locale, "logistics.shippingLabel"), value: t(locale, "logistics.shippingValue") },
     { label: t(locale, "logistics.coverageLabel"), value: t(locale, "logistics.coverageValue") },
@@ -50,9 +57,9 @@ export default async function Home({ params }: PageProps) {
       <Hero locale={locale} />
       <main className="flex-1">
         <KeyTakeaways items={logisticsTakeaways} />
-        <Services locale={locale} />
+        <Services locale={locale} servicios={servicios} />
         <About locale={locale} />
-        <NewProducts locale={locale} />
+        <NewProducts locale={locale} lineas={lineas} />
         <WhyChoose locale={locale} />
       </main>
     </>

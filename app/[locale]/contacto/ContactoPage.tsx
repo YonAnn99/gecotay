@@ -6,6 +6,7 @@ import KeyTakeaways from "../../components/ui/KeyTakeaways";
 import EarlyCTA from "../../components/ui/EarlyCTA";
 import FAQSection from "../../components/ui/FAQSection";
 import { EMPRESA, CONTACTO, REDES, POLITICAS } from "../../data/empresa";
+import { guardarContacto } from "@/app/actions/leads";
 
 interface ContactoPageProps {
   locale: string;
@@ -37,6 +38,22 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const mensaje = buildMensaje();
+
+    // Persistimos en Supabase SIN await: `window.open` solo esquiva el
+    // bloqueador de pop-ups mientras seguimos dentro del gesto del usuario,
+    // y un await aquí rompería esa cadena. El guardado es un respaldo —
+    // si falla, el lead igual llega por WhatsApp, así que nunca debe
+    // bloquear ni alterar el flujo que el usuario ya conoce.
+    void guardarContacto({
+      nombre: formData.nombre,
+      email: formData.email,
+      telefono: formData.telefono,
+      empresa: formData.empresa,
+      asunto: formData.asunto,
+      mensaje: formData.mensaje,
+      locale,
+    }).catch((err) => console.error("[contacto] no se pudo registrar el lead:", err));
+
     window.open(
       `https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(mensaje)}`,
       "_blank",
@@ -108,7 +125,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
           <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
             <Link href={`/${locale}/productos`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Productos</h3>
-              <p className="text-sm text-gray-600">20 líneas de mobiliario</p>
+              <p className="text-sm text-gray-600">Nuestro catálogo de mobiliario</p>
             </Link>
             <Link href={`/${locale}/servicios`} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-primary/30 hover:shadow-lg transition-all duration-300">
               <h3 className="font-semibold text-gray-900 mb-1">Servicios</h3>

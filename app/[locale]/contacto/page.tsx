@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import ContactoPage from "./ContactoPage";
-import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
@@ -22,7 +21,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: {
-    languages: { es: "/es/contacto", en: "/en/contacto" },
+    canonical: "/es/contacto",
+    languages: { es: "/es/contacto", "x-default": "/es/contacto" },
   },
 };
 
@@ -32,10 +32,5 @@ export default async function ContactoLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return (
-    <>
-      <GrainientBackground />
-      <ContactoPage locale={locale} />
-    </>
-  );
+  return <ContactoPage locale={locale} />;
 }

@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 import ServiciosPage from "./ServiciosPage";
-import GrainientBackground from "../../components/ui/GrainientBackground";
+import { obtenerServicios } from "../../lib/contenido";
+
+// Red de seguridad por si se pierde una invalidación del panel.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
@@ -22,7 +25,8 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   alternates: {
-    languages: { es: "/es/servicios", en: "/en/servicios" },
+    canonical: "/es/servicios",
+    languages: { es: "/es/servicios", "x-default": "/es/servicios" },
   },
 };
 
@@ -32,10 +36,6 @@ export default async function ServiciosLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return (
-    <>
-      <GrainientBackground />
-      <ServiciosPage locale={locale} />
-    </>
-  );
+  const servicios = await obtenerServicios();
+  return <ServiciosPage locale={locale} servicios={servicios} />;
 }

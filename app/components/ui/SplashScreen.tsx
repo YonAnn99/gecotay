@@ -2,8 +2,8 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 
-const MIN_SHOW_MS = 2500;
-const MAX_SHOW_MS = 7000;
+const MIN_SHOW_MS = 1100;
+const MAX_SHOW_MS = 3000;
 const FADE_MS = 500;
 const BAR_FILL_MS = 300;
 
@@ -69,7 +69,7 @@ export default function SplashScreen() {
     // JS can retarget it when the page finishes loading).
     if (bar) {
       requestAnimationFrame(() => {
-        bar.style.transitionDuration = "1800ms";
+        bar.style.transitionDuration = "900ms";
         bar.style.transitionTimingFunction = "linear";
         bar.style.transform = "scaleX(0.85)";
       });

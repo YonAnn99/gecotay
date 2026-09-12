@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import AcabadosPage from "./AcabadosPage";
-import GrainientBackground from "../../components/ui/GrainientBackground";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
@@ -25,7 +24,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    languages: { es: "/es/acabados-tapices", en: "/en/acabados-tapices" },
+    canonical: "/es/acabados-tapices",
+    languages: { es: "/es/acabados-tapices", "x-default": "/es/acabados-tapices" },
   },
 };
 
@@ -35,10 +35,5 @@ export default async function AcabadosLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  return (
-    <>
-      <GrainientBackground />
-      <AcabadosPage locale={locale} />
-    </>
-  );
+  return <AcabadosPage locale={locale} />;
 }

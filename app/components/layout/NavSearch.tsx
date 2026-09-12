@@ -3,11 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Command } from "cmdk";
-import { LINEAS_PRODUCTO, NAVEGACION, SERVICIOS } from "../../data/empresa";
+import { NAVEGACION } from "../../data/empresa";
+import type { ProductoPublico, ServicioPublico } from "@/app/lib/contenido";
 import { t } from "../../lib/i18n";
 
 interface NavSearchProps {
   locale: string;
+  lineas: ProductoPublico[];
+  servicios: ServicioPublico[];
 }
 
 export const SEARCH_OPEN_EVENT = "gecotay:open-search";
@@ -31,7 +34,7 @@ function MagnifierIcon({ className }: { className?: string }) {
   );
 }
 
-export default function NavSearch({ locale }: NavSearchProps) {
+export default function NavSearch({ locale, lineas, servicios }: NavSearchProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -125,7 +128,7 @@ export default function NavSearch({ locale }: NavSearchProps) {
               heading={t(locale, "search.products")}
               className="mt-1 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-primary/80"
             >
-              {LINEAS_PRODUCTO.map((linea) => (
+              {lineas.map((linea) => (
                 <Command.Item
                   key={linea.slug}
                   value={`${linea.nombre} ${linea.descripcion}`}
@@ -142,7 +145,7 @@ export default function NavSearch({ locale }: NavSearchProps) {
               heading={t(locale, "search.services")}
               className="mt-1 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-2 [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group-heading]]:text-primary/80"
             >
-              {SERVICIOS.map((servicio) => (
+              {servicios.map((servicio) => (
                 <Command.Item
                   key={servicio.slug}
                   value={`${servicio.titulo} ${servicio.descripcion}`}

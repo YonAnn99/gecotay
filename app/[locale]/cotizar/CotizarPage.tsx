@@ -6,6 +6,7 @@ import KeyTakeaways from "../../components/ui/KeyTakeaways";
 import EarlyCTA from "../../components/ui/EarlyCTA";
 import FAQSection from "../../components/ui/FAQSection";
 import { CONTACTO } from "../../data/empresa";
+import { guardarCotizacion } from "@/app/actions/leads";
 
 const steps = [
   { id: 1, title: "Datos", desc: "Tu información" },
@@ -22,6 +23,24 @@ const projectTypes = [
   { value: "hogar", label: "Hogar (muebles a medida)", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg> },
   { value: "acabados", label: "Solo acabados / tapices / materiales", icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a5 5 0 0110 0h2a3 3 0 013 3v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a3 3 0 013-3h2z"/></svg> },
 ];
+
+const serviciosDisponibles = [
+  { value: "atencion", label: "Atención personalizada" },
+  { value: "planeacion", label: "Planeación de espacios" },
+  { value: "instalacion", label: "Entrega e instalación" },
+  { value: "mantenimiento", label: "Mantenimiento" },
+  { value: "carpinteria", label: "Carpintería / Ebanistería" },
+  { value: "tapiceria", label: "Tapicería" },
+];
+
+// El estado guarda los `value` de los checkboxes, pero nadie que lea la
+// solicitud —ventas por WhatsApp o correo, y el panel de admin— quiere leer
+// "instalacion, tapiceria". Todas las salidas pasan por aquí.
+function etiquetasDeServicios(values: string[]): string[] {
+  return values.map(
+    (v) => serviciosDisponibles.find((s) => s.value === v)?.label ?? v
+  );
+}
 
 const timelines = [
   { value: "urgente", label: "Urgente (< 2 semanas)" },
@@ -65,6 +84,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
     e.preventDefault();
     const proyecto = projectTypes.find((p) => p.value === formData.tipoProyecto)?.label || "No especificado";
     const plazo = timelines.find((t) => t.value === formData.plazo)?.label || "No especificado";
+    const servicios = etiquetasDeServicios(formData.servicios);
     const mensaje = [
       "Hola Grupo Gecotay, quiero solicitar un presupuesto:",
       `Nombre: ${formData.nombre}`,
@@ -78,11 +98,33 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
       formData.superficie ? `Superficie: ${formData.superficie} m²` : "",
       `Plazo: ${plazo}`,
       formData.presupuesto ? `Presupuesto: ${formData.presupuesto}` : "",
-      formData.servicios.length ? `Servicios: ${formData.servicios.join(", ")}` : "",
+      servicios.length ? `Servicios: ${servicios.join(", ")}` : "",
       formData.observaciones ? `Observaciones: ${formData.observaciones}` : "",
     ]
       .filter(Boolean)
       .join("\n");
+    // Persistimos en Supabase SIN await: `window.open` solo esquiva el
+    // bloqueador de pop-ups mientras seguimos dentro del gesto del usuario,
+    // y un await aquí rompería esa cadena. Guardamos las etiquetas legibles
+    // (`proyecto`, `plazo`) y no los `value` internos, para que el panel de
+    // admin se lea igual que el mensaje que recibe ventas.
+    void guardarCotizacion({
+      nombre: formData.nombre,
+      email: formData.email,
+      telefono: formData.telefono,
+      empresa: formData.empresa,
+      cargo: formData.cargo,
+      tipoProyecto: proyecto,
+      descripcion: formData.descripcion,
+      ubicacion: formData.ubicacion,
+      superficie: formData.superficie,
+      plazo,
+      presupuesto: formData.presupuesto,
+      servicios,
+      observaciones: formData.observaciones,
+      locale,
+    }).catch((err) => console.error("[cotizar] no se pudo registrar el lead:", err));
+
     window.open(
       `https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(mensaje)}`,
       "_blank",
@@ -107,7 +149,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
       `Superficie: ${formData.superficie} m²`,
       `Plazo: ${timelines.find((t) => t.value === formData.plazo)?.label || "No especificado"}`,
       `Presupuesto: ${formData.presupuesto}`,
-      `Servicios: ${formData.servicios.join(", ")}`,
+      `Servicios: ${etiquetasDeServicios(formData.servicios).join(", ")}`,
       formData.observaciones ? `Observaciones: ${formData.observaciones}` : "",
     ]
       .filter(Boolean)
@@ -213,7 +255,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Servicios que necesitas</label>
         <div className="grid sm:grid-cols-2 gap-3">
-          {[["Atención personalizada", "atencion"], ["Planeación de espacios", "planeacion"], ["Entrega e instalación", "instalacion"], ["Mantenimiento", "mantenimiento"], ["Carpintería / Ebanistería", "carpinteria"], ["Tapicería", "tapiceria"]].map(([label, val]) => (
+          {serviciosDisponibles.map(({ label, value: val }) => (
             <label key={val} className="flex items-center gap-3 p-3 border border-gray-200 rounded-xl hover:border-primary/50 cursor-pointer">
               <input type="checkbox" value={val} checked={formData.servicios.includes(val)} onChange={(e) => handleChange("servicios", e.target.checked ? [...formData.servicios, val] : formData.servicios.filter((v) => v !== val))} className="w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary" />
               <span className="text-sm text-gray-700">{label}</span>
@@ -242,7 +284,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
         <p><span className="font-medium text-gray-900">Ubicación:</span> {formData.ubicacion} · {formData.superficie} m²</p>
         <p><span className="font-medium text-gray-900">Plazo:</span> {timelines.find((t) => t.value === formData.plazo)?.label || "—"}</p>
         <p><span className="font-medium text-gray-900">Presupuesto:</span> {formData.presupuesto || "No indicado"}</p>
-        <p><span className="font-medium text-gray-900">Servicios:</span> {formData.servicios.length ? formData.servicios.join(", ") : "Ninguno seleccionado"}</p>
+        <p><span className="font-medium text-gray-900">Servicios:</span> {formData.servicios.length ? etiquetasDeServicios(formData.servicios).join(", ") : "Ninguno seleccionado"}</p>
       </div>
       <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl text-sm text-primary">
         <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

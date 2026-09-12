@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   description:
     "Descarga el catálogo 2026 de Grupo Gecotay y las cartas de colores de telas, melaminas y metales.",
   alternates: {
-    languages: { es: "/es/descargas", en: "/en/descargas" },
+    canonical: "/es/descargas",
+    languages: { es: "/es/descargas", "x-default": "/es/descargas" },
   },
 };
 

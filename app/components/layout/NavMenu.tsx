@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { t } from "@/app/lib/i18n";
 import { SEARCH_OPEN_EVENT } from "./NavSearch";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 interface NavMenuProps {
   locale: string;
@@ -163,6 +164,7 @@ export default function NavMenu({ locale }: NavMenuProps) {
                   );
                 })}
               </ul>
+              <LocaleSwitcher locale={locale} onNavigate={() => setIsOpen(false)} />
             </motion.div>
           )}
         </AnimatePresence>

@@ -20,6 +20,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Las superficies internas (admin y ventas) son claras: no llevan el fondo
+   WebGL del sitio público, con el que este oscuro está pensado para combinar.
+   Tiene que resolverse aquí y no con utilidades de Tailwind: la regla `body`
+   de arriba va SIN capa, y en Tailwind v4 lo no-capeado gana a `@layer
+   utilities` por mucha especificidad que tenga la clase. Un `bg-gray-50` en
+   el <body> del layout se veía negro por esto. */
+html[data-superficie="interna"] body {
+  background: #f9fafb;
+  color: #111827;
+}
+
 /* ─── Splash screen (runs on the compositor while the page hydrates) ─── */
 
 .splash-overlay {

@@ -1,8 +1,13 @@
 import type { MetadataRoute } from "next";
-import { EMPRESA, LINEAS_PRODUCTO } from "./data/empresa";
+import { EMPRESA } from "./data/empresa";
+import { obtenerProductos } from "./lib/contenido";
 
-const locales = ["es", "en"] as const;
-
+// Only Spanish is advertised to search engines. The /en routes still exist and
+// are reachable from the navbar language switcher, but their page content is
+// not actually translated yet (see .agents/skills/CONTEXT.md), so listing them
+// here with hreflang would hand Google ~30 duplicate URLs claiming to be
+// English. They are also served with `X-Robots-Tag: noindex` (see
+// next.config.ts). Re-add the `en` alternates once the catalogs are complete.
 const staticPaths: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] = [
   { path: "", priority: 1, changeFrequency: "weekly" },
   { path: "/productos", priority: 0.9, changeFrequency: "weekly" },
@@ -15,7 +20,7 @@ const staticPaths: { path: string; priority: number; changeFrequency: "weekly" |
   { path: "/aviso-privacidad", priority: 0.3, changeFrequency: "yearly" },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
   const pages: MetadataRoute.Sitemap = staticPaths.map(({ path, priority, changeFrequency }) => ({
@@ -23,21 +28,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified,
     changeFrequency,
     priority,
-    alternates: {
-      languages: Object.fromEntries(locales.map((l) => [l, `${EMPRESA.url}/${l}${path}`])),
-    },
   }));
 
-  const products: MetadataRoute.Sitemap = LINEAS_PRODUCTO.map((linea) => ({
+  // Solo las líneas publicadas: la política de RLS ya excluye los borradores,
+  // así que un producto despublicado desde el panel desaparece del sitemap sin
+  // que haya que acordarse de filtrarlo aquí.
+  const lineas = await obtenerProductos();
+  const products: MetadataRoute.Sitemap = lineas.map((linea) => ({
     url: `${EMPRESA.url}/es/productos/${linea.slug}`,
     lastModified,
     changeFrequency: "monthly",
     priority: 0.6,
-    alternates: {
-      languages: Object.fromEntries(
-        locales.map((l) => [l, `${EMPRESA.url}/${l}/productos/${linea.slug}`])
-      ),
-    },
   }));
 
   return [...pages, ...products];

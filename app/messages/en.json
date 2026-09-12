@@ -55,7 +55,8 @@
     "menu": "Menu",
     "abrir": "Open menu",
     "cerrar": "Close menu",
-    "navegacion": "Main navigation"
+    "navegacion": "Main navigation",
+    "idioma": "Language"
   },
   "footer": {
     "explora": "Explore",
