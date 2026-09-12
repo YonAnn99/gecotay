@@ -3,16 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { obtenerPromociones } from "@/app/lib/contenido";
 import { baseDeSuperficie } from "@/app/lib/auth";
+import { diasRestantes } from "@/app/lib/promociones";
 
 export const metadata: Metadata = { title: "Promociones" };
-
-function diasRestantes(iso: string | null): string | null {
-  if (!iso) return null;
-  const dias = Math.ceil((new Date(iso).getTime() - Date.now()) / 86_400_000);
-  if (dias <= 0) return null;
-  if (dias === 1) return "Último día";
-  return `Quedan ${dias} días`;
-}
 
 export default async function PromocionesVentasPage() {
   const [promociones, base] = await Promise.all([obtenerPromociones(), baseDeSuperficie()]);

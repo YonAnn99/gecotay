@@ -81,13 +81,34 @@ export default function GaleriaMedios({ medios }: { medios: Medio[] }) {
         )}
         {estado?.ok && (
           <div className="mt-4 rounded-xl border border-primary/30 bg-primary/5 p-4">
-            <p className="text-sm font-medium">Subida correcta. Pega esta URL en el producto o servicio:</p>
-            <input
-              readOnly
-              value={estado.url}
-              onFocus={(e) => e.currentTarget.select()}
-              className="mt-2 w-full rounded-lg bg-white px-3 py-2 font-mono text-xs"
-            />
+            {/* Este es el momento en que la interfaz parecía terminada y no lo
+                estaba: el archivo ya está guardado, pero no se ve en ningún
+                sitio hasta que su enlace se pega en un registro. Decirlo aquí
+                evita la pregunta «¿y ahora dónde elijo dónde se muestra?». */}
+            <p className="text-sm font-medium">Imagen guardada — todavía no se muestra en ninguna parte.</p>
+            <p className="mt-1 text-sm text-gray-600">
+              Para que aparezca, copia este enlace y pégalo en el campo de imagen
+              de un producto, un servicio o una promoción.
+            </p>
+            {/* El campo de solo lectura se queda como respaldo: si el
+                portapapeles no está disponible, sigue pudiéndose seleccionar
+                y copiar a mano. */}
+            <div className="mt-2 flex flex-wrap gap-2">
+              <input
+                readOnly
+                value={estado.url}
+                onFocus={(e) => e.currentTarget.select()}
+                aria-label="Enlace de la imagen"
+                className="min-w-0 flex-1 rounded-lg bg-white px-3 py-2 font-mono text-xs"
+              />
+              <button
+                type="button"
+                onClick={() => copiar(estado.url)}
+                className={`${BOTON_SECUNDARIO} shrink-0 bg-white`}
+              >
+                {copiada === estado.url ? "¡Copiada!" : "Copiar URL"}
+              </button>
+            </div>
           </div>
         )}
       </section>

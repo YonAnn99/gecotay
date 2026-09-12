@@ -87,7 +87,10 @@ function Editor({ promo, alCerrar }: { promo: Promocion | null; alCerrar: () => 
 
       <div>
         <label htmlFor={`img-${k}`} className={ETIQUETA}>Imagen</label>
-        <input id={`img-${k}`} name="imagen" defaultValue={promo?.imagen ?? ""} className={CAMPO} />
+        <input id={`img-${k}`} name="imagen" defaultValue={promo?.imagen ?? ""} placeholder="/images/… o un enlace de Medios" className={CAMPO} />
+        <p className="mt-1.5 text-xs text-gray-500">
+          <strong className="font-medium">Sustituye</strong> a la que hubiera. Vale una ruta del sitio o un enlace copiado de Medios.
+        </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

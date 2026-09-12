@@ -17,7 +17,7 @@ export default async function PromocionesAdminPage() {
   const promociones = (data ?? []) as Promocion[];
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-6 py-10">
+    <main className="mx-auto max-w-5xl space-y-6 px-6 py-10">
       <div>
         <h1 className="text-2xl font-semibold">Promociones</h1>
         <p className="mt-1 text-gray-600">

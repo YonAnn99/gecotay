@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap">
+  <style>
+    body { margin: 0; font-family: "Geist", system-ui, -apple-system, sans-serif; }
+    a { color: #364153; }
+    a:hover { color: #101828; }
+  </style>
+</helmet>
+
+<!-- 390x844: el vendedor entra desde el móvil, de pie, frente al cliente.
+     Sin barra de estado falsa ni teclado dibujado — el sistema los pinta
+     encima. La franja de marca arriba usa el degradado del splash. -->
+<div style="width: 390px; height: 844px; background: #f9fafb; color: #111827; display: flex; flex-direction: column">
+
+  <div style="position: relative; overflow: hidden; background: radial-gradient(ellipse 90% 70% at 50% 40%, #171d10 0%, #10140d 60%, #0a0c08 100%); padding: 72px 28px 36px">
+    <div style="position: absolute; top: 30%; left: 50%; width: 300px; height: 300px; transform: translate(-50%, -50%); border-radius: 9999px; background: radial-gradient(circle, rgba(170, 198, 55, 0.16) 0%, transparent 65%); pointer-events: none"></div>
+    <img src="logo-vertical-white.webp" alt="Grupo Gecotay" style="position: relative; width: 62px; height: auto; display: block">
+    <p style="position: relative; margin: 20px 0 0; font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: #aac637">Ventas</p>
+    <p style="position: relative; margin: 8px 0 0; font-size: 22px; font-weight: 600; color: #f5f5f4; letter-spacing: -0.01em">El catálogo, a la mano</p>
+  </div>
+
+  <div style="flex: 1; padding: 32px 28px 28px; display: flex; flex-direction: column">
+
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <div>
+        <p style="margin: 0 0 6px; font-size: 14px; font-weight: 500; color: #364153">Correo</p>
+        <div style="border: 1px solid #e5e7eb; background: #ffffff; border-radius: 12px; padding: 13px 16px; font-size: 16px; color: #9ca3af">tu@correo.com</div>
+      </div>
+
+      <div>
+        <p style="margin: 0 0 6px; font-size: 14px; font-weight: 500; color: #364153">Tu código</p>
+        <!-- Enfocado. Monoespaciado y con tracking: el código se dicta por
+             teléfono y se teclea carácter a carácter. -->
+        <div style="border: 1px solid #aac637; box-shadow: 0 0 0 2px rgba(170, 198, 55, 0.2); background: #ffffff; border-radius: 12px; padding: 13px 16px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 18px; letter-spacing: 0.2em; color: #111827">2DVGDDCY6L</div>
+        <p style="margin: 7px 0 0; font-size: 12px; color: #6a7282; line-height: 1.5">El que recibiste por correo. Es tu contraseña y no caduca.</p>
+      </div>
+
+      <div style="border-radius: 12px; background: #10140d; color: #ffffff; font-size: 16px; font-weight: 500; padding: 15px 16px; text-align: center">Entrar</div>
+    </div>
+
+    <p style="margin: auto 0 0; text-align: center; font-size: 13px; color: #6a7282; line-height: 1.55">
+      ¿No lo tienes o lo perdiste?<br>Pídeselo a tu administrador.
+    </p>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

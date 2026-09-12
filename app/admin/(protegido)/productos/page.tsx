@@ -35,15 +35,16 @@ export default async function ProductosAdminPage() {
   const publicados = productos.filter((p) => p.publicado).length;
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-6 py-10">
-      <div>
-        <h1 className="text-2xl font-semibold">Productos</h1>
-        <p className="mt-1 text-gray-600">
-          {productos.length} líneas · {publicados} visibles en el sitio.
-        </p>
-      </div>
-
-      <ListaProductos productos={productos} />
+    <main className="mx-auto max-w-5xl space-y-6 px-6 py-10">
+      {/* El título va dentro de la lista, no aquí, porque comparte fila con
+          «Nuevo producto» y ese botón necesita el estado del componente de
+          cliente. Se pasa como texto y no como JSX: cruzar elementos de
+          servidor a cliente hacía que React pidiera `key` para esa fila. */}
+      <ListaProductos
+        productos={productos}
+        titulo="Productos"
+        resumen={`${productos.length} líneas · ${publicados} visibles en el sitio.`}
+      />
     </main>
   );
 }

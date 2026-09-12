@@ -143,69 +143,12 @@ export type Database = {
         }
         Relationships: []
       }
-      invitaciones: {
-        Row: {
-          codigo: string | null
-          creada_por: string | null
-          created_at: string
-          email: string
-          estado: Database["public"]["Enums"]["estado_invitacion"]
-          expira_en: string
-          id: string
-          intentos_fallidos: number
-          perfil_id: string | null
-          rol: Database["public"]["Enums"]["rol_usuario"]
-          updated_at: string
-          usada_en: string | null
-        }
-        Insert: {
-          codigo?: string | null
-          creada_por?: string | null
-          created_at?: string
-          email: string
-          estado?: Database["public"]["Enums"]["estado_invitacion"]
-          expira_en?: string
-          id?: string
-          intentos_fallidos?: number
-          perfil_id?: string | null
-          rol?: Database["public"]["Enums"]["rol_usuario"]
-          updated_at?: string
-          usada_en?: string | null
-        }
-        Update: {
-          codigo?: string | null
-          creada_por?: string | null
-          created_at?: string
-          email?: string
-          estado?: Database["public"]["Enums"]["estado_invitacion"]
-          expira_en?: string
-          id?: string
-          intentos_fallidos?: number
-          perfil_id?: string | null
-          rol?: Database["public"]["Enums"]["rol_usuario"]
-          updated_at?: string
-          usada_en?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "invitaciones_creada_por_fkey"
-            columns: ["creada_por"]
-            isOneToOne: false
-            referencedRelation: "perfiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "invitaciones_perfil_id_fkey"
-            columns: ["perfil_id"]
-            isOneToOne: false
-            referencedRelation: "perfiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       perfiles: {
         Row: {
           activo: boolean
+          codigo_acceso: string | null
+          codigo_actualizado_en: string | null
+          creado_por: string | null
           created_at: string
           email: string
           id: string
@@ -216,6 +159,9 @@ export type Database = {
         }
         Insert: {
           activo?: boolean
+          codigo_acceso?: string | null
+          codigo_actualizado_en?: string | null
+          creado_por?: string | null
           created_at?: string
           email: string
           id: string
@@ -226,6 +172,9 @@ export type Database = {
         }
         Update: {
           activo?: boolean
+          codigo_acceso?: string | null
+          codigo_actualizado_en?: string | null
+          creado_por?: string | null
           created_at?: string
           email?: string
           id?: string
@@ -439,7 +388,6 @@ export type Database = {
     Views: { [_ in never]: never }
     Functions: { [_ in never]: never }
     Enums: {
-      estado_invitacion: "pendiente" | "usada" | "expirada" | "revocada"
       lead_estado: "nuevo" | "contactado" | "cotizado" | "ganado" | "perdido"
       rol_usuario: "admin" | "ventas"
       tipo_promocion: "descuento" | "paquete" | "liquidacion"

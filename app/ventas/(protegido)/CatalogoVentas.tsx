@@ -44,14 +44,34 @@ export default function CatalogoVentas({
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center gap-3">
-        <input
-          type="search"
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          placeholder="Buscar por nombre o característica…"
-          aria-label="Buscar en el catálogo"
-          className="min-w-0 flex-1 rounded-xl border border-gray-200 px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
-        />
+        {/* La lupa va dentro del campo, no al lado: es la pista de que ahí se
+            escribe. El texto se queda a 16px — por debajo, iOS hace zoom al
+            enfocar y descuadra la pantalla. */}
+        <div className="relative min-w-0 flex-1">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input
+            type="search"
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            placeholder="Buscar por nombre o característica…"
+            aria-label="Buscar en el catálogo"
+            className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
         <button
           type="button"
           onClick={() => setSoloNuevos((v) => !v)}
@@ -75,7 +95,10 @@ export default function CatalogoVentas({
           Nada coincide con esa búsqueda.
         </p>
       ) : (
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        // Dos por fila ya en el teléfono: se usa de pie y frente al cliente,
+        // y con una sola columna cada línea obliga a desplazarse una pantalla
+        // entera. Las tarjetas siguen siendo tocables a 390px.
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
           {filtrados.map((p) => (
             <li key={p.slug}>
               <Link
@@ -96,14 +119,16 @@ export default function CatalogoVentas({
                     </span>
                   )}
                 </div>
-                <div className="p-4">
-                  <p className="font-medium">{p.nombre}</p>
-                  <p className="mt-1 text-sm text-gray-500">
+                <div className="px-3 pb-3.5 pt-2.5 sm:px-4 sm:pb-4">
+                  <p className="text-sm font-medium leading-tight sm:text-base">{p.nombre}</p>
+                  <p className="mt-1.5 text-[13px] text-gray-600 sm:text-sm">
                     {p.precioDesde != null
                       ? `Desde $${p.precioDesde.toLocaleString("es-MX")}`
                       : "Precio a consultar"}
-                    {p.fotos > 0 && ` · ${p.fotos} fotos`}
                   </p>
+                  {p.fotos > 0 && (
+                    <p className="mt-0.5 text-xs text-gray-500">{p.fotos} fotos</p>
+                  )}
                 </div>
               </Link>
             </li>

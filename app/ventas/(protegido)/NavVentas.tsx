@@ -1,43 +1,75 @@
-import Link from "next/link";
+"use client";
+
+import { usePathname } from "next/navigation";
+import PillNav from "@/app/components/ui/PillNav";
 import { cerrarSesion } from "@/app/admin/login/actions";
 
 const enlaces = [
-  { href: "", etiqueta: "Catálogo" },
-  { href: "/servicios", etiqueta: "Servicios" },
-  { href: "/promociones", etiqueta: "Promociones" },
+  { label: "Catálogo", href: "" },
+  { label: "Servicios", href: "/servicios" },
+  { label: "Promociones", href: "/promociones" },
 ];
 
 /**
- * Barra del módulo de ventas.
+ * Barra del módulo de ventas, sobre el mismo PillNav que el panel.
  *
  * Reutiliza `cerrarSesion` de admin: es la misma operación —terminar la sesión
  * de Supabase y volver al login de la superficie actual— y `baseDeSuperficie()`
- * ya resuelve a cuál, así que duplicarla no aportaría nada.
+ * ya resuelve a cuál.
+ *
+ * `sticky` se mantiene del diseño anterior: esta pantalla se usa desplazándose
+ * por el catálogo en el móvil, y perder la navegación al bajar molesta. La
+ * altura fija y el `relative` son los mismos que en NavAdmin, y por la misma
+ * razón: la raíz de PillNav va en `position: absolute`.
  */
 export default function NavVentas({ base, email }: { base: string; email: string }) {
+  const pathname = usePathname();
+
+  const items = enlaces.map(({ label, href }) => ({
+    label,
+    href: `${base}${href}` || "/",
+  }));
+
+  const activo =
+    items
+      .filter((i) => pathname === i.href || pathname.startsWith(`${i.href}/`))
+      .sort((a, b) => b.href.length - a.href.length)[0]?.href ?? items[0].href;
+
   return (
-    <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-x-6 gap-y-3 px-5 py-3">
-        <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-          Gecotay · Ventas
-        </p>
-        <nav className="flex gap-5 text-sm">
-          {enlaces.map(({ href, etiqueta }) => (
-            <Link
-              key={href}
-              href={`${base}${href}` || "/"}
-              className="text-gray-600 transition-colors hover:text-gray-900"
-            >
-              {etiqueta}
-            </Link>
-          ))}
-        </nav>
-        <div className="ml-auto flex items-center gap-3 text-sm">
-          <span className="hidden text-gray-500 sm:inline">{email}</span>
+    // Envoltorio semántico y nada más. El `sticky`, el fondo translúcido y el
+    // `backdrop-blur` que había aquí eran propiedades de la BARRA; al quitarla
+    // se van con ella — las islas ya traen su propio fondo sólido.
+    <header>
+      {/* Contenedor fijo y sin altura: solo posiciona las dos islas. Mismo
+          patrón que el panel y que el sitio público. */}
+      <div className="fixed inset-x-0 top-0 z-50 mx-auto h-0 max-w-7xl px-5">
+        <PillNav
+          logo="/images/logo/logo-vertical-white.webp"
+          logoAlt="Grupo Gecotay"
+          items={items}
+          activeHref={activo}
+          // Mismos colores que el panel: `--base` gobierna el círculo del
+          // logo, el relleno que sube al pasar el ratón y el punto de activo.
+          // Sobre el verde el texto va en ink — con blanco no pasaría AA.
+          baseColor="#aac637"
+          pillColor="#ffffff"
+          pillTextColor="#10140d"
+          hoveredPillTextColor="#10140d"
+          ease="power3.easeOut"
+        />
+
+        {/* Aquí el correo sí cabe desde lg: ventas solo tiene tres secciones,
+            así que el nav ocupa bastante menos que el del panel.
+
+            En móvil PillNav se convierte en hamburguesa y ocupa los últimos
+            ~73px del borde derecho (medido en el navegador), así que la isla se
+            aparta para no quedar debajo. */}
+        <div className="absolute right-[76px] top-[1em] flex h-[42px] items-center gap-3 rounded-full border border-[#10140d] bg-white pl-4 pr-1.5 text-sm md:right-5">
+          <span className="hidden max-w-[220px] truncate text-gray-500 lg:inline">{email}</span>
           <form action={cerrarSesion}>
             <button
               type="submit"
-              className="rounded-lg border border-gray-200 px-3 py-1.5 text-gray-700 transition-colors hover:bg-gray-50"
+              className="rounded-full bg-[#10140d] px-4 py-1.5 font-medium text-white transition-opacity hover:opacity-90"
             >
               Salir
             </button>

@@ -2,6 +2,9 @@
 
 import { useActionState } from "react";
 import { iniciarSesion, type EstadoLogin } from "./actions";
+// Las clases del panel valen aquí: el login es la misma superficie. El grupo
+// de rutas `(protegido)` no afecta a las importaciones, solo a la URL.
+import { CAMPO, ETIQUETA } from "../(protegido)/ui";
 
 export default function FormularioLogin() {
   const [estado, accion, enviando] = useActionState<EstadoLogin, FormData>(
@@ -12,7 +15,7 @@ export default function FormularioLogin() {
   return (
     <form action={accion} className="space-y-5">
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="email" className={ETIQUETA}>
           Correo
         </label>
         <input
@@ -21,12 +24,12 @@ export default function FormularioLogin() {
           type="email"
           autoComplete="username"
           required
-          className="mt-1.5 w-full rounded-xl border border-gray-200 px-4 py-2.5 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className={CAMPO}
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="password" className={ETIQUETA}>
           Contraseña
         </label>
         <input
@@ -35,7 +38,7 @@ export default function FormularioLogin() {
           type="password"
           autoComplete="current-password"
           required
-          className="mt-1.5 w-full rounded-xl border border-gray-200 px-4 py-2.5 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className={CAMPO}
         />
       </div>
 

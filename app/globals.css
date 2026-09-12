@@ -14,6 +14,29 @@
   --foreground: #f5f5f4;
 }
 
+/* Fondo de marca: el degradado oscuro del splash y el halo verde que lleva
+   encima. Viven aquí y no incrustados en `.splash-overlay` porque los reusan
+   los logins de admin y de ventas; son la misma superficie de marca y tienen
+   que cambiar a la vez. Las dos utilidades de abajo son lo único que se
+   aplica en el marcado. */
+:root {
+  --marca-fondo: radial-gradient(
+    ellipse 80% 60% at 50% 45%,
+    #171d10 0%,
+    var(--color-ink) 55%,
+    #0a0c08 100%
+  );
+  --marca-halo: radial-gradient(circle, rgba(170, 198, 55, 0.14) 0%, transparent 65%);
+}
+
+.marca-fondo {
+  background: var(--marca-fondo);
+}
+
+.marca-halo {
+  background: var(--marca-halo);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -40,12 +63,7 @@ html[data-superficie="interna"] body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(
-    ellipse 80% 60% at 50% 45%,
-    #171d10 0%,
-    var(--color-ink) 55%,
-    #0a0c08 100%
-  );
+  background: var(--marca-fondo);
   animation: splash-overlay-in 200ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
@@ -61,7 +79,7 @@ html[data-superficie="interna"] body {
   aspect-ratio: 1 / 1;
   transform: translate(-50%, -50%);
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(170, 198, 55, 0.14) 0%, transparent 65%);
+  background: var(--marca-halo);
   pointer-events: none;
 }
 

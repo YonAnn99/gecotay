@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import CookieBanner from "../components/CookieBanner";
@@ -139,6 +141,20 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <main className="flex-1">{children}</main>
         <Footer locale={locale} />
         <CookieBanner locale={locale} />
+
+        {/* Analítica y métricas de carga, SOLO en el sitio público.
+            No van en los root layouts de admin ni de ventas: son herramientas
+            internas, medir su uso no aporta nada y gastaría cuota.
+
+            Las dos son SIN COOKIES: no hay identificador persistente en el
+            navegador ni seguimiento entre sitios, así que no dependen del
+            consentimiento del banner — y el texto del aviso («no usamos
+            cookies de análisis ni de publicidad de terceros») sigue siendo
+            cierto tal como está. Si algún día se añade GA4 u otro que sí ponga
+            cookies, ESE sí tiene que quedar detrás de `gecotay-cookie-consent`. */}
+        <Analytics />
+        <SpeedInsights />
+
         {/* Rendered as a plain <script> in the server HTML (not via next/script):
             structured data must be present in the first response, not injected
             after window.load. This is the approach Next recommends in

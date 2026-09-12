@@ -7,21 +7,37 @@ import { resolverImagenConRespaldo } from "@/app/lib/imagenes";
 import EditorProducto, { type Producto } from "./EditorProducto";
 import { BOTON_SECUNDARIO, BOTON_PRIMARIO, TARJETA } from "../ui";
 
-export default function ListaProductos({ productos }: { productos: Producto[] }) {
+export default function ListaProductos({
+  productos,
+  titulo,
+  resumen,
+}: {
+  productos: Producto[];
+  titulo: string;
+  resumen: string;
+}) {
   const [editando, setEditando] = useState<string | null>(null);
   const [creando, setCreando] = useState(false);
 
   return (
-    <div className="space-y-4">
-      {creando ? (
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">{titulo}</h1>
+          <p className="mt-1.5 text-[15px] text-gray-600">{resumen}</p>
+        </div>
+        {!creando && (
+          <button type="button" onClick={() => setCreando(true)} className={BOTON_PRIMARIO}>
+            Nuevo producto
+          </button>
+        )}
+      </div>
+
+      {creando && (
         <section className={`${TARJETA} p-5`}>
           <h2 className="mb-4 font-semibold">Nuevo producto</h2>
           <EditorProducto producto={null} alCerrar={() => setCreando(false)} />
         </section>
-      ) : (
-        <button type="button" onClick={() => setCreando(true)} className={BOTON_PRIMARIO}>
-          Nuevo producto
-        </button>
       )}
 
       <ul className="space-y-3">
@@ -30,12 +46,12 @@ export default function ListaProductos({ productos }: { productos: Producto[] })
           return (
             <li key={p.id} className={TARJETA}>
               <div className="flex flex-wrap items-center gap-4 p-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-gray-100">
+                <div className="relative h-14 w-[76px] shrink-0 overflow-hidden rounded-xl bg-gray-100">
                   <Image
                     src={resolverImagenConRespaldo(p.imagen)}
                     alt=""
                     fill
-                    sizes="56px"
+                    sizes="76px"
                     className="object-cover"
                   />
                 </div>
@@ -64,7 +80,17 @@ export default function ListaProductos({ productos }: { productos: Producto[] })
                 <form action={alternarPublicadoProducto}>
                   <input type="hidden" name="id" value={p.id} />
                   <input type="hidden" name="publicado" value={String(!p.publicado)} />
-                  <button type="submit" className={BOTON_SECUNDARIO}>
+                  {/* «Publicar» va en verde y «Despublicar» en neutro: en una
+                      lista larga, lo que salta a la vista debe ser la línea a
+                      la que le falta algo, no la que ya está bien. */}
+                  <button
+                    type="submit"
+                    className={
+                      p.publicado
+                        ? BOTON_SECUNDARIO
+                        : "rounded-lg border border-primary bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary-dark transition-colors hover:bg-primary/20"
+                    }
+                  >
                     {p.publicado ? "Despublicar" : "Publicar"}
                   </button>
                 </form>

@@ -16,7 +16,7 @@ export default async function ServiciosAdminPage() {
   const publicados = servicios.filter((s) => s.publicado).length;
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 px-6 py-10">
+    <main className="mx-auto max-w-5xl space-y-6 px-6 py-10">
       <div>
         <h1 className="text-2xl font-semibold">Servicios</h1>
         <p className="mt-1 text-gray-600">

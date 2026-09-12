@@ -113,11 +113,12 @@ export default function EditorProducto({
             id={`img-${producto?.id ?? "nuevo"}`}
             name="imagen"
             defaultValue={producto?.imagen ?? ""}
-            placeholder="/images/products/… o una URL de Storage"
+            placeholder="/images/products/… o un enlace de Medios"
             className={CAMPO}
           />
           <p className="mt-1.5 text-xs text-gray-500">
-            Acepta tanto una ruta del sitio como una URL subida desde Medios.
+            Es la foto principal: <strong className="font-medium">sustituye</strong> a la
+            que hubiera. Vale una ruta del sitio o un enlace copiado de Medios.
           </p>
         </div>
 
@@ -220,13 +221,21 @@ export default function EditorProducto({
               </ul>
             )}
 
-            <form action={agregarImagenProducto} className="mt-4 flex flex-wrap gap-3">
+            {/* Único campo del panel que AÑADE en vez de reemplazar, así que es
+                el que más necesita decirlo. */}
+            <p className="mt-4 text-xs text-gray-500">
+              La galería <strong className="font-medium">acumula</strong>: cada imagen
+              que añadas se suma al final, no sustituye a las anteriores. Para
+              retirar una, usa «Quitar» en su miniatura.
+            </p>
+
+            <form action={agregarImagenProducto} className="mt-2 flex flex-wrap gap-3">
               <input type="hidden" name="linea_id" value={producto.id} />
               <input
                 name="url"
                 required
-                placeholder="Ruta o URL de la imagen"
-                aria-label="URL de la imagen"
+                placeholder="/images/products/… o un enlace de Medios"
+                aria-label="Ruta o enlace de la imagen"
                 className="min-w-0 flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm"
               />
               <input

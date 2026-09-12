@@ -95,9 +95,11 @@ export default function TarjetaLead({ lead }: { lead: DatosLead }) {
       </div>
 
       {abierto && (
-        <div className="border-t border-gray-100 p-5">
+        // Fondo gris al abrir: separa el detalle de la fila sin meter otra
+        // caja dentro de la tarjeta.
+        <div className="rounded-b-2xl border-t border-gray-100 bg-gray-50 p-5">
           {lead.detalles.length > 0 && (
-            <dl className="mb-5 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+            <dl className="mb-5 grid gap-x-6 gap-y-4 sm:grid-cols-2 lg:grid-cols-4">
               {lead.detalles.map((d) => (
                 <div key={d.etiqueta} className="text-sm">
                   <dt className="text-gray-500">{d.etiqueta}</dt>
@@ -116,19 +118,31 @@ export default function TarjetaLead({ lead }: { lead: DatosLead }) {
 
           {/* Un solo formulario para estado y notas: son lo que el vendedor
               toca a la vez tras hablar con el cliente. */}
-          <form action={actualizarLead} className="space-y-3 border-t border-gray-100 pt-5">
+          {/* Estado, notas y Guardar en una fila: son lo que se toca de una
+              sentada justo después de colgar el teléfono. Se apilan cuando no
+              caben, que es lo que pasa en móvil. */}
+          <form
+            action={actualizarLead}
+            // `items-start` para que los dos rótulos queden a la misma altura:
+            // con `items-end` el select, más bajo que el área de notas,
+            // arrastraba su etiqueta hacia abajo. El botón se baja aparte.
+            className="flex flex-wrap items-start gap-4 border-t border-gray-200 pt-5"
+          >
             <input type="hidden" name="id" value={lead.id} />
             <input type="hidden" name="tabla" value={lead.tabla} />
 
-            <div className="flex flex-wrap items-center gap-3">
-              <label htmlFor={`estado-${lead.id}`} className="text-sm font-medium text-gray-700">
+            <div>
+              <label
+                htmlFor={`estado-${lead.id}`}
+                className="block text-sm font-medium text-gray-700"
+              >
                 Estado
               </label>
               <select
                 id={`estado-${lead.id}`}
                 name="estado"
                 defaultValue={lead.estado}
-                className="rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                className="mt-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-sm capitalize outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
               >
                 {ESTADOS_LEAD.map((e) => (
                   <option key={e} value={e}>
@@ -138,24 +152,27 @@ export default function TarjetaLead({ lead }: { lead: DatosLead }) {
               </select>
             </div>
 
-            <div>
-              <label htmlFor={`notas-${lead.id}`} className="text-sm font-medium text-gray-700">
+            <div className="min-w-[220px] flex-1">
+              <label
+                htmlFor={`notas-${lead.id}`}
+                className="block text-sm font-medium text-gray-700"
+              >
                 Notas de seguimiento
               </label>
               <textarea
                 id={`notas-${lead.id}`}
                 name="notas"
-                rows={3}
+                rows={2}
                 defaultValue={lead.notas ?? ""}
                 maxLength={4000}
                 placeholder="Qué se habló, próximos pasos…"
-                className="mt-1.5 w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+                className="mt-1.5 w-full resize-y rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
               />
             </div>
 
             <button
               type="submit"
-              className="rounded-xl bg-ink px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+              className="self-end rounded-xl bg-ink px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
             >
               Guardar
             </button>

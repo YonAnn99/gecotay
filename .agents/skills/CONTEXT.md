@@ -577,6 +577,286 @@ Durante la prueba la barra del panel mostraba `gecotay@gmail.com` en vez del adm
 ### Nota de automatización
 El `confirm()` nativo del botón de borrado congela la automatización del navegador. Hay que sustituirlo (`window.confirm = () => true`) antes de pulsar, y **rehacerlo tras cada recarga**. Además, los clics por referencia de accesibilidad no envían estos formularios: hay que pulsar por coordenadas.
 
+## El código de acceso pasa a ser la credencial permanente ✅ (2026-09-12)
+
+Migración `20260912052736_codigo_acceso_en_perfiles`. **Sustituye por completo el modelo de invitaciones de la Fase 1c.**
+
+### Por qué cambió
+Al probar `/ventas/login` el dueño vio que pedía **correo + código + elegir contraseña + repetirla**: cuatro campos y un alta para alguien que solo consulta un catálogo desde el móvil frente a un cliente. Pidió que el código **sea** la contraseña, para siempre — sin crear contraseñas, con el admin pudiendo consultarlo cuando alguien lo olvide, y sin necesidad de un flujo de recuperación.
+
+Es la variante desaconsejada al diseñar la Fase 1. El dueño la reafirmó con razones operativas y se implementó tal cual.
+
+**Lo que hace defendible la decisión:** el módulo de ventas es **solo lectura de catálogo ya publicado**. Verificado con una sesión real de `ventas`: no ve leads (`cotizaciones` → 0 filas), no ve a otros colaboradores ni al admin, y no puede escalar su propio rol. Un código filtrado da acceso a información que cualquiera puede ver en gecotay.com. El riesgo residual —una credencial legible es una credencial recuperable— se mitiga con `activo = false` y con la regeneración de códigos.
+
+**El admin NO usa este modelo**: entra con contraseña propia, porque el panel sí tiene poder real sobre leads y catálogo.
+
+### Qué cambió
+| Antes | Ahora |
+|-------|-------|
+| Tabla `invitaciones` con estados y caducidad | **Eliminada**; el código vive en `perfiles.codigo_acceso` |
+| Invitar → fila pendiente | Invitar → **se crea la cuenta de Auth** con el código como contraseña |
+| Canjear: correo + código + contraseña nueva | Entrar: **correo + código** |
+| Al canjear, el código se ponía a NULL | El código **permanece** visible para el admin |
+
+- **10 caracteres** (decisión del dueño), alfabeto sin I, O, 0 ni 1 porque se dicta por teléfono. ~1.1 × 10¹⁵ combinaciones; el límite de intentos lo pone Supabase Auth.
+- `app/actions/invitaciones.ts` → **`app/actions/colaboradores.ts`**: `altaColaborador`, `regenerarCodigo`, `cambiarAccesoColaborador`, `eliminarColaborador`.
+- `canjearInvitacion` eliminada. `/ventas/login` es un solo formulario de dos campos.
+
+### La sincronización es el punto frágil
+`perfiles.codigo_acceso` y la contraseña en `auth.users` son **la misma cadena** y deben mantenerse idénticas. `regenerarCodigo` actualiza primero Auth y luego la tabla; si la tabla fallara, el log avisa, porque el admin vería un código que ya no funciona. En el alta el orden es el mismo y un fallo tardío **deshace el alta en Auth** — igual patrón que `subirMedio`.
+
+### Verificado end-to-end
+| Prueba | Resultado |
+|--------|-----------|
+| Alta desde el panel | Cuenta en `auth.users` + `perfiles` con código `NTKLMSGZTB` |
+| Entrar con correo + código **en minúsculas** | Accede ✓ (se normaliza a mayúsculas) |
+| `ultimo_acceso` | Se sella al entrar y aparece en el panel |
+| Regenerar código | El viejo **rechazado**, el nuevo aceptado, `perfiles` sincronizado con Auth |
+| `activo = false` con código correcto | Auth autentica, pero **el guard corta** → `?motivo=sin-acceso` |
+| Sesión de `ventas` contra la API | Solo su propia fila; 0 admins, 0 leads, sin escalada de rol |
+| Sesión de `ventas` pidiendo `/admin` | Rebota al login con `sin-permiso`, sin bucle |
+
+### Hallazgo: la CSP bloquea la API desde la página
+Intentando leer `perfiles` desde la consola del navegador con la sesión del vendedor: **`TypeError: Failed to fetch`**. `connect-src` no incluye Supabase (decisión de la Fase 1b, por hacer la auth solo con Server Actions), así que un script en la página no puede hablar con la API ni teniendo la clave publicable. Es una segunda capa por encima de RLS — y una razón más para no abrir `connect-src` salvo que haga falta de verdad.
+
+> **Casi borro la tabla equivocada.** Al editar `types.ts` corté desde `invitaciones` hasta `linea_imagenes` para eliminar el bloque… y **`perfiles` está justo en medio**. La aserción del script lo detuvo antes de escribir. Al recortar bloques por índices de texto hay que delimitar con el bloque *inmediatamente* siguiente, no con uno cualquiera.
+
+## Cabecera con PillNav de ReactBits ✅ (2026-09-12)
+
+`app/components/ui/PillNav.tsx`, del registro oficial `@react-bits/PillNav-TS-TW`, en el panel y en ventas.
+
+### Instalado a mano, no con el CLI, y por una razón
+El componente declara **`react-router-dom`** como dependencia — en un proyecto Next sería una librería de enrutado paralela y sin sentido. Se escribió el archivo desde el registro con **dos cambios y nada más**: `react-router-dom` → `next/link`, y los tres `to={...}` → `href={...}`. Así `react-router-dom` **nunca entró en package.json** y una futura actualización del componente se puede reaplicar viendo solo el diff. `gsap` sí se instaló (3.15.0): es el motor real, 23 llamadas.
+
+### El MCP de shadcn no conectó
+`npx shadcn@latest mcp init --client claude` dejó el servidor en `.mcp.json`, pero falla con `CONNECT_TIMEOUT` a los 30 s. No hizo falta: el registro se consulta directo en `https://reactbits.dev/r/{nombre}.json`.
+
+### La raíz de PillNav va en `position: absolute`
+Es una barra flotante pensada para ir sobre una página, no un hijo de flex. Metida en el flex que había, se salió del flujo y **el botón de Salir desapareció de la pantalla**. Por eso la cabecera es ahora un bloque `relative` con altura propia (`h-[74px]` = 16px de `top` + 42px de nav + aire) y los controles de cuenta se posicionan aparte, como segunda isla — lo que además encaja con las islas flotantes del sitio público.
+
+### El correo NO cabe en la barra del panel
+Medido con el DOM asentado: el nav con **siete secciones ocupa 964px** y la isla con el correo dentro 278px; en `max-w-7xl` con `px-6` quedan 1232px útiles → **faltan 10px, y el déficit no mejora al agrandar la pantalla** porque el contenedor tiene ancho máximo. Solo con "Salir" (74px) el hueco es de 194px. El correo se movió al `title`/`aria-label` del botón: sigue siendo consultable —importa, porque las cookies se comparten entre puertos del mismo host— sin ocupar ancho.
+
+> **Trampa al medir: PillNav anima su entrada durante ~8 segundos.** Midiendo antes de que asiente da 633px en vez de 964, y con ese número las cuentas salen bien cuando en realidad se solapan. Dos capturas intermedias me hicieron diagnosticar mal (primero "se tapan", luego "no se tapan") antes de medir en firme. Hay que esperar a que pare.
+
+### Limitación conocida, es del componente
+PillNav pasa a píldoras desde `md` (768px) con `w-max`. Con 7 secciones mide 964px, así que **entre 768 y ~1012px el nav se sale del viewport por sí solo**, haya o no algo al lado. Se arregla con menos secciones de primer nivel o etiquetas más cortas — decisión de producto. Ventas no lo sufre: solo tiene tres.
+
+### Colores
+`baseColor` gobierna el círculo del logo, el relleno que sube al pasar el ratón y el punto de activo: ahí entra el verde `#aac637`. Sobre verde el texto va en ink `#10140d` — el verde es claro (L≈0.79) y con blanco encima no pasaría AA.
+
+### Otros detalles
+- Ambas barras pasaron a **componente de cliente** (PillNav anima con GSAP y necesita refs). El resaltado activo se calcula con `usePathname` y el `href` más largo que case; antes cada pantalla marcaba el suyo a mano.
+- En móvil PillNav es hamburguesa y ocupa los últimos ~73px del borde derecho, así que la isla se aparta (`right-[76px] md:right-6`).
+- Los dos `<img>` del componente llevan `eslint-disable-next-line` documentado: es un webp local de 3.9 KB a 42px que GSAP anima por ref, así que `next/image` no aporta nada aquí.
+
+Verificado en navegador a 400, 1280, 1440 y 1920px: sin solapes, las 7 secciones completas, y el módulo de ventas correcto en móvil.
+
+## La cabecera interna pasa a islas flotantes ✅ (2026-09-12)
+
+El PillNav seguía dentro de un `<header>` con fondo blanco, borde inferior y altura fija, y eso se leía como un rectángulo divisorio detrás de las píldoras. Ahora son dos elementos flotantes independientes, sin ninguna caja que los una.
+
+**Se reutilizó el patrón que ya tenía el sitio público**, descrito en el comentario de `app/components/layout/Navbar.tsx`: *"Two independent floating islands… each is self-positioned (fixed) so no shared wrapper/bar is needed between them"* (`NavBrand` es `fixed top-5 left-4 z-50`, `NavMenu` es `fixed top-5 right-4 z-50`).
+
+### Cómo quedó
+- El `<header>` es **solo el envoltorio semántico, sin estilos**. Cualquier `bg-*` o `border-*` ahí vuelve a dibujar la barra.
+- Dentro, un contenedor **fijo y sin altura**: `fixed inset-x-0 top-0 z-50 mx-auto h-0 max-w-7xl px-6`. No pinta ni ocupa espacio; solo da coordenadas a las dos islas, que cuelgan de él en absoluto. El `mx-auto max-w-7xl` las alinea con el ancho del contenido.
+- Ventas perdió además `sticky`, `bg-white/95` y `backdrop-blur`: eran propiedades de la barra, no de las islas, que ya traen fondo sólido propio.
+- El hueco superior se repone en los **dos `layout.tsx` protegidos** con `<div className="pt-[74px]">`, no en cada pantalla: son once y todas traen su propio `py-*`.
+
+Las posiciones internas no se tocaron, así que la colocación validada antes se mantiene.
+
+### Verificado a 1920px
+| Comprobación | Resultado |
+|---|---|
+| `header` | `background: rgba(0,0,0,0)`, `border-bottom: 0px`, **altura 0** |
+| contenedor interno | `position: fixed`, altura 0, transparente |
+| hueco nav↔isla | 194px, sin solape |
+| arranque del contenido | 74px — idéntico a antes del cambio |
+| scroll horizontal | ninguno |
+| al desplazarse | las islas quedan fijas y el contenido pasa por debajo |
+
+> **Consecuencia del diseño flotante**: al no haber fondo detrás, el contenido se ve pasar entre las píldoras y por encima de ellas al desplazarse. En el sitio público no se nota porque las islas llevan `backdrop-blur-2xl` sobre el fondo WebGL. Añadir un difuminado aquí volvería a introducir una banda — justo lo que se quitó — así que se dejó tal cual. Si llegara a molestar, la salida sin recuperar el rectángulo es dar `backdrop-blur` a cada isla por separado.
+
+> **Verificado en móvil el 2026-09-12**, con retraso: el navegador dejó de aceptar `resize_window` a mitad de aquella sesión (reportaba éxito pero el viewport se quedaba en 1920, con `outerWidth: 0`), así que quedó pendiente. Al volver a funcionar se comprobó a 400px: logo, «Salir» y hamburguesa se ven bien, sin rectángulo divisorio y sin scroll horizontal.
+
+## El flujo de Medios se explica solo ✅ (2026-09-12)
+
+El dueño subió una imagen a **Medios** y no encontró dónde asignarla. Preguntó si después aparecería sola en Productos, si reemplaza o si se añade, y cuál es el flujo.
+
+El flujo existía y funcionaba, pero **no estaba escrito en ninguna parte del panel**: Medios es una biblioteca que sube el archivo y devuelve una URL; asignar es copiar esa URL y pegarla a mano en uno de los cuatro campos de imagen. Dos de esos campos reemplazan y uno añade, y nada lo indicaba.
+
+Se le dio a elegir entre añadir un selector de medios o solo aclarar la interfaz. **Eligió aclarar la interfaz**: el copiar-pegar se queda.
+
+### De dónde sale la URL
+Esto conviene tenerlo escrito porque fue la segunda pregunta: el usuario **nunca escribe la URL**.
+1. `subirMedio` (`app/actions/medios.ts`) genera la ruta con `rutaSegura()` — carpeta `YYYY-MM` + prefijo aleatorio de 8 caracteres, para que dos archivos con el mismo nombre no se pisen y nadie pueda adivinar la ruta de lo que suba otro.
+2. `urlPublicaStorage()` (`app/lib/imagenes.ts`) la convierte en URL pública pegando `NEXT_PUBLIC_SUPABASE_URL` + `/storage/v1/object/public/contenido/` + la ruta.
+3. Se guarda en `media.url` y vuelve como `{ ok: true, url }`.
+
+### Qué se escribió
+| Sitio | Texto |
+|---|---|
+| `medios/page.tsx` | «subirlas **no las publica** en ninguna parte» + los tres pasos numerados (subir → copiar enlace → pegarlo) |
+| `medios/GaleriaMedios.tsx` | El aviso tras subir pasó de «Subida correcta» a **«Imagen guardada — todavía no se muestra en ninguna parte»** |
+| Producto → portada | «Es la foto principal: **sustituye** a la que hubiera» |
+| Producto → galería | «La galería **acumula**: cada imagen se suma al final… para retirar una, usa «Quitar»» |
+| Servicio → imagen | «**Sustituye** a la que hubiera» (antes no tenía ayuda) |
+| Promoción → imagen | Igual, y además ganó marcador (antes no tenía ni uno ni otro) |
+
+Los cuatro campos aclaran que aceptan **una ruta del sitio o un enlace de Medios**: las 489 imágenes que ya usa el sitio viven en el repositorio y no están en Medios, así que la redacción no podía dar a entender que todo sale de ahí.
+
+### Botón «Copiar URL» en el aviso de subida
+La microcopia dejó al descubierto un hueco: el recuadro verde decía «copia este enlace» pero **no tenía ningún botón que copiar** — solo el campo de solo lectura. El botón existía únicamente en las tarjetas de la biblioteca, más abajo. Se añadió reutilizando `copiar()` y el estado `copiada` que ya vivían en el archivo, sin estado nuevo.
+
+Dos incoherencias corregidas de paso: el botón se llamó primero «Copiar» pero el paso 2 de la pantalla y las tarjetas dicen «Copiar URL» (ahora los tres coinciden), y el marcador de la portada de producto seguía diciendo «o una URL de **Storage**» — la única palabra de infraestructura visible que quedaba. **Ya no queda ningún «Storage» en textos del panel**: es vocabulario de quien administra la base, no de quien edita el catálogo.
+
+### Nota de criterio
+El campo de solo lectura **se queda** junto al botón: es el respaldo cuando `navigator.clipboard` no está disponible (contexto no seguro o permiso denegado), que es justo lo que documenta el `catch` de `copiar()`.
+
+## Los mockups del canvas se aplican al sistema ✅ (2026-09-12)
+
+Los seis artboards de `design/panel-gecotay/` (Main, Leads, Productos, LoginAdmin, LoginVentas, CatalogoVentas) se habían quedado como maqueta. El dueño pidió **dejar de mantener el canvas y llevar el diseño al código**.
+
+### ⚠️ La cabecera de los mockups está obsoleta — no aplicarla
+Los seis artboards se dibujaron **antes** del cambio a PillNav y llevan arriba la barra blanca con `border-bottom`, el nav en línea y el correo a la derecha: exactamente el rectángulo divisorio que se pidió quitar después. **De cada artboard se tomó solo el contenido bajo la cabecera.** `NavAdmin.tsx`, `NavVentas.tsx` y `PillNav.tsx` no se tocaron. El canvas queda como registro histórico, no como fuente de verdad.
+
+### El degradado de marca se extrajo a variables
+El panel del login usa el mismo fondo que el splash. Estaba incrustado en `.splash-overlay`, así que se sacó a `--marca-fondo` y `--marca-halo` en `:root` (`app/globals.css`), con las utilidades `.marca-fondo` / `.marca-halo`. Splash y logins comparten ahora los mismos hex y cambian juntos.
+
+### Qué se aplicó
+| Pantalla | Cambio |
+|---|---|
+| **Login admin** | Split de dos columnas: panel de marca con logo, «Panel interno» y titular a la izquierda; formulario a la derecha. Bajo `lg` el panel se retira y queda el formulario solo con el eyebrow encima. Los campos pasaron a usar `CAMPO`/`ETIQUETA` de `ui.ts` en vez de repetir la cadena de Tailwind. |
+| **Login ventas** | Franja oscura arriba con logo, «Ventas» y «El catálogo, a la mano»; formulario debajo. La nota de «pídeselo a tu administrador» se apoya en el borde inferior (`mt-auto`). |
+| **Inicio del panel** | Leads sale de la rejilla y sube a **fila destacada** con franja en degradado y desglose del embudo (nuevo / contactado / cotizado / ganado). Aviso de pendientes arriba a la derecha. Chevron en cada tarjeta. Pie con la última actualización del catálogo. |
+| **Leads** | Detalle abierto sobre `bg-gray-50`, pares etiqueta/valor a 4 columnas, y estado + notas + «Guardar» en una sola fila. |
+| **Productos** | «Nuevo producto» en la misma fila que el título, miniatura 76×56, y «Publicar» en verde (solo en borradores) frente al «Despublicar» neutro. |
+| **Catálogo ventas** | Lupa dentro del buscador, **dos columnas ya en el teléfono**, fotos en su propia línea, y aviso de promoción con pastilla de valor y días restantes. |
+
+### Decisiones tomadas al aplicar
+- **Ancho.** Los tres artboards de admin usan 1024px: las siete pantallas del panel pasaron de `max-w-4xl` a `max-w-5xl`. Se cambiaron todas, no solo las tres del mockup, o quedarían anchos distintos al navegar.
+- **Se descartó la tarjeta «Sitio público · 60 páginas»** del mockup: ese número no existe en ninguna tabla y habría que inventarlo. La rejilla se quedó con cinco tarjetas reales y **Colaboradores ganó su conteo**, que antes iba vacío.
+- **Se descartó el «buenos días»** del saludo: es un panel de uso diario.
+- **`diasRestantes()` se movió** de `app/ventas/(protegido)/promociones/page.tsx` a **`app/lib/promociones.ts`**, porque ahora lo usan dos pantallas y una diría «Quedan 2 días» y la otra otra cosa.
+
+### Tres errores encontrados al verificar en pantalla
+1. **`capitalize` no vale para fechas en español.** Ponía mayúscula en cada palabra: «Sábado, 12 **De Septiembre**». Se usa `first-letter:uppercase`.
+2. **Doble punto en el pie.** `toLocaleString("es-MX")` ya cierra la hora con «p. m.», así que el punto añadido daba «11:04 p. m..».
+3. **Pasar JSX de servidor a cliente hacía que React pidiera `key`.** El encabezado de Productos viajaba como prop JSX a `ListaProductos`; React avisaba *«Each child in a list should have a unique key prop… It was passed a child from ProductosAdminPage»*. Se pasa como **texto** (`titulo`, `resumen`) y el componente lo renderiza. **Patrón a recordar**: si hace falta que un componente de cliente pinte algo del servidor, pasar datos, no elementos.
+
+### La zona horaria no es un detalle
+El servidor de Vercel va en UTC. Sin `timeZone: "America/Mexico_City"`, entre las 18:00 y la medianoche de México el panel mostraría el día siguiente. Está fijado en `hoyEnTexto()` y `cuandoEnTexto()` de `app/admin/(protegido)/page.tsx`.
+
+### Lo único del diseño que NO se pudo implementar
+El enlace «¿buscas el catálogo? ese es el módulo de ventas» del login de admin. En producción apunta a otro subdominio y `gecotay.com` todavía no está configurado en Vercel, así que sería un enlace roto. Queda para cuando el dominio exista.
+
+### Verificado a 1440px y 390px
+| Comprobación | Resultado |
+|---|---|
+| Desglose del embudo | Con 3 leads de prueba (2 nuevo, 1 cotizado): total 3, nuevo 2 en verde, cotizado 1 — cuadra con `/admin/leads` filtrando por estado |
+| `actualizarLead` | Nota guardada y persistida tras el `revalidatePath` |
+| Publicar / despublicar | «Publicar» verde solo en borradores; Línea Ceri despublicada y republicada, 20 de 20 visibles otra vez |
+| Aviso de promoción | Con una promo de prueba (15%, 9 días): pastilla, título y «Vigente · quedan 9 días» |
+| Sesión de ventas | Colaborador temporal dado de alta desde el panel, entrada con su código, catálogo a dos columnas |
+| Consola | Sin errores (el aviso de `key` se corrigió) |
+
+Todo lo de prueba se borró al terminar: 3 leads, 1 promoción, el admin temporal y el colaborador (`perfiles` con rol ventas vuelve a 0).
+
+### El redimensionado del navegador vuelve a funcionar
+La sesión anterior no pudo comprobar las islas flotantes en móvil porque `resize_window` dejó de responder. **Ya se comprobó a 400px**: las islas se ven bien —logo, «Salir» y hamburguesa— sin rectángulo divisorio y sin scroll horizontal.
+
+## Correo transaccional: Resend en marcha ✅ (2026-09-12)
+
+El dueño configuró Resend. Comprobado contra la API, no solo por lo que dice el `.env.local`:
+
+| Comprobación | Resultado |
+|---|---|
+| `RESEND_API_KEY` | presente (prefijo `re_`) |
+| `CORREO_REMITENTE` | `Grupo Gecotay <no-responder@gecotay.com>` |
+| Dominio `gecotay.com` en Resend | **`status=verified`**, región `us-east-1` |
+| El dominio del remitente coincide con el verificado | sí |
+| Envío real a una dirección del dueño | HTTP 200 y, consultando `GET /emails/{id}`, **`last_event=delivered`** |
+| Comprobación humana del resultado | **Bandeja de entrada, no spam**, y la plantilla se ve correcta (confirmado por el dueño) |
+
+La prueba usó la **plantilla real del proyecto**: el script extrajo `plantillaAcceso()` de `app/lib/correo.ts` en vez de reescribir el HTML, así que lo entregado es exactamente lo que recibe un colaborador. No se creó ningún usuario ni se escribió en la base.
+
+### `delivered` no quiere decir «bandeja de entrada» — por eso se miró a ojo
+El evento solo confirma que el servidor del destinatario **aceptó** el mensaje; si cae en spam, Resend lo sigue marcando como entregado. Por eso la prueba no se dio por buena con el `delivered`: el dueño confirmó que llegó a **bandeja de entrada** y que la plantilla se ve bien. La dirección de prueba era de un dominio distinto a `gecotay.com`, que es el caso que de verdad ejercita SPF/DKIM — SPF/DKIM mal ajustados suelen entregar bien dentro de casa y fallar fuera.
+
+Si en el futuro se cambia el remitente, el dominio o los DNS, esta comprobación hay que repetirla a ojo: ningún estado de la API la sustituye.
+
+### Recordatorio del reparto de responsabilidades
+Sigue en pie lo que ya avisaba la sección de la Fase 1c: el SMTP de **Supabase → Auth → Settings** solo cubre los correos que Supabase manda por su cuenta (confirmación, magic link, recuperación). El correo con el código de acceso es nuestro y sale por la API HTTP de Resend desde `app/lib/correo.ts`. Son dos configuraciones distintas y arreglar una no arregla la otra.
+
+### Degradación si el proveedor falla
+`enviarCorreo()` no revienta el alta: devuelve `{ enviado: false, motivo }` y el panel muestra el código en pantalla para que el admin lo haga llegar por su cuenta. El acceso es válido igual. Los motivos posibles son `sin-proveedor` (falta clave o remitente), `http-<código>` (Resend rechazó) y `red`.
+
+## Salida a producción: dominio y analítica ✅ (2026-09-12)
+
+### El dominio, conectado sin romper el correo
+
+El riesgo mayor de todo el proyecto era el correo del cliente: `gecotay.com` tiene `MX 0 mail.gecotay.com → 107.180.41.251` (GoDaddy). Vercel, al añadir un dominio, ofrece cambiar los **nameservers**, y hacerlo habría dejado al cliente sin correo durante días sin que lo notara.
+
+**Se hizo bien**: los nameservers siguen en GoDaddy (`ns35/ns36.domaincontrol.com`) y solo se cambiaron los registros web. Comprobado contra el nameserver autoritativo, sin caché:
+
+| Registro | Valor | |
+|---|---|---|
+| `NS` | `ns35/ns36.domaincontrol.com` | sin tocar ✓ |
+| `MX` | `0 mail.gecotay.com` | **intacto — el correo vive** ✓ |
+| `resend._domainkey`, `send` | TXT/SPF/MX de Resend | intactos ✓ |
+| `A` de `gecotay.com` | `216.198.79.1` (IP de Vercel) | apuntado ✓ |
+| `www` | `CNAME → gecotay.com` | apuntado ✓ |
+
+> **Regla para el futuro**: en este dominio conviven web y correo. Cualquier cambio de DNS se hace registro a registro; **nunca** se migran los nameservers.
+
+El TTL del `A` es de 10800 s (3 h), así que tras el cambio hay resolutores sirviendo la IP vieja un rato. Que `https://gecotay.com` no responda durante ese lapso es normal: Vercel no puede emitir el certificado TLS hasta que ve el DNS propagado.
+
+Lo que había antes en el dominio era una página de «Próximamente» servida por Apache en GoDaddy, **solo por HTTP**. El sitio nuevo trae HSTS (`max-age=63072000; includeSubDomains; preload`), así que conectar el dominio es también la primera vez que el negocio tiene HTTPS.
+
+### Faltan los dos subdominios internos
+`app.gecotay.com` y `ventas.gecotay.com` **no existen todavía**: ni añadidos en Vercel ni con registro en el DNS. Hasta que estén, el panel y el módulo de ventas solo son accesibles por la URL de Vercel, y el enlace del correo de invitación sigue muerto. Ambos están dentro del alcance vendido.
+
+### Analítica: Vercel, y por qué esa
+
+Se instalaron `@vercel/analytics` y `@vercel/speed-insights` **solo en el root layout público** (`app/[locale]/layout.tsx`). No van en los de admin ni ventas: son herramientas internas, medir su uso no aporta nada y gasta cuota.
+
+La razón de elegir estas y no GA4 es el consentimiento. Las dos son **sin cookies**: no dejan identificador persistente en el navegador ni siguen al visitante entre sitios. Eso significa que:
+
+- No hacen falta cambios en el `CookieBanner`, que hoy guarda `gecotay-cookie-consent` en `localStorage` y no gobierna nada.
+- El texto del aviso —«Este sitio utiliza únicamente almacenamiento local funcional… No usamos cookies de análisis ni de publicidad de terceros»— **sigue siendo literalmente cierto**. Con GA4 dejaría de serlo y habría que reescribirlo y cablear el consentimiento.
+
+> **Si algún día se añade GA4 u otro que sí ponga cookies**, ese script tiene que quedar detrás del valor de `gecotay-cookie-consent`, y hay que corregir el texto del banner. Está anotado en el propio layout.
+
+**La CSP no hubo que tocarla**: ambos scripts se sirven desde el mismo origen (`/_vercel/insights/…`, `/_vercel/speed-insights/…`), así que `script-src 'self'` y `connect-src 'self'` ya los cubren. En desarrollo local la consola puede quejarse, porque el paquete usa un host externo en modo dev; en producción no ocurre.
+
+**El SSG se mantiene**: 21 entradas estáticas en el build tras añadirlas, las mismas que antes. Los componentes son de cliente y no fuerzan renderizado dinámico.
+
+### Inventario definitivo de variables de entorno
+
+Comparando lo que el código usa (`grep process.env`) contra `.env.local`, son **ocho**, no siete. `NEXT_PUBLIC_SITE_URL` la usa el código pero no estaba en `.env.local`:
+
+| Variable | Alcance |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | pública |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | pública |
+| `NEXT_PUBLIC_URL_VENTAS` | pública |
+| `NEXT_PUBLIC_SITE_URL` | pública — **crear**: `https://www.gecotay.com` |
+| `SUPABASE_SERVICE_ROLE_KEY` | secreta |
+| `LEAD_IP_SALT` | secreta |
+| `RESEND_API_KEY` | secreta |
+| `CORREO_REMITENTE` | secreta |
+
+`NODE_ENV` y `VERCEL_ENV` también se leen en el código pero las inyecta Vercel: no hay que declararlas.
+
+`gecotay.com` redirige con 308 a `www.gecotay.com`, así que **www es la canónica** y por eso `NEXT_PUBLIC_SITE_URL` lleva el `www`.
+
+### El plan de Vercel es Hobby, y eso es un problema
+La cuenta está en **Hobby**, cuyos términos prohíben el uso comercial. El sitio de una empresa lo es. Hay que pasar a **Pro (~20 USD/mes)**, y Supabase a Pro (~25 USD/mes) por los respaldos diarios: ahí viven el contenido del sitio y los leads del cliente. Son ~45 USD/mes de costo real, a cubrir por la cuota de mantenimiento acordada.
+
+### Estado del build
+Tras borrar `.next/cache` y reconstruir desde cero: correcto, 40 páginas de producto en SSG, admin y ventas dinámicas. Ninguna imagen de relleno en `public/images` — el pendiente que lo afirmaba estaba obsoleto; las fotos de producto son del cliente y traen su marca de agua.
+
 ## Pending / To‑Do (🔲)
 
 | Area | Tasks |
@@ -589,13 +869,14 @@ El `confirm()` nativo del botón de borrado congela la automatización del naveg
 | **Backend / CMS / Cuentas del cliente** | Roadmap de varias fases diseñado y aprobado: Supabase (Postgres + Auth + Storage) como backend, panel de administrador para editar todo el contenido del sitio, módulo de **ofertas/promociones**, y módulo de **ventas** (catálogo + ofertas), ambos servidos por subdominio (`app.gecotay.com`, `ventas.gecotay.com`, sin login expuesto en el sitio público) en vez de rutas dentro del dominio principal. **Bloqueado** en varios frentes por falta de acceso al correo del dueño del negocio: no se puede (1) crear el proyecto de Supabase a su nombre, (2) transferir el proyecto de Vercel a su cuenta, (3) confirmar/tocar el DNS de `gecotay.com` en GoDaddy (el desarrollador tampoco tiene acceso al panel de GoDaddy sin ese correo). Mientras tanto todo sigue en cuentas personales del desarrollador. Ya implementado como preparación, sin depender de Supabase: `app/data/empresa.ts` usa `NEXT_PUBLIC_SITE_URL` (con fallback a `https://www.gecotay.com`) en vez de la URL hardcodeada, para no requerir cambios de código al conectar el dominio real. |
 | **Traducción real de `/en`** | Solo el home y el chrome (`NavMenu`, `NavBrand`, `NavSearch`, `Footer`, `CookieBanner`) consumen los catálogos. Las 8 páginas internas tienen el español hardcodeado — la más densa es `aviso-privacidad` (texto legal, ~188 caracteres acentuados), luego `contacto`, `cotizar`, `productos`, `servicios`, `nosotros`, `acabados-tapices`, `descargas`. Hasta que eso se extraiga a `es.json`/`en.json` y se traduzca, `/en` queda `noindex` (ver sección 2026-09-11). |
 | **Desactivar registros públicos** | Pendiente en Supabase → Auth → Settings. Sin eso cualquiera puede crearse una cuenta en Auth; no obtendría acceso (no hay trigger que autocree perfiles), pero es ruido innecesario. |
-| **SMTP propio** | El de Supabase está limitado a unos pocos correos por hora. Necesario antes de probar las invitaciones de colaboradores (Resend o SendGrid en Auth → Settings). |
-| **Proveedor de correo** | Falta `RESEND_API_KEY` y verificar el dominio remitente en Resend. Sin eso las invitaciones se crean pero no se envían; el admin tiene que dictar el código. |
-| **Protección de contraseñas filtradas** | Supabase la reporta desactivada. Es un toggle en Auth → Settings que compara contra HaveIBeenPwned; relevante ahora que los colaboradores eligen su propia contraseña. |
+| **Enlace del correo de acceso** | El correo de alta enlaza a `${NEXT_PUBLIC_URL_VENTAS}/login` = `https://ventas.gecotay.com/login`, que **todavía no resuelve** porque el subdominio no está apuntado en Vercel. Un colaborador dado de alta hoy recibe un código válido con un enlace muerto; el panel le muestra el código al admin para que lo dicte. Se resuelve solo al conectar el dominio. |
+| **Protección de contraseñas filtradas** | Supabase la reporta desactivada. Es un toggle en Auth → Settings que compara contra HaveIBeenPwned. El dueño dijo haberla activado el 2026-09-12, pero una prueba empírica mostró que `Password123!` seguía aceptándose en un alta pública: **requiere plan Pro**. Su efecto es menor desde que el código generado es la credencial (no lo elige una persona), pero sigue siendo la red que impide una contraseña filtrada si algún día se permite elegirla. |
 | **Peso de `public/`** | 38 MB (27 MB imágenes + 12 MB PDFs), con `docs/gecotay-catalogo-2026.pdf` de **8.5 MB** servido directo desde `/descargas`. Candidatos claros a Supabase Storage: salen del repo y del bundle de deploy. |
+| **Canvas de diseño** | `design/panel-gecotay/` queda como **registro histórico, no como fuente de verdad**: su cabecera es la barra anterior al PillNav. El diseño ya está aplicado al código (ver sección de 2026-09-12). No re-sincronizar el canvas; si hace falta rediseñar, partir del código. |
 | **Content Review** | Verify copy with marketing (FAQ answers, TL;DR copy, CTA wording). |
 | **Testing** | Unit tests (Jest + React Testing Library), E2E (Cypress) for critical flows (cotizar wizard, contact form). |
-| **Analytics / Consent** | No hay **nada** instalado (ni GA4, ni Matomo, ni Sentry). El `CookieBanner` guarda un consentimiento en `localStorage` (`gecotay-cookie-consent`) que hoy no gobierna absolutamente nada — al conectar analytics, ese valor tiene que ser el que active/bloquee los scripts. |
+| **Subdominios internos** | `app.gecotay.com` y `ventas.gecotay.com` no están añadidos en Vercel ni tienen registro DNS. Sin ellos el panel y ventas solo son accesibles por la URL de Vercel y el enlace del correo de invitación sigue muerto. Añadirlos en Vercel y crear su `CNAME` en GoDaddy **sin tocar `MX` ni nameservers**. |
+| **Plan de Vercel y de Supabase** | La cuenta está en **Hobby**, cuyos términos prohíben uso comercial. Hay que pasar a Pro (~20 USD/mes) y Supabase a Pro (~25 USD/mes, por respaldos diarios del contenido y los leads). ~45 USD/mes que la cuota de mantenimiento tiene que cubrir. |
 | **Deploy Pipeline** | GitHub Actions → build → lint → test → deploy to Vercel/Netlify. |
 | **Monitoring** | Error tracking (Sentry), uptime checks. |
 
@@ -660,9 +941,19 @@ app/
  │   └─ leads.ts                      # NEW Server Actions: guardarContacto / guardarCotizacion
  ├─ lib/
  │   ├─ i18n.ts                       # t(locale, key) helper
+ │   ├─ auth.ts                       # requerirPerfil / perfilActual / baseDeSuperficie
+ │   ├─ superficies.ts                # HEADER_BASE y SUPERFICIES (compartido con el proxy)
+ │   ├─ leads.ts                      # ESTADOS_LEAD y tablas (fuera de "use server")
+ │   ├─ promociones.ts                # diasRestantes() — usado por catálogo y promociones
+ │   ├─ contenido.ts                  # lecturas del CMS para las tres superficies
+ │   ├─ imagenes.ts                   # resolverImagen / esRemota / urlPublicaStorage
+ │   ├─ correo.ts                     # Resend por API HTTP, sin SDK
  │   └─ supabase/
- │       ├─ server.ts                 # NEW cliente service_role (server-only)
- │       └─ types.ts                  # NEW tipos generados — no editar a mano
+ │       ├─ server.ts                 # cliente service_role (server-only)
+ │       ├─ server-session.ts         # cliente con cookies + clave publicable (sujeto a RLS)
+ │       ├─ proxy-session.ts          # refrescarSesion() para el proxy
+ │       ├─ public.ts                 # cliente SIN cookies — es lo que mantiene el SSG
+ │       └─ types.ts                  # tipos generados — no editar a mano
  ├─ messages/
  │   ├─ es.json
  │   └─ en.json

@@ -56,19 +56,26 @@ export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Prom
   }
 }
 
-/** Plantilla del correo de invitación. */
-export function plantillaInvitacion(codigo: string, url: string) {
+/**
+ * Plantilla del correo de acceso.
+ *
+ * El texto dice explícitamente que el código **es** la contraseña y que no
+ * caduca. La versión anterior hablaba de canjearlo y elegir contraseña; con el
+ * modelo actual eso confundiría a quien lo recibe.
+ */
+export function plantillaAcceso(codigo: string, url: string) {
   const texto = [
     "Grupo Gecotay — acceso al módulo de ventas",
     "",
     "Un administrador te dio acceso. Para entrar:",
     `1. Abre ${url}`,
     "2. Escribe este correo y el código de abajo",
-    "3. Elige tu contraseña",
     "",
-    `Código: ${codigo}`,
+    `Tu código: ${codigo}`,
     "",
-    "El código sirve una sola vez y caduca en 7 días.",
+    "Ese código es tu contraseña: no caduca y sirve cada vez que entres.",
+    "Guárdalo. Si lo pierdes, pídeselo al administrador.",
+    "",
     "Si no esperabas este correo, ignóralo.",
   ].join("\n");
 
@@ -76,11 +83,11 @@ export function plantillaInvitacion(codigo: string, url: string) {
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#10140d">
       <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#AAC637;margin:0">Grupo Gecotay</p>
       <h1 style="font-size:22px;margin:8px 0 24px">Acceso al módulo de ventas</h1>
-      <p style="line-height:1.6;margin:0 0 20px">Un administrador te dio acceso. Para entrar, abre
-        <a href="${url}" style="color:#10140d">el módulo de ventas</a>, escribe este correo y el código,
-        y elige tu contraseña.</p>
-      <p style="font-family:ui-monospace,monospace;font-size:30px;letter-spacing:.25em;background:#f4f6ee;border-radius:12px;padding:18px;text-align:center;margin:0 0 20px">${codigo}</p>
-      <p style="line-height:1.6;color:#5b6150;font-size:14px;margin:0">El código sirve una sola vez y caduca en 7 días. Si no esperabas este correo, ignóralo.</p>
+      <p style="line-height:1.6;margin:0 0 20px">Un administrador te dio acceso. Entra en
+        <a href="${url}" style="color:#10140d">el módulo de ventas</a> y escribe este correo junto con tu código.</p>
+      <p style="font-family:ui-monospace,monospace;font-size:26px;letter-spacing:.2em;background:#f4f6ee;border-radius:12px;padding:18px;text-align:center;margin:0 0 20px">${codigo}</p>
+      <p style="line-height:1.6;margin:0 0 12px"><strong>Ese código es tu contraseña.</strong> No caduca y sirve cada vez que entres, así que guárdalo. Si lo pierdes, pídeselo al administrador.</p>
+      <p style="line-height:1.6;color:#5b6150;font-size:14px;margin:0">Si no esperabas este correo, ignóralo.</p>
     </div>`;
 
   return { html, texto };

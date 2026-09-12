@@ -1,118 +1,86 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { canjearInvitacion, iniciarSesionVentas, type EstadoCanje } from "./actions";
+import { useActionState } from "react";
+import { iniciarSesionVentas, type EstadoLogin } from "./actions";
 
 const campo =
-  "mt-1.5 w-full rounded-xl border border-gray-200 px-4 py-2.5 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
+  "mt-1.5 w-full rounded-xl border border-gray-200 px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
 
+/**
+ * Un solo formulario: correo y código.
+ *
+ * Antes había dos pestañas —canjear invitación / entrar con cuenta— y cuatro
+ * campos, porque el código servía una vez y había que elegir contraseña. Ahora
+ * el código es la contraseña permanente, así que sobra todo lo demás: quien usa
+ * esto lo abre en el móvil frente a un cliente y necesita entrar de un tirón.
+ */
 export default function FormularioVentas() {
-  // Primera visita → canjear invitación. Las siguientes → entrar normal.
-  const [modo, setModo] = useState<"canjear" | "entrar">("canjear");
-
-  const [estadoCanje, accionCanje, canjeando] = useActionState<EstadoCanje, FormData>(
-    canjearInvitacion,
-    undefined
-  );
-  const [estadoLogin, accionLogin, entrando] = useActionState<EstadoCanje, FormData>(
+  const [estado, accion, entrando] = useActionState<EstadoLogin, FormData>(
     iniciarSesionVentas,
     undefined
   );
 
-  const esCanje = modo === "canjear";
-  const estado = esCanje ? estadoCanje : estadoLogin;
-  const enviando = esCanje ? canjeando : entrando;
-
   return (
-    <div>
-      <div className="mb-6 flex rounded-xl bg-gray-100 p-1 text-sm" role="tablist">
-        {(["canjear", "entrar"] as const).map((m) => (
-          <button
-            key={m}
-            type="button"
-            role="tab"
-            aria-selected={modo === m}
-            onClick={() => setModo(m)}
-            className={`flex-1 rounded-lg px-3 py-2 transition-colors ${
-              modo === m ? "bg-white font-medium shadow-sm" : "text-gray-500 hover:text-gray-800"
-            }`}
-          >
-            {m === "canjear" ? "Tengo un código" : "Ya tengo cuenta"}
-          </button>
-        ))}
+    // Columna que ocupa el alto disponible: así la nota del final se apoya en
+    // el borde inferior de la pantalla en vez de quedar pegada al botón.
+    <form action={accion} className="flex flex-1 flex-col gap-5">
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          Correo
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="username"
+          inputMode="email"
+          required
+          className={campo}
+        />
       </div>
 
-      <form action={esCanje ? accionCanje : accionLogin} className="space-y-5">
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo</label>
-          <input id="email" name="email" type="email" autoComplete="username" required className={campo} />
-        </div>
+      <div>
+        <label htmlFor="codigo" className="block text-sm font-medium text-gray-700">
+          Tu código
+        </label>
+        <input
+          id="codigo"
+          name="codigo"
+          type="text"
+          // El código solo tiene mayúsculas y dígitos: se le pide al teclado
+          // móvil que entre en mayúsculas y no autocorrija.
+          autoCapitalize="characters"
+          autoCorrect="off"
+          spellCheck={false}
+          autoComplete="current-password"
+          maxLength={10}
+          required
+          className={`${campo} font-mono uppercase tracking-[0.2em]`}
+        />
+        <p className="mt-1.5 text-xs text-gray-500">
+          El que recibiste por correo. Es tu contraseña y no caduca.
+        </p>
+      </div>
 
-        {esCanje && (
-          <div>
-            <label htmlFor="codigo" className="block text-sm font-medium text-gray-700">
-              Código de invitación
-            </label>
-            <input
-              id="codigo"
-              name="codigo"
-              type="text"
-              inputMode="text"
-              autoCapitalize="characters"
-              maxLength={8}
-              required
-              className={`${campo} font-mono uppercase tracking-[0.25em]`}
-            />
-          </div>
-        )}
+      {estado?.error && (
+        <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          {estado.error}
+        </p>
+      )}
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            {esCanje ? "Elige tu contraseña" : "Contraseña"}
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete={esCanje ? "new-password" : "current-password"}
-            minLength={esCanje ? 8 : undefined}
-            required
-            className={campo}
-          />
-          {esCanje && <p className="mt-1.5 text-xs text-gray-500">Mínimo 8 caracteres.</p>}
-        </div>
+      <button
+        type="submit"
+        disabled={entrando}
+        className="w-full rounded-xl bg-ink px-4 py-3.5 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+      >
+        {entrando ? "Entrando…" : "Entrar"}
+      </button>
 
-        {esCanje && (
-          <div>
-            <label htmlFor="password2" className="block text-sm font-medium text-gray-700">
-              Repite la contraseña
-            </label>
-            <input
-              id="password2"
-              name="password2"
-              type="password"
-              autoComplete="new-password"
-              minLength={8}
-              required
-              className={campo}
-            />
-          </div>
-        )}
-
-        {estado?.error && (
-          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
-            {estado.error}
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={enviando}
-          className="w-full rounded-xl bg-ink px-4 py-3 font-medium text-white transition-opacity hover:opacity-90 disabled:opacity-60"
-        >
-          {enviando ? "Un momento…" : esCanje ? "Activar mi acceso" : "Entrar"}
-        </button>
-      </form>
-    </div>
+      <p className="mt-auto pt-6 text-center text-sm leading-relaxed text-gray-500">
+        ¿No lo tienes o lo perdiste?
+        <br />
+        Pídeselo a tu administrador.
+      </p>
+    </form>
   );
 }

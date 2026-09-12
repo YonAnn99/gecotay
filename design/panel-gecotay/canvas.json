@@ -1,0 +1,36 @@
+{
+  "artboards": [
+    { "file": "LoginAdmin.dc.html", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "Entrar al panel" },
+
+    { "file": "Main.dc.html", "x": 0, "y": 1140, "w": 1440, "h": 900, "title": "Inicio del panel" },
+    { "file": "Leads.dc.html", "x": 1560, "y": 1140, "w": 1440, "h": 900, "title": "Leads" },
+    { "file": "Productos.dc.html", "x": 3120, "y": 1140, "w": 1440, "h": 900, "title": "Productos" },
+
+    { "file": "LoginVentas.dc.html", "x": 0, "y": 2280, "w": 390, "h": 844, "title": "Entrar a ventas" },
+    { "file": "CatalogoVentas.dc.html", "x": 510, "y": 2280, "w": 390, "h": 844, "title": "Catálogo de ventas" }
+  ],
+  "annotations": [
+    {
+      "id": "fila-acceso",
+      "x": 0,
+      "y": -150,
+      "w": 420,
+      "text": "ACCESO\n\nLa marca entra aquí con su propio gesto: el degradado radial del splash que ya vive en globals.css."
+    },
+    {
+      "id": "fila-panel",
+      "x": 0,
+      "y": 990,
+      "w": 420,
+      "text": "PANEL DE ADMINISTRACIÓN — 1440×900\n\nMisma densidad que hoy. El verde pasa a marcar pestaña activa, dato y foco; ya no es solo el eyebrow."
+    },
+    {
+      "id": "fila-ventas",
+      "x": 0,
+      "y": 2130,
+      "w": 420,
+      "text": "VENTAS — 390×844\n\nA tamaño de móvil a propósito: se usa de pie, frente al cliente. Objetivos de toque de 44px y tipo a 16px en los campos."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}
