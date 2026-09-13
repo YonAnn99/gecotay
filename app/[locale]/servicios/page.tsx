@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import ServiciosPage from "./ServiciosPage";
 import { obtenerServicios } from "../../lib/contenido";
 
@@ -12,14 +13,12 @@ export const metadata: Metadata = {
   description:
     "Servicios de Grupo Gecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
   openGraph: {
+    ...OG_BASE,
     title: "Servicios integrales | Grupo Gecotay",
     description: "11 servicios integrales de Grupo Gecotay para mobiliario y espacios de trabajo.",
-    type: "website",
-    locale: "es_MX",
-    siteName: "Grupo Gecotay",
   },
   twitter: {
-    card: "summary_large_image",
+    ...TWITTER_BASE,
     title: "Servicios integrales | Grupo Gecotay",
     description: "11 servicios integrales de Grupo Gecotay.",
   },

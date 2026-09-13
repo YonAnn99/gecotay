@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import AcabadosPage from "./AcabadosPage";
 
 export const metadata: Metadata = {
@@ -8,14 +9,12 @@ export const metadata: Metadata = {
   description:
     "Acabados y tapices de Grupo Gecotay: telas, melaminas, metales y superficies para personalizar tu mobiliario. Descarga las cartas de colores.",
   openGraph: {
+    ...OG_BASE,
     title: "Acabados y tapices | Grupo Gecotay",
     description: "Telas, melaminas, metales y superficies para tu mobiliario.",
-    type: "website",
-    locale: "es_MX",
-    siteName: "Grupo Gecotay",
   },
   twitter: {
-    card: "summary_large_image",
+    ...TWITTER_BASE,
     title: "Acabados y tapices | Grupo Gecotay",
     description: "Telas, melaminas, metales y superficies para tu mobiliario.",
   },

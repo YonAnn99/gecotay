@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import ContactoPage from "./ContactoPage";
 
 export const metadata: Metadata = {
@@ -8,14 +9,12 @@ export const metadata: Metadata = {
   description:
     "Contacta a Grupo Gecotay en Ecatepec, Estado de México. Teléfonos 55 5027 0661, 55 1562 0103 y 55 7676 5844. WhatsApp 55 4152 2017. ventas@gecotay.com",
   openGraph: {
+    ...OG_BASE,
     title: "Contacto | Grupo Gecotay",
     description: "Canales directos de contacto de Grupo Gecotay: teléfono, WhatsApp, correo y ubicación.",
-    type: "website",
-    locale: "es_MX",
-    siteName: "Grupo Gecotay",
   },
   twitter: {
-    card: "summary_large_image",
+    ...TWITTER_BASE,
     title: "Contacto | Grupo Gecotay",
     description: "Teléfono, WhatsApp y correo de Grupo Gecotay.",
   },

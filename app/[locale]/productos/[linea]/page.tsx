@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 import Gallery from "../../../components/ui/Gallery";
 import { CONTACTO } from "../../../data/empresa";
 import { obtenerProducto, obtenerProductos } from "../../../lib/contenido";
-import { IMAGEN_RESPALDO } from "../../../lib/imagenes";
+import { IMAGEN_RESPALDO, resolverImagen } from "../../../lib/imagenes";
+import { OG_BASE, TWITTER_BASE } from "../../../lib/metadatos";
 
 const formatMXN = (n: number) =>
   new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);
@@ -37,11 +38,26 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ? ` Precios desde ${formatMXN(producto.precioDesde)} MXN + IVA.`
     : "";
 
+  const titulo = `${producto.nombre} | Grupo Gecotay`;
+  const resumen = `${producto.descripcion}${precio}`;
+
+  // La portada de la línea, cuando la hay, en vez de la tarjeta de marca: son
+  // las páginas que un vendedor comparte por WhatsApp, y ahí la foto del
+  // mueble vende más que el logo. `resolverImagen` acepta tanto una ruta del
+  // repositorio como una URL de Storage; `metadataBase` (en el root layout)
+  // convierte la ruta relativa en absoluta, que es lo que exige Open Graph.
+  // Si el producto no tiene portada no se declara `images` y entonces sí
+  // hereda `opengraph-image.tsx`.
+  const portada = resolverImagen(producto.imagen);
+  const imagenes = portada ? { images: [{ url: portada, alt: producto.nombre }] } : {};
+
   return {
     // Just the page-specific part: the root layout's title.template appends
     // " | Grupo Gecotay" for this (child) segment automatically.
     title: producto.nombre,
-    description: `${producto.descripcion}${precio}`,
+    description: resumen,
+    openGraph: { ...OG_BASE, title: titulo, description: resumen, ...imagenes },
+    twitter: { ...TWITTER_BASE, title: titulo, description: resumen, ...imagenes },
     alternates: {
       canonical: `/es/productos/${producto.slug}`,
       languages: {

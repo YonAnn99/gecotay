@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import CotizarPage from "./CotizarPage";
 
 export const metadata: Metadata = {
@@ -8,14 +9,12 @@ export const metadata: Metadata = {
   description:
     "Completa el formulario en 4 pasos y envía tu solicitud de presupuesto por WhatsApp o correo a Grupo Gecotay.",
   openGraph: {
+    ...OG_BASE,
     title: "Solicita tu presupuesto | Grupo Gecotay",
     description: "Presupuesto personalizado de mobiliario de oficina y hogar.",
-    type: "website",
-    locale: "es_MX",
-    siteName: "Grupo Gecotay",
   },
   twitter: {
-    card: "summary_large_image",
+    ...TWITTER_BASE,
     title: "Solicita tu presupuesto | Grupo Gecotay",
     description: "Presupuesto personalizado de mobiliario.",
   },

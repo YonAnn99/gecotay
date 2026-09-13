@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { EMPRESA, CONTACTO } from "../../data/empresa";
+import { OG_BASE, TWITTER_BASE } from "../../lib/metadatos";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
@@ -7,6 +8,16 @@ export const metadata: Metadata = {
   title: "Aviso de privacidad",
   description:
     "Aviso de privacidad de Grupo Gecotay S.A.S. de C.V. conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDP).",
+  openGraph: {
+    ...OG_BASE,
+    title: "Aviso de privacidad | Grupo Gecotay",
+    description: "Cómo Grupo Gecotay trata tus datos personales, conforme a la LFPDPPP.",
+  },
+  twitter: {
+    ...TWITTER_BASE,
+    title: "Aviso de privacidad | Grupo Gecotay",
+    description: "Cómo Grupo Gecotay trata tus datos personales.",
+  },
   alternates: {
     canonical: "/es/aviso-privacidad",
     languages: { es: "/es/aviso-privacidad", "x-default": "/es/aviso-privacidad" },

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import NosotrosPage from "./NosotrosPage";
 
 export const metadata: Metadata = {
@@ -8,14 +9,12 @@ export const metadata: Metadata = {
   description:
     "Conoce a Grupo Gecotay S.A.S. de C.V.: quiénes somos, nuestra misión, visión y valores. Fabricación de mobiliario en Ecatepec, Estado de México.",
   openGraph: {
+    ...OG_BASE,
     title: "Nosotros | Grupo Gecotay",
     description: "Misión, visión y valores de Grupo Gecotay S.A.S. de C.V.",
-    type: "website",
-    locale: "es_MX",
-    siteName: "Grupo Gecotay",
   },
   twitter: {
-    card: "summary_large_image",
+    ...TWITTER_BASE,
     title: "Nosotros | Grupo Gecotay",
     description: "Misión, visión y valores de Grupo Gecotay.",
   },

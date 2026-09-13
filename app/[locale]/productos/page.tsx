@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import ProductosPage from "./ProductosPage";
 import { obtenerProductos } from "../../lib/contenido";
 
@@ -23,14 +24,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Catálogo de productos",
     description: `${n} líneas de mobiliario de oficina, hogar y espacios de trabajo de Grupo Gecotay: escritorios, sillería, recepciones, salas de juntas y almacenamiento. Envíos a CDMX y área metropolitana.`,
     openGraph: {
+      ...OG_BASE,
       title: "Catálogo de productos | Grupo Gecotay",
       description: `${n} líneas de mobiliario de oficina y hogar con fabricación nacional e importada.`,
-      type: "website",
-      locale: "es_MX",
-      siteName: "Grupo Gecotay",
     },
     twitter: {
-      card: "summary_large_image",
+      ...TWITTER_BASE,
       title: "Catálogo de productos | Grupo Gecotay",
       description: `${n} líneas de mobiliario de oficina y hogar.`,
     },

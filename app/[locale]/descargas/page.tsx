@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CONTACTO } from "../../data/empresa";
+import { OG_BASE, TWITTER_BASE } from "../../lib/metadatos";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
@@ -8,6 +9,16 @@ export const metadata: Metadata = {
   title: "Descargas",
   description:
     "Descarga el catálogo 2026 de Grupo Gecotay y las cartas de colores de telas, melaminas y metales.",
+  openGraph: {
+    ...OG_BASE,
+    title: "Descargas | Grupo Gecotay",
+    description: "Catálogo 2026 y cartas de colores de telas, melaminas y metales.",
+  },
+  twitter: {
+    ...TWITTER_BASE,
+    title: "Descargas | Grupo Gecotay",
+    description: "Catálogo 2026 y cartas de colores.",
+  },
   alternates: {
     canonical: "/es/descargas",
     languages: { es: "/es/descargas", "x-default": "/es/descargas" },

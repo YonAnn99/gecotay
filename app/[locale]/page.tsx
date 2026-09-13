@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { OG_BASE, TWITTER_BASE } from "@/app/lib/metadatos";
 import Hero from "../components/home/Hero";
 import Services from "../components/home/Services";
 import { obtenerProductos, obtenerServicios } from "../lib/contenido";
@@ -26,11 +27,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? "Fabricamos y distribuimos mobiliario de oficina, sillería, recepciones, salas de juntas y almacenamiento. Garantía hasta 5 años. Envío gratis en CDMX y área metropolitana."
       : "We manufacture and distribute office furniture, seating, reception desks, boardroom tables and storage. Up to 5‑year warranty. Free shipping in Mexico City metro area.",
     openGraph: {
+      ...OG_BASE,
       title: isEs ? "Grupo Gecotay – Mobiliario de Oficina" : "Grupo Gecotay – Office Furniture",
       description: isEs
         ? "Diseño, fabricación e instalación de mobiliario para oficinas. Cotiza hoy."
         : "Design, manufacturing and installation of office furniture. Request a quote today.",
       locale,
+    },
+    twitter: {
+      ...TWITTER_BASE,
+      title: isEs ? "Grupo Gecotay – Mobiliario de Oficina" : "Grupo Gecotay – Office Furniture",
+      description: isEs
+        ? "Diseño, fabricación e instalación de mobiliario para oficinas."
+        : "Design, manufacturing and installation of office furniture.",
     },
     alternates: {
       canonical: "/es",
