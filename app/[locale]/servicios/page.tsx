@@ -8,19 +8,19 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
-  // " | Grupo Gecotay" for this (child) segment automatically.
+  // " | Grupo Ecotay" for this (child) segment automatically.
   title: "Servicios integrales",
   description:
-    "Servicios de Grupo Gecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
+    "Servicios de Grupo Ecotay: atención personalizada, post-venta, planeación de espacios, entrega e instalación, mantenimiento, carpintería, ebanistería, tapicería, transporte, herrería y comidas empresariales.",
   openGraph: {
     ...OG_BASE,
-    title: "Servicios integrales | Grupo Gecotay",
-    description: "11 servicios integrales de Grupo Gecotay para mobiliario y espacios de trabajo.",
+    title: "Servicios integrales | Grupo Ecotay",
+    description: "11 servicios integrales de Grupo Ecotay para mobiliario y espacios de trabajo.",
   },
   twitter: {
     ...TWITTER_BASE,
-    title: "Servicios integrales | Grupo Gecotay",
-    description: "11 servicios integrales de Grupo Gecotay.",
+    title: "Servicios integrales | Grupo Ecotay",
+    description: "11 servicios integrales de Grupo Ecotay.",
   },
   robots: { index: true, follow: true },
   alternates: {

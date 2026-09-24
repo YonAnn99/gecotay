@@ -5,18 +5,18 @@ import { OG_BASE, TWITTER_BASE } from "../../lib/metadatos";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
-  // " | Grupo Gecotay" for this (child) segment automatically.
+  // " | Grupo Ecotay" for this (child) segment automatically.
   title: "Descargas",
   description:
-    "Descarga el catálogo 2026 de Grupo Gecotay y las cartas de colores de telas, melaminas y metales.",
+    "Descarga el catálogo 2026 de Grupo Ecotay y las cartas de colores de telas, melaminas y metales.",
   openGraph: {
     ...OG_BASE,
-    title: "Descargas | Grupo Gecotay",
+    title: "Descargas | Grupo Ecotay",
     description: "Catálogo 2026 y cartas de colores de telas, melaminas y metales.",
   },
   twitter: {
     ...TWITTER_BASE,
-    title: "Descargas | Grupo Gecotay",
+    title: "Descargas | Grupo Ecotay",
     description: "Catálogo 2026 y cartas de colores.",
   },
   alternates: {
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 const descargas = [
   {
-    titulo: "Catálogo Grupo Gecotay 2026",
+    titulo: "Catálogo Grupo Ecotay 2026",
     descripcion:
       "Catálogo completo de líneas de mobiliario de oficina, hogar, recepciones, sillería y más.",
     archivo: "/docs/gecotay-catalogo-2026.pdf",
@@ -103,7 +103,7 @@ export default function DescargasPage() {
             Escríbenos y te enviamos la información de acabados que necesites.
           </p>
           <Link
-            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, necesito información sobre acabados y colores.")}`}
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, necesito información sobre acabados y colores.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"

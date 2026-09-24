@@ -23,7 +23,7 @@ export default async function VentasLoginPage({
 
         <Image
           src="/images/logo/logo-vertical-white.webp"
-          alt="Grupo Gecotay"
+          alt="Grupo Ecotay"
           width={62}
           height={62}
           priority

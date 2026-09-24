@@ -38,7 +38,7 @@ function normalizarEmail(valor: unknown): string | null {
 function enviarAcceso(email: string, codigo: string) {
   return enviarCorreo({
     para: email,
-    asunto: "Tu acceso al módulo de ventas — Grupo Gecotay",
+    asunto: "Tu acceso al módulo de ventas — Grupo Ecotay",
     ...plantillaAcceso(codigo, `${process.env.NEXT_PUBLIC_URL_VENTAS ?? "https://ventas.gecotay.com"}/login`),
   });
 }

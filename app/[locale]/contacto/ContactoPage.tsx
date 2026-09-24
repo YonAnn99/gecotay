@@ -25,7 +25,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
 
   const buildMensaje = () =>
     [
-      `Hola Grupo Gecotay, soy ${formData.nombre}.`,
+      `Hola Grupo Ecotay, soy ${formData.nombre}.`,
       formData.empresa ? `Empresa: ${formData.empresa}.` : "",
       formData.email ? `Email: ${formData.email}.` : "",
       formData.telefono ? `Teléfono: ${formData.telefono}.` : "",
@@ -310,7 +310,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
           <h2 className="text-2xl font-semibold text-gray-900 mb-8 text-center">Ubicación</h2>
           <div className="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
             <iframe
-              title="Ubicación de Grupo Gecotay"
+              title="Ubicación de Grupo Ecotay"
               src={`https://www.google.com/maps?q=${CONTACTO.geo.lat},${CONTACTO.geo.lng}&z=16&output=embed`}
               className="w-full h-[420px]"
               loading="lazy"
@@ -360,7 +360,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
             Déjanos tu número por WhatsApp o correo y un ejecutivo de ventas te atenderá para tu cotización.
           </p>
           <a
-            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Gecotay, me gustaría recibir atención de ventas.")}`}
+            href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent("Hola Grupo Ecotay, me gustaría recibir atención de ventas.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 text-base font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors duration-200"

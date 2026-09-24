@@ -92,7 +92,7 @@ export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Prom
  */
 export function plantillaAcceso(codigo: string, url: string) {
   const texto = [
-    "Grupo Gecotay — acceso al módulo de ventas",
+    "Grupo Ecotay — acceso al módulo de ventas",
     "",
     "Un administrador te dio acceso. Para entrar:",
     `1. Abre ${url}`,
@@ -108,7 +108,7 @@ export function plantillaAcceso(codigo: string, url: string) {
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;color:#10140d">
-      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#AAC637;margin:0">Grupo Gecotay</p>
+      <p style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#AAC637;margin:0">Grupo Ecotay</p>
       <h1 style="font-size:22px;margin:8px 0 24px">Acceso al módulo de ventas</h1>
       <p style="line-height:1.6;margin:0 0 20px">Un administrador te dio acceso. Entra en
         <a href="${url}" style="color:#10140d">el módulo de ventas</a> y escribe este correo junto con tu código.</p>

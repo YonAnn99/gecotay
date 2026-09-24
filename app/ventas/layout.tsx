@@ -7,8 +7,8 @@ import "../globals.css";
 // app/admin/layout.tsx — root layout propio, sin el chrome del sitio público.
 export const metadata: Metadata = {
   title: {
-    default: "Ventas | Grupo Gecotay",
-    template: "%s | Ventas Gecotay",
+    default: "Ventas | Grupo Ecotay",
+    template: "%s | Ventas Ecotay",
   },
   robots: { index: false, follow: false, nocache: true },
 };

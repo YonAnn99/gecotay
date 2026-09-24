@@ -27,7 +27,7 @@ export default async function AdminLoginPage({
 
         <Image
           src="/images/logo/logo-vertical-white.webp"
-          alt="Grupo Gecotay"
+          alt="Grupo Ecotay"
           width={92}
           height={92}
           priority
@@ -50,14 +50,14 @@ export default async function AdminLoginPage({
         </div>
 
         <p className="relative text-[13px] text-[#f5f5f4]/40">
-          Grupo Gecotay S.A.S. de C.V.
+          Grupo Ecotay S.A.S. de C.V.
         </p>
       </aside>
 
       <main className="flex flex-1 items-center justify-center px-6 py-16">
         <div className="w-full max-w-sm">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary lg:hidden">
-            Grupo Gecotay
+            Grupo Ecotay
           </p>
 
           <h1 className="mt-2 text-2xl font-semibold tracking-tight lg:mt-0">

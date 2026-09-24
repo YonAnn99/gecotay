@@ -20,17 +20,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     // Just the page-specific part: the root layout's title.template appends
-    // " | Grupo Gecotay" for this (child) segment automatically.
+    // " | Grupo Ecotay" for this (child) segment automatically.
     title: "Catálogo de productos",
-    description: `${n} líneas de mobiliario de oficina, hogar y espacios de trabajo de Grupo Gecotay: escritorios, sillería, recepciones, salas de juntas y almacenamiento. Envíos a CDMX y área metropolitana.`,
+    description: `${n} líneas de mobiliario de oficina, hogar y espacios de trabajo de Grupo Ecotay: escritorios, sillería, recepciones, salas de juntas y almacenamiento. Envíos a CDMX y área metropolitana.`,
     openGraph: {
       ...OG_BASE,
-      title: "Catálogo de productos | Grupo Gecotay",
+      title: "Catálogo de productos | Grupo Ecotay",
       description: `${n} líneas de mobiliario de oficina y hogar con fabricación nacional e importada.`,
     },
     twitter: {
       ...TWITTER_BASE,
-      title: "Catálogo de productos | Grupo Gecotay",
+      title: "Catálogo de productos | Grupo Ecotay",
       description: `${n} líneas de mobiliario de oficina y hogar.`,
     },
     robots: { index: true, follow: true },

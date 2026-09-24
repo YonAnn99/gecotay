@@ -59,7 +59,7 @@ export default function NavAdmin({ base, email }: { base: string; email: string 
       <div className="fixed inset-x-0 top-0 z-50 mx-auto h-0 max-w-7xl px-6">
         <PillNav
           logo="/images/logo/logo-vertical-white.webp"
-          logoAlt="Grupo Gecotay"
+          logoAlt="Grupo Ecotay"
           items={items}
           activeHref={activo}
           // `--base` gobierna el círculo del logo, el relleno que sube al pasar

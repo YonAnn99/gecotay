@@ -887,6 +887,18 @@ El filtro de categorías de `/productos` agrupaba por una **lista de slugs escri
 
 Añadir una categoría: `alter type public.categoria_producto add value '...'` + una entrada en `CATEGORIAS_PRODUCTO`.
 
+## Nombre de la marca: Grupo Ecotay (2026-09-24)
+
+Confirmado con el cliente: la empresa es **Grupo Ecotay**. «Gecotay» es la contracción **G**rupo **Ecotay** (de ahí el logo y el dominio). La razón social es **GRUPO ECOTAY S.A.S. de C.V.**
+
+| Se cambió a «Ecotay» | Se queda como «gecotay/Gecotay» |
+|---|---|
+| Todo texto visible, metadatos, títulos, aviso de privacidad, correo de acceso, `es.json`/`en.json`, JSON-LD (`name`, `legalName`) | Dominio `gecotay.com`, correos `@gecotay.com`, subdominios, slugs, claves internas (`gecotay-cookie-consent`), nombres de archivo |
+| Descripciones en Supabase de `servicios/transporte` y `lineas_producto/servicios` | **«Línea Gecotay»** (nombre de producto, decisión del cliente) y el alt de sus fotos |
+| `aria-label` del logo | La imagen del logo (dice «Gecotay») |
+
+El JSON-LD declara `alternateName: ["Grupo Ecotay", "Gecotay"]` para que Google trate las dos formas como la misma marca. **Al escribir textos nuevos, usar «Grupo Ecotay».**
+
 ## Pending / To‑Do (🔲)
 
 | Area | Tasks |

@@ -86,7 +86,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
     const plazo = timelines.find((t) => t.value === formData.plazo)?.label || "No especificado";
     const servicios = etiquetasDeServicios(formData.servicios);
     const mensaje = [
-      "Hola Grupo Gecotay, quiero solicitar un presupuesto:",
+      "Hola Grupo Ecotay, quiero solicitar un presupuesto:",
       `Nombre: ${formData.nombre}`,
       `Email: ${formData.email}`,
       formData.telefono ? `Teléfono: ${formData.telefono}` : "",

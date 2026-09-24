@@ -13,7 +13,7 @@ export default function VentasNotFound() {
     <main className="flex min-h-dvh items-center justify-center px-6 py-16">
       <div className="w-full max-w-md text-center">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-          Grupo Gecotay · Ventas
+          Grupo Ecotay · Ventas
         </p>
         <p aria-hidden="true" className="mt-6 text-6xl font-bold text-gray-200">
           404

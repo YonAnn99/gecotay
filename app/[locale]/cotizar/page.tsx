@@ -4,18 +4,18 @@ import CotizarPage from "./CotizarPage";
 
 export const metadata: Metadata = {
   // Just the page-specific part: the root layout's title.template appends
-  // " | Grupo Gecotay" for this (child) segment automatically.
+  // " | Grupo Ecotay" for this (child) segment automatically.
   title: "Solicita tu presupuesto",
   description:
-    "Completa el formulario en 4 pasos y envía tu solicitud de presupuesto por WhatsApp o correo a Grupo Gecotay.",
+    "Completa el formulario en 4 pasos y envía tu solicitud de presupuesto por WhatsApp o correo a Grupo Ecotay.",
   openGraph: {
     ...OG_BASE,
-    title: "Solicita tu presupuesto | Grupo Gecotay",
+    title: "Solicita tu presupuesto | Grupo Ecotay",
     description: "Presupuesto personalizado de mobiliario de oficina y hogar.",
   },
   twitter: {
     ...TWITTER_BASE,
-    title: "Solicita tu presupuesto | Grupo Gecotay",
+    title: "Solicita tu presupuesto | Grupo Ecotay",
     description: "Presupuesto personalizado de mobiliario.",
   },
   robots: { index: true, follow: true },

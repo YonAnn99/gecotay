@@ -13,7 +13,7 @@ export default function NavBrand({ locale }: NavBrandProps) {
   return (
     <Link
       href={`/${locale}`}
-      aria-label="GECOTAY - Inicio"
+      aria-label="Grupo Ecotay - Inicio"
       className="fixed top-5 left-4 z-50
         flex items-center justify-center
         w-28 max-[379px]:w-24 h-12

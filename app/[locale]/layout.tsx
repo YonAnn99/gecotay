@@ -22,11 +22,11 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   metadataBase: new URL(EMPRESA.url),
   title: {
-    default: "Grupo Gecotay | Fabricación y venta de mobiliario de oficina",
-    template: "%s | Grupo Gecotay",
+    default: "Grupo Ecotay | Fabricación y venta de mobiliario de oficina",
+    template: "%s | Grupo Ecotay",
   },
   description:
-    "Grupo Gecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
+    "Grupo Ecotay S.A.S. de C.V. Fabricación, distribución y venta de mobiliario de oficina, sillería, recepciones, salas de juntas y sistemas de almacenamiento en Ecatepec, Estado de México. Envíos a CDMX y área metropolitana.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -52,8 +52,11 @@ export const viewport: Viewport = {
 const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Grupo Gecotay S.A.S. de C.V.",
-  legalName: "GRUPO GECOTAY S.A.S. de C.V.",
+  name: "Grupo Ecotay S.A.S. de C.V.",
+  legalName: "GRUPO ECOTAY S.A.S. de C.V.",
+  // El dominio y el logo dicen «Gecotay» (G de Grupo + Ecotay): se declara
+  // como alternativo para que Google trate las dos formas como la misma marca.
+  alternateName: ["Grupo Ecotay", "Gecotay"],
   slogan: "Su espacio en nuestras manos...",
   url: EMPRESA.url,
   logo: `${EMPRESA.url}/images/logo/logo-horizontal-color.webp`,
@@ -113,7 +116,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
           <div className="relative flex flex-col items-center px-6 text-center">
             <Image
               src="/images/logo/logo-vertical-white.webp"
-              alt="Grupo Gecotay"
+              alt="Grupo Ecotay"
               width={312}
               height={278}
               priority

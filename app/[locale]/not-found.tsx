@@ -75,7 +75,7 @@ export default function NotFound() {
           </Link>
           <Link
             href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(
-              "Hola Grupo Gecotay, no encuentro lo que busco en el sitio."
+              "Hola Grupo Ecotay, no encuentro lo que busco en el sitio."
             )}`}
             target="_blank"
             rel="noopener noreferrer"

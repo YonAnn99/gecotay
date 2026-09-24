@@ -12,8 +12,8 @@ import "../globals.css";
 // ni Navbar, ni Footer, ni SplashScreen, ni el fondo WebGL.
 export const metadata: Metadata = {
   title: {
-    default: "Administración | Grupo Gecotay",
-    template: "%s | Administración Gecotay",
+    default: "Administración | Grupo Ecotay",
+    template: "%s | Administración Ecotay",
   },
   // Herramienta interna: fuera de los buscadores, por si el subdominio queda
   // expuesto. El header X-Robots-Tag en next.config.ts es el refuerzo.

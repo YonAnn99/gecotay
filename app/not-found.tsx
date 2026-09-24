@@ -23,7 +23,7 @@ import "./globals.css";
 // Sin layout por encima no hay `title.template` que herede: la 404 global
 // tiene que declarar su propio título o el navegador muestra la URL cruda.
 export const metadata: Metadata = {
-  title: "Página no encontrada | Grupo Gecotay",
+  title: "Página no encontrada | Grupo Ecotay",
   robots: { index: false, follow: true },
 };
 

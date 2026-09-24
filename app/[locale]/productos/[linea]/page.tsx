@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     ? ` Precios desde ${formatMXN(producto.precioDesde)} MXN + IVA.`
     : "";
 
-  const titulo = `${producto.nombre} | Grupo Gecotay`;
+  const titulo = `${producto.nombre} | Grupo Ecotay`;
   const resumen = `${producto.descripcion}${precio}`;
 
   // La portada de la línea, cuando la hay, en vez de la tarjeta de marca: son
@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   return {
     // Just the page-specific part: the root layout's title.template appends
-    // " | Grupo Gecotay" for this (child) segment automatically.
+    // " | Grupo Ecotay" for this (child) segment automatically.
     title: producto.nombre,
     description: resumen,
     openGraph: { ...OG_BASE, title: titulo, description: resumen, ...imagenes },
@@ -117,7 +117,7 @@ export default async function LineaPage({ params }: { params: Promise<{ locale: 
               )}
               <div className="flex flex-wrap gap-4">
                 <Link
-                  href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(`Hola Grupo Gecotay, me interesa cotizar la ${producto.nombre}.`)}`}
+                  href={`https://wa.me/${CONTACTO.whatsappIntl}?text=${encodeURIComponent(`Hola Grupo Ecotay, me interesa cotizar la ${producto.nombre}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-3 font-semibold text-white bg-primary hover:bg-primary-dark rounded-xl transition-colors"
