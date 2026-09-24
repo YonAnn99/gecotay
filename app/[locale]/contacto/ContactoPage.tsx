@@ -158,7 +158,7 @@ export default function ContactoPage({ locale }: ContactoPageProps) {
                   a {CONTACTO.correos.ventas}.
                 </div>
               )}
-              <form onSubmit={handleSubmit} className="space-y-5 bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+              <form onSubmit={handleSubmit} className="space-y-5 bg-white text-gray-900 rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-1">Nombre *</label>

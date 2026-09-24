@@ -857,6 +857,23 @@ La cuenta está en **Hobby**, cuyos términos prohíben el uso comercial. El sit
 ### Estado del build
 Tras borrar `.next/cache` y reconstruir desde cero: correcto, 40 páginas de producto en SSG, admin y ventas dinámicas. Ninguna imagen de relleno en `public/images` — el pendiente que lo afirmaba estaba obsoleto; las fotos de producto son del cliente y traen su marca de agua.
 
+## Correo de alta que no llega + texto invisible en formularios (2026-09-24)
+
+### El correo de acceso no sale desde producción
+Diagnóstico: el 2026-09-14 se dio de alta un colaborador desde el panel en producción (fila en `perfiles`, rol `ventas`) y **Resend no tiene ningún envío** después del 2026-09-12. El dominio sigue `verified` y la clave de `.env.local` funciona, así que el código no es el problema: la llamada desde Vercel falla antes de que Resend la acepte. Lo más probable es que `RESEND_API_KEY` y/o `CORREO_REMITENTE` **no estén declaradas en Vercel → Production** (o tengan otro valor). Las variables se leen en tiempo de ejecución, así que tras añadirlas hay que **redesplegar**.
+
+El proyecto de Vercel no está en la cuenta del CLI local (`symvora`), por eso no se pudo leer desde aquí.
+
+Cambios en el panel:
+- El aviso de alta ya no solo explica `sin-proveedor`: `motivoCorreo.ts` traduce `http-401/403/422/429`, `red`, etc. a una instrucción concreta.
+- Botón **«Reenviar correo»** en cada colaborador activo (`reenviarAcceso` en `app/actions/colaboradores.ts`). Manda el código vigente sin cambiarlo; para un código filtrado sigue siendo «Cambiar código».
+
+### Texto blanco en `/cotizar` y `/contacto`
+El `body` público tiene `color: #f5f5f4` (sitio oscuro) y los `<input>` heredan color (`color: inherit` del preflight). Dentro de las tarjetas blancas de los formularios el texto escrito salía casi blanco. Se añadió `text-gray-900` al `<form>` de ambas páginas; también arregla los valores del resumen del paso 4 del wizard. **Cualquier tarjeta clara nueva en el sitio público tiene que fijar su color de texto.**
+
+### Subdominios conectados (2026-09-24)
+`app.gecotay.com` y `ventas.gecotay.com` ya están en Vercel con «Valid Configuration», y `https://ventas.gecotay.com/login` / `https://app.gecotay.com/login` responden 200 con su pantalla de entrada. El enlace del correo de acceso ya no está muerto.
+
 ## Pending / To‑Do (🔲)
 
 | Area | Tasks |
@@ -869,13 +886,11 @@ Tras borrar `.next/cache` y reconstruir desde cero: correcto, 40 páginas de pro
 | **Backend / CMS / Cuentas del cliente** | Roadmap de varias fases diseñado y aprobado: Supabase (Postgres + Auth + Storage) como backend, panel de administrador para editar todo el contenido del sitio, módulo de **ofertas/promociones**, y módulo de **ventas** (catálogo + ofertas), ambos servidos por subdominio (`app.gecotay.com`, `ventas.gecotay.com`, sin login expuesto en el sitio público) en vez de rutas dentro del dominio principal. **Bloqueado** en varios frentes por falta de acceso al correo del dueño del negocio: no se puede (1) crear el proyecto de Supabase a su nombre, (2) transferir el proyecto de Vercel a su cuenta, (3) confirmar/tocar el DNS de `gecotay.com` en GoDaddy (el desarrollador tampoco tiene acceso al panel de GoDaddy sin ese correo). Mientras tanto todo sigue en cuentas personales del desarrollador. Ya implementado como preparación, sin depender de Supabase: `app/data/empresa.ts` usa `NEXT_PUBLIC_SITE_URL` (con fallback a `https://www.gecotay.com`) en vez de la URL hardcodeada, para no requerir cambios de código al conectar el dominio real. |
 | **Traducción real de `/en`** | Solo el home y el chrome (`NavMenu`, `NavBrand`, `NavSearch`, `Footer`, `CookieBanner`) consumen los catálogos. Las 8 páginas internas tienen el español hardcodeado — la más densa es `aviso-privacidad` (texto legal, ~188 caracteres acentuados), luego `contacto`, `cotizar`, `productos`, `servicios`, `nosotros`, `acabados-tapices`, `descargas`. Hasta que eso se extraiga a `es.json`/`en.json` y se traduzca, `/en` queda `noindex` (ver sección 2026-09-11). |
 | **Desactivar registros públicos** | Pendiente en Supabase → Auth → Settings. Sin eso cualquiera puede crearse una cuenta en Auth; no obtendría acceso (no hay trigger que autocree perfiles), pero es ruido innecesario. |
-| **Enlace del correo de acceso** | El correo de alta enlaza a `${NEXT_PUBLIC_URL_VENTAS}/login` = `https://ventas.gecotay.com/login`, que **todavía no resuelve** porque el subdominio no está apuntado en Vercel. Un colaborador dado de alta hoy recibe un código válido con un enlace muerto; el panel le muestra el código al admin para que lo dicte. Se resuelve solo al conectar el dominio. |
 | **Protección de contraseñas filtradas** | Supabase la reporta desactivada. Es un toggle en Auth → Settings que compara contra HaveIBeenPwned. El dueño dijo haberla activado el 2026-09-12, pero una prueba empírica mostró que `Password123!` seguía aceptándose en un alta pública: **requiere plan Pro**. Su efecto es menor desde que el código generado es la credencial (no lo elige una persona), pero sigue siendo la red que impide una contraseña filtrada si algún día se permite elegirla. |
 | **Peso de `public/`** | 38 MB (27 MB imágenes + 12 MB PDFs), con `docs/gecotay-catalogo-2026.pdf` de **8.5 MB** servido directo desde `/descargas`. Candidatos claros a Supabase Storage: salen del repo y del bundle de deploy. |
 | **Canvas de diseño** | `design/panel-gecotay/` queda como **registro histórico, no como fuente de verdad**: su cabecera es la barra anterior al PillNav. El diseño ya está aplicado al código (ver sección de 2026-09-12). No re-sincronizar el canvas; si hace falta rediseñar, partir del código. |
 | **Content Review** | Verify copy with marketing (FAQ answers, TL;DR copy, CTA wording). |
 | **Testing** | Unit tests (Jest + React Testing Library), E2E (Cypress) for critical flows (cotizar wizard, contact form). |
-| **Subdominios internos** | `app.gecotay.com` y `ventas.gecotay.com` no están añadidos en Vercel ni tienen registro DNS. Sin ellos el panel y ventas solo son accesibles por la URL de Vercel y el enlace del correo de invitación sigue muerto. Añadirlos en Vercel y crear su `CNAME` en GoDaddy **sin tocar `MX` ni nameservers**. |
 | **Plan de Vercel y de Supabase** | La cuenta está en **Hobby**, cuyos términos prohíben uso comercial. Hay que pasar a Pro (~20 USD/mes) y Supabase a Pro (~25 USD/mes, por respaldos diarios del contenido y los leads). ~45 USD/mes que la cuota de mantenimiento tiene que cubrir. |
 | **Deploy Pipeline** | GitHub Actions → build → lint → test → deploy to Vercel/Netlify. |
 | **Monitoring** | Error tracking (Sentry), uptime checks. |

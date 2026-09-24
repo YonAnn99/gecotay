@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { altaColaborador, type ResultadoAcceso } from "@/app/actions/colaboradores";
 import { CAMPO, BOTON_PRIMARIO, TARJETA } from "../ui";
+import { explicarMotivoCorreo } from "./motivoCorreo";
 
 export default function FormularioAlta() {
   const [estado, accion, enviando] = useActionState<ResultadoAcceso | undefined, FormData>(
@@ -46,10 +47,8 @@ export default function FormularioAlta() {
               ? "El código ya va en camino por correo."
               : "El correo no salió, así que pásaselo tú:"}
           </p>
-          {!estado.correoEnviado && estado.motivoCorreo === "sin-proveedor" && (
-            <p className="mt-1 text-sm text-gray-600">
-              Falta configurar el proveedor de correo (RESEND_API_KEY).
-            </p>
+          {!estado.correoEnviado && estado.motivoCorreo && (
+            <p className="mt-1 text-sm text-gray-600">{explicarMotivoCorreo(estado.motivoCorreo)}</p>
           )}
           <p className="mt-3 rounded-lg bg-white px-4 py-3 text-center font-mono text-2xl tracking-[0.2em]">
             {estado.codigo}

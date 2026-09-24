@@ -35,6 +35,14 @@ function normalizarEmail(valor: unknown): string | null {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? email : null;
 }
 
+function enviarAcceso(email: string, codigo: string) {
+  return enviarCorreo({
+    para: email,
+    asunto: "Tu acceso al módulo de ventas — Grupo Gecotay",
+    ...plantillaAcceso(codigo, `${process.env.NEXT_PUBLIC_URL_VENTAS ?? "https://ventas.gecotay.com"}/login`),
+  });
+}
+
 export type ResultadoAcceso =
   | { ok: true; email: string; codigo: string; correoEnviado: boolean; motivoCorreo?: string }
   | { ok: false; error: string };
@@ -107,16 +115,42 @@ export async function altaColaborador(
     return { ok: false, error: "No se pudo habilitar el acceso." };
   }
 
-  const envio = await enviarCorreo({
-    para: email,
-    asunto: "Tu acceso al módulo de ventas — Grupo Gecotay",
-    ...plantillaAcceso(codigo, `${process.env.NEXT_PUBLIC_URL_VENTAS ?? "https://ventas.gecotay.com"}/login`),
-  });
+  const envio = await enviarAcceso(email, codigo);
 
   revalidatePath(RUTA_COLABORADORES);
   // El código se devuelve SIEMPRE, salga o no el correo: es lo que permite al
   // admin dictarlo. También queda visible en la lista, porque ya no caduca.
   return { ok: true, email, codigo, correoEnviado: envio.enviado, motivoCorreo: envio.motivo };
+}
+
+export type ResultadoReenvio = { enviado: boolean; motivo?: string };
+
+/**
+ * Vuelve a mandar el correo de acceso con el código vigente.
+ *
+ * Para cuando el primer envío falló o el colaborador lo borró. No cambia el
+ * código: si lo que pasa es que se filtró, eso es `regenerarCodigo`.
+ */
+export async function reenviarAcceso(
+  _previo: ResultadoReenvio | undefined,
+  formData: FormData
+): Promise<ResultadoReenvio> {
+  await requerirPerfil(["admin"]);
+  const id = String(formData.get("id") ?? "");
+  if (!id) return { enviado: false, motivo: "sin-colaborador" };
+
+  const db = createServiceClient();
+  const { data: perfil } = await db
+    .from("perfiles")
+    .select("email, codigo_acceso, rol")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (perfil?.rol !== "ventas" || !perfil.codigo_acceso) {
+    return { enviado: false, motivo: "sin-colaborador" };
+  }
+
+  return enviarAcceso(perfil.email, perfil.codigo_acceso);
 }
 
 /**

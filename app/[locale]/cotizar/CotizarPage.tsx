@@ -353,7 +353,7 @@ export default function CotizarPage({ locale }: CotizarPageProps) {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
+          <form onSubmit={handleSubmit} className="bg-white text-gray-900 rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm">
             {step === 1 && renderStep1()}
             {step === 2 && renderStep2()}
             {step === 3 && renderStep3()}

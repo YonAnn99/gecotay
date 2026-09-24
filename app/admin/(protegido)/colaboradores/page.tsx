@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { createSessionClient } from "@/app/lib/supabase/server-session";
 import { regenerarCodigo, cambiarAccesoColaborador, eliminarColaborador } from "@/app/actions/colaboradores";
 import FormularioAlta from "./FormularioAlta";
+import BotonReenviar from "./BotonReenviar";
 import { BOTON_SECUNDARIO, TARJETA } from "../ui";
 
 export const metadata: Metadata = { title: "Colaboradores" };
@@ -89,6 +90,8 @@ export default async function ColaboradoresPage() {
                       {c.activo ? "Quitar acceso" : "Reactivar"}
                     </button>
                   </form>
+
+                  {c.activo && <BotonReenviar id={c.id} />}
 
                   <form action={regenerarCodigo}>
                     <input type="hidden" name="id" value={c.id} />
