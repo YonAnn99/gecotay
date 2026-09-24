@@ -27,7 +27,9 @@ interface Mensaje {
 
 export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Promise<ResultadoCorreo> {
   const apiKey = process.env.RESEND_API_KEY;
-  const remitente = process.env.CORREO_REMITENTE;
+  // Tolera el error típico al pegarlo en el panel de Vercel: comillas o
+  // espacios alrededor. Resend los rechaza con un 422 «Invalid `from` field».
+  const remitente = process.env.CORREO_REMITENTE?.trim().replace(/^["']|["']$/g, "").trim();
 
   if (!apiKey || !remitente) {
     return { enviado: false, motivo: "sin-proveedor" };
