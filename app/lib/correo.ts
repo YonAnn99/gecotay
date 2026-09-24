@@ -25,14 +25,39 @@ interface Mensaje {
   texto: string;
 }
 
-export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Promise<ResultadoCorreo> {
-  const apiKey = process.env.RESEND_API_KEY;
-  // Tolera el error típico al pegarlo en el panel de Vercel: comillas o
-  // espacios alrededor. Resend los rechaza con un 422 «Invalid `from` field».
-  const remitente = process.env.CORREO_REMITENTE?.trim().replace(/^["']|["']$/g, "").trim();
+/**
+ * Reconstruye `Nombre <correo>` a partir de lo que haya en la variable.
+ *
+ * Pegar el valor en el panel de Vercel suele colar comillas (también las
+ * tipográficas), espacios invisibles o el `CLAVE=` delante, y Resend lo
+ * rechaza con un 422 «Invalid `from` field». En vez de confiar en el formato,
+ * se extrae la dirección y el nombre y se rearma limpio.
+ */
+function normalizarRemitente(valor: string): string | null {
+  const email = valor.match(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/)?.[0];
+  if (!email) return null;
+  const nombre = valor
+    .slice(0, valor.indexOf(email))
+    .replace(/^\s*CORREO_REMITENTE\s*=/, "")
+    .replace(/[<>"'“”‘’«»\s ​﻿]+/g, " ")
+    .trim();
+  return nombre ? `${nombre} <${email}>` : email;
+}
 
-  if (!apiKey || !remitente) {
+export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Promise<ResultadoCorreo> {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  const crudo = process.env.CORREO_REMITENTE;
+
+  if (!apiKey || !crudo) {
     return { enviado: false, motivo: "sin-proveedor" };
+  }
+
+  const remitente = normalizarRemitente(crudo);
+  if (!remitente) {
+    // El remitente no es un secreto: se registra tal cual (con JSON.stringify
+    // para que se vean comillas y caracteres invisibles) para poder corregirlo.
+    console.error("[correo] CORREO_REMITENTE sin dirección válida:", JSON.stringify(crudo));
+    return { enviado: false, motivo: "http-422" };
   }
 
   try {
@@ -47,7 +72,7 @@ export async function enviarCorreo({ para, asunto, html, texto }: Mensaje): Prom
 
     if (!res.ok) {
       const detalle = await res.text();
-      console.error("[correo] Resend respondió", res.status, detalle.slice(0, 300));
+      console.error("[correo] Resend respondió", res.status, detalle.slice(0, 300), "from:", JSON.stringify(remitente));
       return { enviado: false, motivo: `http-${res.status}` };
     }
 
