@@ -9,6 +9,7 @@ import {
   borrarImagenProducto,
 } from "@/app/actions/contenido";
 import { resolverImagenConRespaldo } from "@/app/lib/imagenes";
+import { CATEGORIAS_PRODUCTO, type CategoriaProducto } from "@/app/data/categorias";
 import { CAMPO, ETIQUETA, BOTON_PRIMARIO, BOTON_SECUNDARIO, TARJETA } from "../ui";
 
 export interface ImagenGaleria {
@@ -25,6 +26,7 @@ export interface Producto {
   imagen: string | null;
   precio_desde: number | null;
   es_nuevo: boolean;
+  categoria: CategoriaProducto;
   publicado: boolean;
   orden: number;
   galeria: ImagenGaleria[];
@@ -89,6 +91,33 @@ export default function EditorProducto({
               className={CAMPO}
             />
           </div>
+        </div>
+
+        <div>
+          <label htmlFor={`categoria-${producto?.id ?? "nuevo"}`} className={ETIQUETA}>
+            Categoría *
+          </label>
+          {/* Sin opción preseleccionada al crear: obliga a elegir en vez de
+              dejar que todo caiga en la primera categoría por descuido. */}
+          <select
+            id={`categoria-${producto?.id ?? "nuevo"}`}
+            name="categoria"
+            required
+            defaultValue={producto?.categoria ?? ""}
+            className={CAMPO}
+          >
+            <option value="" disabled>
+              Elige dónde aparece en el catálogo
+            </option>
+            {CATEGORIAS_PRODUCTO.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.label}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1.5 text-xs text-gray-500">
+            Es el filtro de la página de productos en el que se mostrará.
+          </p>
         </div>
 
         <div>

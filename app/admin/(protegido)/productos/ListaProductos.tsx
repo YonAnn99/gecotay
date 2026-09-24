@@ -6,6 +6,7 @@ import { alternarPublicadoProducto } from "@/app/actions/contenido";
 import { resolverImagenConRespaldo } from "@/app/lib/imagenes";
 import EditorProducto, { type Producto } from "./EditorProducto";
 import { BOTON_SECUNDARIO, BOTON_PRIMARIO, TARJETA } from "../ui";
+import { CATEGORIAS_PRODUCTO } from "@/app/data/categorias";
 
 export default function ListaProductos({
   productos,
@@ -71,7 +72,7 @@ export default function ListaProductos({
                     )}
                   </div>
                   <p className="text-sm text-gray-500">
-                    /{p.slug}
+                    {CATEGORIAS_PRODUCTO.find((c) => c.id === p.categoria)?.label} · /{p.slug}
                     {p.precio_desde != null && ` · desde $${p.precio_desde.toLocaleString("es-MX")}`}
                     {` · ${p.galeria.length} foto(s)`}
                   </p>

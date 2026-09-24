@@ -201,6 +201,7 @@ export type Database = {
       }
       lineas_producto: {
         Row: {
+          categoria: Database["public"]["Enums"]["categoria_producto"]
           created_at: string
           descripcion: string
           es_nuevo: boolean
@@ -214,6 +215,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          categoria: Database["public"]["Enums"]["categoria_producto"]
           created_at?: string
           descripcion: string
           es_nuevo?: boolean
@@ -227,6 +229,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          categoria?: Database["public"]["Enums"]["categoria_producto"]
           created_at?: string
           descripcion?: string
           es_nuevo?: boolean
@@ -388,6 +391,7 @@ export type Database = {
     Views: { [_ in never]: never }
     Functions: { [_ in never]: never }
     Enums: {
+      categoria_producto: "silleria" | "escritorios" | "espacios" | "almacenamiento" | "hogar"
       lead_estado: "nuevo" | "contactado" | "cotizado" | "ganado" | "perdido"
       rol_usuario: "admin" | "ventas"
       tipo_promocion: "descuento" | "paquete" | "liquidacion"

@@ -9,6 +9,7 @@ import FAQSection from "../../components/ui/FAQSection";
 import { CONTACTO } from "../../data/empresa";
 import type { ProductoPublico } from "../../lib/contenido";
 import { IMAGEN_RESPALDO } from "../../lib/imagenes";
+import { CATEGORIAS_PRODUCTO as CATEGORIAS } from "../../data/categorias";
 
 const formatMXN = (n: number) =>
   new Intl.NumberFormat("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 }).format(n);
@@ -19,23 +20,6 @@ const takeawaysBase = [
   { label: "Garantía", value: "1 año" },
   { label: "Envíos", value: "2–15 días" },
   { label: "Fabricación", value: "Nacional e importada" },
-];
-
-// Agrupación editorial por tipo de mueble — no existe un campo "categoría" en
-// LINEAS_PRODUCTO, así que se infiere de la descripción de cada línea. Fácil
-// de ajustar aquí si el negocio prefiere otra agrupación.
-interface Categoria {
-  id: string;
-  label: string;
-  slugs: string[];
-}
-
-const CATEGORIAS: Categoria[] = [
-  { id: "silleria", label: "Sillería", slugs: ["ceri", "silver", "crome-b", "crome-z", "alf", "silleria"] },
-  { id: "escritorios", label: "Escritorios", slugs: ["desk-tech", "nova", "deskan", "gecotay", "gecot"] },
-  { id: "espacios", label: "Sistemas y espacios de trabajo", slugs: ["sim", "workspace", "salas-juntas", "recepciones"] },
-  { id: "almacenamiento", label: "Almacenamiento y accesorios", slugs: ["almacenamiento", "accesorios"] },
-  { id: "hogar", label: "Hogar y otros", slugs: ["home", "distribuciones", "servicios"] },
 ];
 
 interface RangoPrecio {
@@ -87,7 +71,8 @@ export default function ProductosPage({ locale, lineas }: ProductosPageProps) {
     const categoriaActiva = CATEGORIAS.find((c) => c.id === categoria);
     const rangoActivo = RANGOS_PRECIO.find((r) => r.id === rangoPrecio);
     return lineas.filter((linea) => {
-      if (categoriaActiva && !categoriaActiva.slugs.includes(linea.slug)) return false;
+      // La categoría la elige el admin al crear o editar la línea en el panel.
+      if (categoriaActiva && linea.categoria !== categoriaActiva.id) return false;
       // Sin precio no se puede decidir el rango: la línea queda fuera cuando
       // hay un filtro de precio activo, en vez de colarse en todos.
       if (rangoActivo && (linea.precioDesde == null || !rangoActivo.test(linea.precioDesde))) return false;

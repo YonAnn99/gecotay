@@ -72,6 +72,17 @@ const SERVICIOS = leerArray("SERVICIOS");
 console.log(`Leídos de empresa.ts: ${LINEAS.length} líneas, ${SERVICIOS.length} servicios.`);
 
 // ── Líneas de producto ────────────────────────────────────────────────────
+// Misma agrupación que trasladó la migración 20260924170000: `categoria` es
+// NOT NULL y el upsert la exige aunque la fila ya exista.
+const CATEGORIA_POR_SLUG = {
+  silleria: ["ceri", "silver", "crome-b", "crome-z", "alf", "silleria"],
+  escritorios: ["desk-tech", "nova", "deskan", "gecotay", "gecot"],
+  espacios: ["sim", "workspace", "salas-juntas", "recepciones"],
+  almacenamiento: ["almacenamiento", "accesorios"],
+};
+const categoriaDe = (slug) =>
+  Object.keys(CATEGORIA_POR_SLUG).find((c) => CATEGORIA_POR_SLUG[c].includes(slug)) ?? "hogar";
+
 const filasLineas = LINEAS.map((l, i) => ({
   slug: l.slug,
   nombre: l.nombre,
@@ -79,6 +90,7 @@ const filasLineas = LINEAS.map((l, i) => ({
   imagen: l.imagen ?? null,
   precio_desde: typeof l.precioDesde === "number" ? l.precioDesde : null,
   es_nuevo: l.esNuevo === true,
+  categoria: categoriaDe(l.slug),
   // El orden del array es el orden con el que el sitio las muestra hoy.
   orden: i,
   publicado: true,

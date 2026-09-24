@@ -24,6 +24,7 @@ export default async function ProductosAdminPage() {
     imagen: p.imagen,
     precio_desde: p.precio_desde,
     es_nuevo: p.es_nuevo,
+    categoria: p.categoria,
     publicado: p.publicado,
     orden: p.orden,
     galeria: (p.linea_imagenes ?? [])

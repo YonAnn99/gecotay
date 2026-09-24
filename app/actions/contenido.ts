@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requerirPerfil } from "@/app/lib/auth";
 import { createSessionClient } from "@/app/lib/supabase/server-session";
+import { esCategoriaProducto } from "@/app/data/categorias";
 
 // Rutas INTERNAS del panel. El subdominio las sirve sin el prefijo, pero
 // revalidatePath opera sobre el árbol de rutas real.
@@ -76,6 +77,11 @@ export async function guardarProducto(formData: FormData): Promise<Resultado> {
     return { ok: false, error: "El nombre y la descripción son obligatorios." };
   }
 
+  const categoria = formData.get("categoria");
+  if (!esCategoriaProducto(categoria)) {
+    return { ok: false, error: "Elige la categoría en la que aparece el producto." };
+  }
+
   // El slug solo se deriva al crear. Cambiarlo después rompería las URLs ya
   // publicadas y cualquier enlace que apunte a ellas.
   const slugPedido = texto(formData.get("slug"), LIMITES.slug);
@@ -87,6 +93,7 @@ export async function guardarProducto(formData: FormData): Promise<Resultado> {
     es_nuevo: formData.get("es_nuevo") === "on",
     publicado: formData.get("publicado") === "on",
     orden: entero(formData.get("orden")) ?? 0,
+    categoria,
   };
 
   const supabase = await createSessionClient();

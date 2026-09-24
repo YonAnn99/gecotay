@@ -874,6 +874,19 @@ El `body` público tiene `color: #f5f5f4` (sitio oscuro) y los `<input>` heredan
 ### Subdominios conectados (2026-09-24)
 `app.gecotay.com` y `ventas.gecotay.com` ya están en Vercel con «Valid Configuration», y `https://ventas.gecotay.com/login` / `https://app.gecotay.com/login` responden 200 con su pantalla de entrada. El enlace del correo de acceso ya no está muerto.
 
+## Categoría de producto elegible desde el panel (2026-09-24)
+
+El filtro de categorías de `/productos` agrupaba por una **lista de slugs escrita a mano** en `ProductosPage.tsx`, así que un producto creado desde `app.gecotay.com/productos` no aparecía en ninguna categoría (solo en «Todas»). Ahora es un dato de la fila:
+
+- Migración `20260924170000_categoria_lineas_producto.sql`: enum `categoria_producto` (`silleria`, `escritorios`, `espacios`, `almacenamiento`, `hogar`) y columna `lineas_producto.categoria` **NOT NULL sin default**, rellenada con la agrupación exacta que había en el código (los 20 productos existentes quedan donde estaban).
+- `app/data/categorias.ts` es la única fuente de etiquetas y orden; la usan el filtro público, el selector del editor y la lista del panel.
+- El editor pide la categoría como campo obligatorio (sin preselección al crear) y `guardarProducto` la valida en el servidor.
+- `scripts/seed-contenido.mjs` también la escribe: el upsert falla sin ella por el NOT NULL.
+
+> **Orden de despliegue**: la migración tiene que aplicarse **antes** de desplegar el código. Si el código nuevo llega primero, la consulta pública pide una columna que no existe y `/productos` se queda vacío.
+
+Añadir una categoría: `alter type public.categoria_producto add value '...'` + una entrada en `CATEGORIAS_PRODUCTO`.
+
 ## Pending / To‑Do (🔲)
 
 | Area | Tasks |

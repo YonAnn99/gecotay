@@ -2,6 +2,7 @@ import "server-only";
 
 import { createPublicClient } from "./supabase/public";
 import { resolverImagen } from "./imagenes";
+import type { CategoriaProducto } from "../data/categorias";
 
 /**
  * Lectura del catálogo publicado, para el sitio público y el módulo de ventas.
@@ -26,6 +27,7 @@ export interface ProductoPublico {
   imagen: string | null;
   precioDesde: number | null;
   esNuevo: boolean;
+  categoria: CategoriaProducto;
   galeria: string[];
 }
 
@@ -52,7 +54,7 @@ export async function obtenerProductos(): Promise<ProductoPublico[]> {
   const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("lineas_producto")
-    .select("id, slug, nombre, descripcion, imagen, precio_desde, es_nuevo, linea_imagenes(url, orden)")
+    .select("id, slug, nombre, descripcion, imagen, precio_desde, es_nuevo, categoria, linea_imagenes(url, orden)")
     .order("orden", { ascending: true })
     .order("nombre", { ascending: true });
 
@@ -69,6 +71,7 @@ export async function obtenerProductos(): Promise<ProductoPublico[]> {
     imagen: resolverImagen(p.imagen),
     precioDesde: p.precio_desde,
     esNuevo: p.es_nuevo,
+    categoria: p.categoria,
     galeria: (p.linea_imagenes ?? [])
       .slice()
       .sort((a, b) => a.orden - b.orden)
@@ -81,7 +84,7 @@ export async function obtenerProducto(slug: string): Promise<ProductoPublico | n
   const supabase = createPublicClient();
   const { data } = await supabase
     .from("lineas_producto")
-    .select("id, slug, nombre, descripcion, imagen, precio_desde, es_nuevo, linea_imagenes(url, orden)")
+    .select("id, slug, nombre, descripcion, imagen, precio_desde, es_nuevo, categoria, linea_imagenes(url, orden)")
     .eq("slug", slug)
     .maybeSingle();
 
@@ -95,6 +98,7 @@ export async function obtenerProducto(slug: string): Promise<ProductoPublico | n
     imagen: resolverImagen(data.imagen),
     precioDesde: data.precio_desde,
     esNuevo: data.es_nuevo,
+    categoria: data.categoria,
     galeria: (data.linea_imagenes ?? [])
       .slice()
       .sort((a, b) => a.orden - b.orden)
